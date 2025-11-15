@@ -4,33 +4,18 @@ import SignUpImageCarousal from "../components/SignUpImageCarousal";
 
 export default function SignUpPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#E8E8E8] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#ffefe2] p-4 ">
       <div className="w-full max-w-6xl bg-white rounded-[40px] shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
 
         {/* LEFT SECTION */}
         <div className="relative bg-white px-12 py-10 flex flex-col">
 
-          {/* Top Language Dropdown */}
-          <div className="absolute top-6 right-6">
-            <button className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-1 text-sm hover:bg-gray-100 transition">
-              <span>🇬🇧</span>
-              EN
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
+         
 
           {/* Branding Title */}
-          <h1 className="text-5xl font-extrabold mt-12">Hi there!</h1>
-          <p className="text-gray-500 mt-3 text-lg">
-            Welcome to Haze. Community Dashboard
+          <h1 className="text-5xl text-[#3A0519]  font-extrabold mt-12">Hare Krishna </h1>
+          <p className="text-[#3A0519] mt-3 text-lg">
+            Welcome to BhakthiVerse! Join us and embark on a spiritual journey.
           </p>
 
           {/* Google Login Button */}

@@ -75,7 +75,7 @@ export default function SignUpForm() {
     type="submit"
     name="submit"
     disabled={loading}
-    className="w-full bg-black text-white py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition"
+    className="w-full bg-[#3A0519] text-white py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition"
   >
     {loading ? "Registering..." : "Create Account"}
   </button>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import img1 from "../../../assets/Auth/harekrishna.jpeg";
 import img2 from "../../../assets/Auth/lotusfeet.jpeg";
 import img3 from "../../../assets/Auth/madhav.jpeg";
+import img4 from "../../../assets/Auth/radharani.jpeg";
 
 
 export default function SignUpImageCarousal() {
@@ -9,6 +10,7 @@ export default function SignUpImageCarousal() {
    img1,
    img2,
    img3,
+   img4,
   ];
 
   const [index, setIndex] = useState(0);
