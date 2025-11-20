@@ -3,6 +3,8 @@ import img1 from "../../../assets/Auth/harekrishna.jpeg";
 import img2 from "../../../assets/Auth/lotusfeet.jpeg";
 import img3 from "../../../assets/Auth/madhav.jpeg";
 import img4 from "../../../assets/Auth/radharani.jpeg";
+import img5 from "../../../assets/Auth/krishnafriendship.jpeg";
+
 
 
 export default function SignUpImageCarousal() {
@@ -11,6 +13,7 @@ export default function SignUpImageCarousal() {
    img2,
    img3,
    img4,
+   img5,
   ];
 
   const [index, setIndex] = useState(0);
@@ -45,10 +48,10 @@ export default function SignUpImageCarousal() {
 
       {/* TEXT */}
       <div className="absolute bottom-16 left-10 text-white z-20">
-        <p className="text-lg font-medium mb-2">Largest Space Community</p>
-        <h2 className="text-3xl font-bold leading-snug max-w-sm">
+        {/* <p className="text-lg font-medium mb-2">Largest Space Community</p> */}
+        {/* <h2 className="text-3xl font-bold leading-snug max-w-sm">
           Go anywhere you want in a Galaxy full of wonders!
-        </h2>
+        </h2> */}
       </div>
 
       {/* Pagination Dots */}

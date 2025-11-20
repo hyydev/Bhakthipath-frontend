@@ -13,13 +13,13 @@ export default function SignUpPage() {
          
 
           {/* Branding Title */}
-          <h1 className="text-5xl text-[#3A0519]  font-extrabold mt-12">Hare Krishna </h1>
+          <h1 className="text-5xl text-[#520724] font-extrabold mt-12">Hare Krishna </h1>
           <p className="text-[#3A0519] mt-3 text-lg">
             Welcome to BhakthiVerse! Join us and embark on a spiritual journey.
           </p>
 
           {/* Google Login Button */}
-          <button className="w-full border border-gray-300 py-2 rounded-xl mt-10 flex items-center justify-center gap-3 hover:bg-gray-50 transition">
+          <button className="w-full border border-[#3A0519] py-2 rounded-xl mt-10 flex items-center justify-center gap-3 hover:bg-gray-50 transition">
             <img
               src="https://www.google.com/favicon.ico"
               className="w-5 h-5"
@@ -30,9 +30,9 @@ export default function SignUpPage() {
 
           {/* Divider */}
           <div className="flex items-center gap-4 mt-6 mb-3">
-            <div className="h-[1px] bg-gray-300 flex-1"></div>
-            <span className="text-gray-400 text-sm">or</span>
-            <div className="h-[1px] bg-gray-300 flex-1"></div>
+            <div className="h-[1px] bg-[#3A0519] flex-1"></div>
+            <span className="text-[#3A0519] text-sm">or</span>
+            <div className="h-[1px] bg-[#3A0519] flex-1"></div>
           </div>
 
           {/* Sign Up Form */}

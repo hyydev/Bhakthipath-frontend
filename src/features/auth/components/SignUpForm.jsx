@@ -41,7 +41,7 @@ export default function SignUpForm() {
     placeholder="Full Name"
     value={formData.full_name}
     onChange={handleChange}
-    className="w-full border border-gray-300 px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-black outline-none"
+    className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
   />
 
   <input
@@ -50,7 +50,7 @@ export default function SignUpForm() {
     placeholder="Email"
     value={formData.email}
     onChange={handleChange}
-    className="w-full border border-gray-300 px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-black outline-none"
+    className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
   />
 
   <input
@@ -59,7 +59,7 @@ export default function SignUpForm() {
     placeholder="Mobile Number"
     value={formData.mobile_number}
     onChange={handleChange}
-    className="w-full border border-gray-300 px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-black outline-none"
+    className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
   />
 
   <input
@@ -68,14 +68,14 @@ export default function SignUpForm() {
     placeholder="Password"
     value={formData.password}
     onChange={handleChange}
-    className="w-full border border-gray-300 px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-black outline-none"
+    className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
   />
 
   <button
     type="submit"
     name="submit"
     disabled={loading}
-    className="w-full bg-[#3A0519] text-white py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition"
+    className="w-full bg-[#3A0519] text-white py-3 rounded-xl text-sm font-medium hover:bg-[#6A092F] transition"
   >
     {loading ? "Registering..." : "Create Account"}
   </button>
