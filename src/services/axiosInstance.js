@@ -1,32 +1,40 @@
 import axios from "axios";
 import { getAuthStore } from "../features/auth/store";
 
-const baseURL = "http://localhost:8000/api"; // backend API base URL
+const baseURL = "http://localhost:8000/";
 
 const axiosInstance = axios.create({ baseURL });
 
-// Request interceptor → attach access token
+// Request interceptor
 axiosInstance.interceptors.request.use((config) => {
-  const { accessToken } = getAuthStore.getState();
-  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+  const { accessToken } = getAuthStore();
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
   return config;
 });
 
-// Response interceptor → handle 401, refresh token
+// Response interceptor
 axiosInstance.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalRequest = err.config;
-    const { refreshToken, logout, setTokens } = getAuthStore.getState();
+    const { refreshToken, setTokens, logout } = getAuthStore();
 
     if (err.response?.status === 401 && refreshToken && !originalRequest._retry) {
       originalRequest._retry = true;
+
       try {
-        const response = await axios.post(`${baseURL}/auth/refresh/`, { refresh: refreshToken });
+        const response = await axios.post(`${baseURL}/auth/refresh/`, {
+          refresh: refreshToken,
+        });
+
         setTokens(response.data.access, refreshToken);
+
         originalRequest.headers.Authorization = `Bearer ${response.data.access}`;
+
         return axiosInstance(originalRequest);
-      } catch {
+      } catch (e) {
         logout();
       }
     }

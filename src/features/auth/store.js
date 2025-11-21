@@ -11,5 +11,6 @@ export const useAuthStore = create((set) => ({
   logout: () => set({ user: null, isAuthenticated: false, accessToken: null, refreshToken: null }),
 }));
 
-// helper to access store outside react components
-export const getAuthStore = () => useAuthStore.getState();
+// helpers to access store outside react components
+export const getAuthStore = useAuthStore.getState;
+export const subscribeAuthStore = useAuthStore.subscribe;
