@@ -1,21 +1,29 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
+import { verifyOTP } from "../api"
+
 import OtpInput from "../components/OtpInput"
+import MotionButton from "../../../components/MotionButton" 
+
 
 export default function OtpPage() {
-  const [otp, setOtp] = useState("")
+  const [otp_code, setOtp] = useState("")
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (otp.length !== 6) {
+    
+
+    if (otp_code.length !== 6) {
       toast.error("Please enter 6-digit OTP")
       return
     }
 
     try {
+
+      await verifyOTP({ otp_code })
       toast.success("OTP Verified Successfully!")
       navigate("/login")
     } catch (error) {
@@ -38,15 +46,15 @@ export default function OtpPage() {
         </p>
 
         {/* OTP INPUT BOXES */}
-        <OtpInput value={otp} setValue={setOtp} />
+        <OtpInput value={otp_code} setValue={setOtp} />
 
-        <button
+        <MotionButton
           onClick={handleSubmit}
           className="w-full bg-[#3A0519] text-white py-3 rounded-xl mt-10 
                      text-sm font-medium hover:bg-[#6A092F] transition"
         >
           Verify OTP
-        </button>
+        </MotionButton>
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Didn’t receive OTP?{" "}

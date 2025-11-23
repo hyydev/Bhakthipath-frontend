@@ -1,5 +1,6 @@
 import SignUpForm from "../components/SignUpForm";
 
+
 import SignUpImageCarousal from "../components/SignUpImageCarousal";
 
 export default function SignUpPage() {

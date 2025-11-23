@@ -2,12 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import SignUpImageCarousal from "../components/SignUpImageCarousal";
+import { loginUser } from "../api";
+import MotionButton from "../../../components/MotionButton";
+import AnimatedInput from "../../../components/AnimateInput";
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: "",
+    email_or_mobile_number: "",
     password: "",
   });
 
@@ -18,6 +21,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
+      await loginUser(formData);
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (err) {
@@ -45,17 +49,17 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="mt-12 space-y-5">
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
+            <AnimatedInput
+              type="email_or_mobile_number"
+              name="email_or_mobile_number"
+              placeholder="Email or Mobile Number"
+              value={formData.email_or_mobile_number}
               onChange={handleChange}
               className="w-full border border-[#3A0519] px-4 py-3 rounded-xl 
                          text-sm focus:ring-2 focus:ring-[#6A092F] outline-none"
             />
 
-            <input
+            <AnimatedInput
               type="password"
               name="password"
               placeholder="Password"
@@ -65,13 +69,13 @@ export default function LoginPage() {
                          text-sm focus:ring-2 focus:ring-[#6A092F] outline-none"
             />
 
-            <button
+            <MotionButton
               type="submit"
               className="w-full bg-[#3A0519] text-white py-3 rounded-xl 
                          text-sm font-medium hover:bg-[#6A092F] transition"
             >
               Login
-            </button>
+            </MotionButton>
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-600">

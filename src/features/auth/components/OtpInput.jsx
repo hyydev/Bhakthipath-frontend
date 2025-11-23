@@ -1,28 +1,42 @@
 import { useRef } from "react";
+import { motion } from "framer-motion";
+
+const item = {
+  hidden: { opacity: 0, scale: 0.8 },
+  show: { opacity: 1, scale: 1 }
+};
 
 export default function OtpInput({ value, setValue }) {
   const inputs = useRef([]);
 
   const handleChange = (e, index) => {
     const val = e.target.value.replace(/\D/g, "");
-    if (!val) return;
 
     const newOtp = value.split("");
-    newOtp[index] = val;
+    newOtp[index] = val;  
     setValue(newOtp.join(""));
 
-    if (index < 5) inputs.current[index + 1].focus();
+    if (val && index < 5) {
+      inputs.current[index + 1].focus();
+    }
   };
 
   const handleBackspace = (e, index) => {
-    if (e.key === "Backspace" && !value[index] && index > 0)
+    if (e.key === "Backspace" && !value[index] && index > 0) {
       inputs.current[index - 1].focus();
+    }
   };
 
   return (
-    <div className="flex gap-3 justify-center mt-8">
+    <motion.div
+      initial="hidden"
+      animate="show"
+      transition={{ staggerChildren: 0.1 }}
+      className="flex gap-3 justify-center mt-8"
+    >
       {Array(6).fill(0).map((_, i) => (
-        <input
+        <motion.input
+          variants={item}
           key={i}
           ref={(el) => (inputs.current[i] = el)}
           type="text"
@@ -33,6 +47,6 @@ export default function OtpInput({ value, setValue }) {
           className="w-12 h-14 border-2 border-[#3A0519] text-center text-xl font-bold rounded-xl focus:ring-2 focus:ring-[#6A092F] outline-none"
         />
       ))}
-    </div>
+    </motion.div>
   );
 }

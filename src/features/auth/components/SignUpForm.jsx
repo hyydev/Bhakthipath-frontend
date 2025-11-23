@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { registerUser } from "../api";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import AnimatedInput from "../../../components/AnimateInput"; 
+import MotionButton from "../../../components/MotionButton";
+
+
 
 export default function SignUpForm() {
   const navigate = useNavigate();
@@ -35,7 +40,7 @@ export default function SignUpForm() {
   return (
     <form onSubmit={handleSubmit} className="mt-4 space-y-4">
 
-  <input
+  <AnimatedInput
     type="text"
     name="full_name"
     placeholder="Full Name"
@@ -44,7 +49,7 @@ export default function SignUpForm() {
     className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
   />
 
-  <input
+  <AnimatedInput
     type="email"
     name="email"
     placeholder="Email"
@@ -53,7 +58,7 @@ export default function SignUpForm() {
     className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
   />
 
-  <input
+  <AnimatedInput
     type="text"
     name="mobile_number"
     placeholder="Mobile Number"
@@ -62,7 +67,7 @@ export default function SignUpForm() {
     className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
   />
 
-  <input
+  <AnimatedInput
     type="password"
     name="password"
     placeholder="Password"
@@ -71,14 +76,16 @@ export default function SignUpForm() {
     className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
   />
 
-  <button
-    type="submit"
-    name="submit"
-    disabled={loading}
-    className="w-full bg-[#3A0519] text-white py-3 rounded-xl text-sm font-medium hover:bg-[#6A092F] transition"
-  >
-    {loading ? "Registering..." : "Create Account"}
-  </button>
+<MotionButton
+  type="submit"
+  name="submit"
+  disabled={loading}
+  className="w-full bg-[#3A0519] text-white py-3 rounded-xl text-sm font-medium 
+             hover:bg-[#6A092F] transition disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  {loading ? "Registering..." : "Create Account"}
+</MotionButton>
+
 </form>
 
 
