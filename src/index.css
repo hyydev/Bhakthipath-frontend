@@ -1,3 +1,85 @@
+/* Import Google Fonts - Preparation Street Style */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Floating Blob Animations */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -40px) scale(1.05);
+  }
+  50% {
+    transform: translate(-20px, -60px) scale(0.95);
+  }
+  75% {
+    transform: translate(-40px, -30px) scale(1.02);
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-35px, 45px) scale(1.03);
+  }
+  66% {
+    transform: translate(40px, -50px) scale(0.97);
+  }
+}
+
+@keyframes float-fast {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  20% {
+    transform: translate(50px, 30px) scale(1.04);
+  }
+  40% {
+    transform: translate(-30px, 60px) scale(0.96);
+  }
+  60% {
+    transform: translate(45px, -40px) scale(1.02);
+  }
+  80% {
+    transform: translate(-50px, -20px) scale(0.98);
+  }
+}
+
+@keyframes float-slow-reverse {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-40px, 30px) scale(0.95);
+  }
+  50% {
+    transform: translate(20px, 60px) scale(1.05);
+  }
+  75% {
+    transform: translate(40px, 30px) scale(0.98);
+  }
+}
+
+@layer utilities {
+  .animate-float-slow {
+    animation: float-slow 25s ease-in-out infinite;
+  }
+  
+  .animate-float-medium {
+    animation: float-medium 20s ease-in-out infinite;
+  }
+  
+  .animate-float-fast {
+    animation: float-fast 18s ease-in-out infinite;
+  }
+  
+  .animate-float-slow-reverse {
+    animation: float-slow-reverse 28s ease-in-out infinite;
+  }
+}
