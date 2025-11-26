@@ -8,7 +8,7 @@ import {
   Heading, 
   Text, 
   GradientText,
-  Badge 
+  Badge
 } from "../../../components/ui";
 
 export default function LandingPage() {
@@ -23,7 +23,7 @@ export default function LandingPage() {
       <Section spacing="lg" className="min-h-screen flex items-center">
         <div className="text-center">
           {/* Badge */}
-          <Badge variant="primary" size="md" className="mb-6 animate-fade-in">
+          <Badge variant="golden" size="lg" className="mb-6 animate-fade-in" >
             ✨ Welcome to BhakthiVerse
           </Badge>
 
@@ -40,9 +40,7 @@ export default function LandingPage() {
             dark:to-amber-600 
             bg-clip-text 
             text-transparent
-            
-
-            
+            font-body
           "
         >
           Spiritual Journey

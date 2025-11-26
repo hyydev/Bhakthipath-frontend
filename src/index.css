@@ -83,3 +83,26 @@
     animation: float-slow-reverse 28s ease-in-out infinite;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #0A1628 inset !important;
+    box-shadow: 0 0 0 1000px #0A1628 inset !important;
+    -webkit-text-fill-color: #fff !important;
+    caret-color: #fff !important;
+  }
+}
+@media (prefers-color-scheme: light) {
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #e6f0fa inset !important;
+    box-shadow: 0 0 0 1000px #e6f0fa inset !important;
+    -webkit-text-fill-color: #1e3354 !important;
+    caret-color: #1e3354 !important;
+  }
+}

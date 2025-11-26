@@ -17,7 +17,6 @@ export const Heading = ({
     5: 'text-heading-lg',
     6: 'text-heading-md',
   };
- 
 
   const gradientStyle = gradient 
     ? 'bg-gradient-to-r from-primary-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent'
@@ -64,4 +63,36 @@ export const GradientText = ({ children, className = '' }) => (
   <span className={`bg-gradient-to-r from-primary-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent font-bold ${className}`}>
     {children}
   </span>
+);
+
+export const Input = ({
+  className = '',
+  ...props
+}) => (
+  <input
+    className={`
+      w-full
+      bg-[#e6f0fa]
+      dark:bg-[#16233a]
+      border-0
+      border-b-2
+      border-gray-300
+      dark:border-primary-200
+      focus:border-primary-400
+      dark:focus:border-primary-400
+      text-md
+      text-white
+      dark:text-white
+      font-body
+      py-2
+      px-0
+      placeholder-grey-400
+      dark:placeholder-amber-500
+      focus:outline-none
+      transition
+      duration-200
+      ${className}
+    `}
+    {...props}
+  />
 );

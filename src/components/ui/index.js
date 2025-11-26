@@ -3,4 +3,4 @@ export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, 
 export { Button, IconButton } from './Button';
 export { Section, SectionHeader } from './Section';
 export { Badge } from './Badge';
-export { Heading, Text, GradientText } from './Typography';
+export { Heading, Text, GradientText,Input } from './Typography';

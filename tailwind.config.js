@@ -64,7 +64,7 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Space Grotesk', 'Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
-        
+
         heading: ["Playfair Display", "serif"],  
         body: ["Inter", "sans-serif"],
       },
@@ -97,8 +97,8 @@ export default {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.5s ease-out',
+        'fade-in': 'fadeIn 2s ease-in-out',
+        'slide-up': 'slideUp 2s ease-out',
         'slide-down': 'slideDown 0.5s ease-out',
         'scale-in': 'scaleIn 0.3s ease-out',
         'glow-pulse': 'glowPulse 2s ease-in-out infinite',

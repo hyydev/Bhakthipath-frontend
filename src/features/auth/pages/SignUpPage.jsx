@@ -1,6 +1,10 @@
 import SignUpForm from "../components/SignUpForm";
 import BackgroundWrapper from "../../home/components/BackgroundWrapper";
 import SignUpImageCarousal from "../components/SignUpImageCarousal";
+import {Heading,
+
+
+          } from "../../../components/ui/";
 
 export default function SignUpPage() {
   return (
@@ -9,7 +13,24 @@ export default function SignUpPage() {
         <div className="w-full max-w-6xl rounded-[40px] shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 bg-white/80 dark:bg-[#0A1628]/80 backdrop-blur-md animate-fade-in">
           {/* LEFT SECTION */}
           <div className="relative px-12 py-10 flex flex-col bg-transparent">
-            <h1 className="text-5xl font-extrabold mt-12 text-[#520724] dark:text-[#93C5FD] animate-slide-up">Hare Krishna</h1>
+           <Heading level={1} className="mb-6 animate-slide-up">
+            {' '}
+                <span
+          className="
+            bg-gradient-to-r 
+            from-blue-600 
+            to-indigo-600 
+            dark:from-amber-300 
+            dark:via-amber-400 
+            dark:to-amber-600 
+            bg-clip-text 
+            text-transparent
+            font-body
+          "
+        >
+          Hare Krishna
+        </span>
+          </Heading>
             <p className="mt-3 text-lg text-[#3A0519] dark:text-gray-300 animate-slide-up">
               Welcome to BhakthiVerse! Join us and embark on a spiritual journey.
             </p>
@@ -19,7 +40,7 @@ export default function SignUpPage() {
                 className="w-5 h-5"
                 alt="Google"
               />
-              Log in with Google
+              <span className="text-white">Log in with Google</span>
             </button>
             <div className="flex items-center gap-4 mt-6 mb-3 animate-fade-in">
               <div className="h-[1px] bg-[#3A0519] dark:bg-[#93C5FD] flex-1"></div>
