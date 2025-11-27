@@ -14,29 +14,20 @@ import EcommerceHomePage from "./features/Ecommerce/pages/EcommerceHomePage";
 
 
 
-
-
-
-
-
 function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
         <Routes>
 
-          {/* PublicPages --- Auth pages */}
+         
           <Route path="/signup" element={<PageWrapper><SignUpPage /></PageWrapper>} />
           <Route path="/otp" element={<PageWrapper><OtpPage/></PageWrapper>} />
           <Route path="/login" element={<PageWrapper><LoginPage/></PageWrapper>} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/example" element={<ExamplePage />} />
+          <Route path="/ecommerce" element={<EcommerceHomePage />} />
 
-          {/* Layout pages */}
-          
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/example" element={<ExamplePage />} />
-            <Route path="/ecommerce" element={<EcommerceHomePage />} />
-
-          
         
 
             
