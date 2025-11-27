@@ -44,7 +44,7 @@ export default function OtpInput({ value, setValue }) {
           value={value[i] || ""}
           onChange={(e) => handleChange(e, i)}
           onKeyDown={(e) => handleBackspace(e, i)}
-          className="w-12 h-14 border-2 border-[#3A0519] text-center text-xl font-bold rounded-xl focus:ring-2 focus:ring-[#6A092F] outline-none"
+          className="w-12 h-14 border-2 border-purple text-center text-xl font-bold rounded-xl focus:ring-2 focus:ring-purple outline-none"
         />
       ))}
     </motion.div>
