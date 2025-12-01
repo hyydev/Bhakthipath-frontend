@@ -1,18 +1,17 @@
-import BackgroundWrapper from "../../../layout/BackgroundWrapper";
-import { 
-  Section, 
-  SectionHeader, 
+import {
+  Section,
+  SectionHeader,
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
   CardFooter,
-  Button, 
-  Heading, 
-  Text, 
+  Button,
+  Heading,
+  Text,
   Badge,
-  IconButton 
+  IconButton,
 } from "@/components/ui";
 
 /**
@@ -21,11 +20,13 @@ import {
  */
 export default function ExamplePage() {
   return (
-    <BackgroundWrapper>
+    <>
       {/* Example 1: Simple Content Section */}
       <Section spacing="lg">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge variant="cyan" className="mb-4">Example Page</Badge>
+          <Badge variant="cyan" className="mb-4">
+            Example Page
+          </Badge>
           <Heading level={1} gradient className="mb-4">
             Component Examples
           </Heading>
@@ -47,11 +48,14 @@ export default function ExamplePage() {
           <Card variant="default" hover>
             <CardHeader>
               <CardTitle>Default Card</CardTitle>
-              <CardDescription>Semi-transparent with hover effect</CardDescription>
+              <CardDescription>
+                Semi-transparent with hover effect
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Text size="sm">
-                This is the default card style with a subtle background and border.
+                This is the default card style with a subtle background and
+                border.
               </Text>
             </CardContent>
           </Card>
@@ -74,9 +78,7 @@ export default function ExamplePage() {
               <CardDescription>Gradient border effect</CardDescription>
             </CardHeader>
             <CardContent>
-              <Text size="sm">
-                Gradient borders create a premium look.
-              </Text>
+              <Text size="sm">Gradient borders create a premium look.</Text>
             </CardContent>
           </Card>
         </div>
@@ -132,7 +134,9 @@ export default function ExamplePage() {
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-4 bg-white/5 rounded-lg">
-                  <div className="text-2xl font-bold text-primary-400">1.2K</div>
+                  <div className="text-2xl font-bold text-primary-400">
+                    1.2K
+                  </div>
                   <div className="text-xs text-gray-400 mt-1">Active Users</div>
                 </div>
                 <div className="text-center p-4 bg-white/5 rounded-lg">
@@ -161,50 +165,104 @@ export default function ExamplePage() {
         <div className="space-y-6">
           {/* Primary Buttons */}
           <div>
-            <Text size="sm" className="mb-3 font-semibold text-white">Primary Buttons</Text>
+            <Text size="sm" className="mb-3 font-semibold text-white">
+              Primary Buttons
+            </Text>
             <div className="flex flex-wrap gap-3">
-              <Button variant="primary" size="sm">Small</Button>
-              <Button variant="primary" size="md">Medium</Button>
-              <Button variant="primary" size="lg">Large</Button>
+              <Button variant="primary" size="sm">
+                Small
+              </Button>
+              <Button variant="primary" size="md">
+                Medium
+              </Button>
+              <Button variant="primary" size="lg">
+                Large
+              </Button>
             </div>
           </div>
 
           {/* Secondary Buttons */}
           <div>
-            <Text size="sm" className="mb-3 font-semibold text-white">Secondary Buttons</Text>
+            <Text size="sm" className="mb-3 font-semibold text-white">
+              Secondary Buttons
+            </Text>
             <div className="flex flex-wrap gap-3">
-              <Button variant="secondary" size="md">Secondary</Button>
-              <Button variant="outline" size="md">Outline</Button>
-              <Button variant="ghost" size="md">Ghost</Button>
+              <Button variant="secondary" size="md">
+                Secondary
+              </Button>
+              <Button variant="outline" size="md">
+                Outline
+              </Button>
+              <Button variant="ghost" size="md">
+                Ghost
+              </Button>
             </div>
           </div>
 
           {/* Gradient Button */}
           <div>
-            <Text size="sm" className="mb-3 font-semibold text-white">Special Buttons</Text>
+            <Text size="sm" className="mb-3 font-semibold text-white">
+              Special Buttons
+            </Text>
             <div className="flex flex-wrap gap-3">
-              <Button variant="gradient" size="md">Gradient CTA</Button>
-              <Button variant="primary" size="md" disabled>Disabled</Button>
+              <Button variant="gradient" size="md">
+                Gradient CTA
+              </Button>
+              <Button variant="primary" size="md" disabled>
+                Disabled
+              </Button>
             </div>
           </div>
 
           {/* Icon Buttons */}
           <div>
-            <Text size="sm" className="mb-3 font-semibold text-white">Icon Buttons</Text>
+            <Text size="sm" className="mb-3 font-semibold text-white">
+              Icon Buttons
+            </Text>
             <div className="flex flex-wrap gap-3">
               <IconButton size="sm">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
                 </svg>
               </IconButton>
               <IconButton size="md">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                  />
                 </svg>
               </IconButton>
               <IconButton size="lg">
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                  />
                 </svg>
               </IconButton>
             </div>
@@ -246,7 +304,7 @@ export default function ExamplePage() {
           <Heading level={4}>Heading Level 4 - Heading XL</Heading>
           <Heading level={5}>Heading Level 5 - Heading LG</Heading>
           <Heading level={6}>Heading Level 6 - Heading MD</Heading>
-          
+
           <div className="pt-4">
             <Text size="xl">Extra Large Text</Text>
             <Text size="lg">Large Text</Text>
@@ -256,6 +314,6 @@ export default function ExamplePage() {
           </div>
         </div>
       </Section>
-    </BackgroundWrapper>
+    </>
   );
 }

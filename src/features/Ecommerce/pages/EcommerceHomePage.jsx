@@ -1,7 +1,6 @@
 import Header from "../../../layout/Header";
 import Navbar from "../../home/components/Navbar";
 import Footer from "../../../layout/Footer";
-import BackgroundWrapper from "../../../layout/BackgroundWrapper";
 import { Button, Badge, Heading, Text } from "../../../components/ui";
 import { useNavigate } from "react-router-dom";
 
@@ -59,7 +58,7 @@ export default function EcommerceHomePage() {
   const navigate = useNavigate();
 
   return (
-    <BackgroundWrapper>
+    <>
       <Header />
       <Navbar />
 
@@ -155,6 +154,6 @@ export default function EcommerceHomePage() {
       </section>
 
       <Footer />
-    </BackgroundWrapper>
+    </>
   );
 }
