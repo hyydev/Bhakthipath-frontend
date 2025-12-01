@@ -17,7 +17,7 @@ export default function Navbar() {
     <nav
       className={`
         w-full sticky top-[64px] z-40
-        backdrop-blur-xl  transition-all duration-500 
+        backdrop-blur-xl border-b transition-all duration-500 
 
         ${isDark 
           ? 'bg-white/[0.04] text-white border-white/[0.08] shadow-sm'

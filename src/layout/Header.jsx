@@ -54,7 +54,7 @@ export default function Header() {
               }
             `}
           >
-            <ShoppingCart color={isDark ? "#93C5FD" : "#6A092F"} />
+            <ShoppingCart  size={28} color={isDark ? "#93C5FD" : "#6A092F"} />
           </button>
 
           <button
@@ -66,7 +66,7 @@ export default function Header() {
               }
             `}
           >
-            <User color={isDark ? "#93C5FD" : "#6A092F"} />
+            <User  size={28} color={isDark ? "#93C5FD" : "#6A092F"} />
           </button>
 
         </div>

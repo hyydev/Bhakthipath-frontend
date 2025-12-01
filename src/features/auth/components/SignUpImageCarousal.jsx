@@ -5,16 +5,8 @@ import img3 from "../../../assets/Auth/madhav.jpeg";
 import img4 from "../../../assets/Auth/radharani.jpeg";
 import img5 from "../../../assets/Auth/krishnafriendship.jpeg";
 
-
-
 export default function SignUpImageCarousal() {
-  const slides = [
-   img1,
-   img2,
-   img3,
-   img4,
-   img5,
-  ];
+  const slides = [img1, img2, img3, img4, img5];
 
   const [index, setIndex] = useState(0);
 
@@ -32,7 +24,6 @@ export default function SignUpImageCarousal() {
 
   return (
     <div className="relative w-full h-full overflow-hidden min-h-[400px] ">
-
       {/* Slides */}
       {slides.map((img, i) => (
         <img
@@ -82,7 +73,6 @@ export default function SignUpImageCarousal() {
       >
         ❯
       </button>
-
     </div>
   );
 }

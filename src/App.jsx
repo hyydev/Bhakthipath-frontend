@@ -7,6 +7,7 @@ import SignUpPage from "./features/auth/pages/SignUpPage";
 import OtpPage from "./features/auth/pages/OtpPage";
 import LoginPage from "./features/auth/pages/LoginPage";
 import MainLayout from "./layout/MainLayout";
+import BackgroundWrapper from "./layout/BackgroundWrapper";
 import LandingPage from "./features/home/pages/LandingPage";
 import ExamplePage from "./features/home/pages/ExamplePage";
 import EcommerceHomePage from "./features/Ecommerce/pages/EcommerceHomePage";
@@ -14,9 +15,11 @@ import EcommerceHomePage from "./features/Ecommerce/pages/EcommerceHomePage";
 
 
 
+
 function App() {
   return (
     <ThemeProvider>
+      <BackgroundWrapper>
       <BrowserRouter>
         <Routes>
 
@@ -35,6 +38,7 @@ function App() {
 
         </Routes>
       </BrowserRouter>
+      </BackgroundWrapper>
     </ThemeProvider>
   );
 }

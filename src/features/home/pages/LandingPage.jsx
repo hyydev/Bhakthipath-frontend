@@ -1,4 +1,4 @@
-import BackgroundWrapper from "../components/BackgroundWrapper";
+import BackgroundWrapper from "../../../layout/BackgroundWrapper";
 import ThemeToggle from "../../../components/ThemeToggle";
 import { 
   Section, 
