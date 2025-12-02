@@ -29,7 +29,16 @@ function App() {
           <Route path="/login" element={<PageWrapper><LoginPage/></PageWrapper>} />
           <Route path="/" element={<PageWrapper><LandingPage/></PageWrapper>} />
           <Route path="/example" element={<ExamplePage />} />
-          <Route path="/ecommerce" element={<PageWrapper><EcommerceHomePage/></PageWrapper>} />
+          
+          <Route element={<MainLayout />}>
+
+             <Route path="/ecommerce" element={<PageWrapper><EcommerceHomePage/></PageWrapper>} />
+
+          </Route>
+          
+          
+
+         
 
         
 

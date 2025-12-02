@@ -1,6 +1,3 @@
-import Header from "../../../layout/Header";
-import Navbar from "../../home/components/Navbar";
-import Footer from "../../../layout/Footer";
 import { Button, Badge, Heading, Text } from "../../../components/ui";
 import { useNavigate } from "react-router-dom";
 
@@ -59,10 +56,6 @@ export default function EcommerceHomePage() {
 
   return (
     <>
-      <Header />
-      <Navbar />
-
-    
       <section className="relative w-full flex items-center justify-center py-16 md:py-24">
         <div className="text-center max-w-3xl mx-auto">
           <Badge variant="primary" size="md" className="mb-6 animate-fade-in">
@@ -152,9 +145,6 @@ export default function EcommerceHomePage() {
           ))}
         </div>
       </section>
-
-      <Footer />
     </>
-    
   );
 }
