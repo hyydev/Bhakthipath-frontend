@@ -58,11 +58,20 @@ export default function EcommerceHomePage() {
     <>
       <section className="relative w-full flex items-center justify-center py-16 md:py-24">
         <div className="text-center max-w-3xl mx-auto">
-          <Badge variant="primary" size="md" className="mb-6 animate-fade-in">
-            🛍️ Welcome to BhakthiVerse Store
+          <Badge variant="golden" size="md" className="mb-6 animate-fade-in">
+            🛍️✨ Welcome to BhakthiVerse Store
           </Badge>
           <Heading level={1} className="mb-4 animate-slide-up">
-            <span className="bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent font-heading">
+            <span
+              className="
+                bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 
+                bg-clip-text text-transparent 
+                font-heading
+                text-display-md md:text-display-lg lg:text-display-xl
+                font-extrabold
+                tracking-tight
+              "
+            >
               Spiritual Shopping, Divine Living
             </span>
           </Heading>

@@ -67,7 +67,7 @@ export default function Header() {
               `}
             >
               <User size={28} color={isDark ? "#93C5FD" : "#6A092F"} />
-              <span className={isDark ? "text-gray-200" : "text-[#3A0519]"}>
+              <span className={isDark ? "text-amber-200" : "text-[#3A0519]"}>
                 My Account
               </span>
             </button>
@@ -101,9 +101,7 @@ export default function Header() {
             >
               <Heart size={28} color={isDark ? "#93C5FD" : "#6A092F"} />
             </button>
-            <h3 className="text-[15px] font-semibold text-[#3A0519] dark:text-gray-200">
-              My Wishlist
-            </h3>
+            
           </div>
 
           {/* CART */}

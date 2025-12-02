@@ -41,7 +41,7 @@ export default function Navbar() {
 
                 ${isDark 
                   ? 'hover:bg-white/[0.06] text-white'
-                  : 'hover:bg-[rgba(255,248,245,0.6)] text-[#3A0519]'
+                  : 'hover:bg-[rgba(255,248,245,0.6)] text-amber-800'
                 }
               `}
             >
