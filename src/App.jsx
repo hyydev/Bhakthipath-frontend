@@ -27,9 +27,9 @@ function App() {
           <Route path="/signup" element={<PageWrapper><SignUpPage /></PageWrapper>} />
           <Route path="/otp" element={<PageWrapper><OtpPage/></PageWrapper>} />
           <Route path="/login" element={<PageWrapper><LoginPage/></PageWrapper>} />
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<PageWrapper><LandingPage/></PageWrapper>} />
           <Route path="/example" element={<ExamplePage />} />
-          <Route path="/ecommerce" element={<EcommerceHomePage />} />
+          <Route path="/ecommerce" element={<PageWrapper><EcommerceHomePage/></PageWrapper>} />
 
         
 

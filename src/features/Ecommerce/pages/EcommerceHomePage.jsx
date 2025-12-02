@@ -62,7 +62,7 @@ export default function EcommerceHomePage() {
       <Header />
       <Navbar />
 
-      {/* Banner */}
+    
       <section className="relative w-full flex items-center justify-center py-16 md:py-24">
         <div className="text-center max-w-3xl mx-auto">
           <Badge variant="primary" size="md" className="mb-6 animate-fade-in">
@@ -155,5 +155,6 @@ export default function EcommerceHomePage() {
 
       <Footer />
     </>
+    
   );
 }
