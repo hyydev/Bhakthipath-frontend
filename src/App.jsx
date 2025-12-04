@@ -6,6 +6,7 @@ import PageWrapper from "./components/PageWrapper";
 import SignUpPage from "./features/auth/pages/SignUpPage";
 import OtpPage from "./features/auth/pages/OtpPage";
 import LoginPage from "./features/auth/pages/LoginPage";
+import ProfilePage from "./features/auth/pages/ProfilePage";
 import MainLayout from "./layout/MainLayout";
 import BackgroundWrapper from "./layout/BackgroundWrapper";
 import LandingPage from "./features/home/pages/LandingPage";
@@ -33,6 +34,7 @@ function App() {
           <Route element={<MainLayout />}>
 
              <Route path="/ecommerce" element={<PageWrapper><EcommerceHomePage/></PageWrapper>} />
+             <Route path="/profile" element={<PageWrapper><ProfilePage/></PageWrapper>} />
 
           </Route>
           

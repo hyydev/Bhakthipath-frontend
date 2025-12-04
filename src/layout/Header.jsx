@@ -1,7 +1,7 @@
 import { ShoppingCart, User, Heart } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import ThemeToggle from "../components/ThemeToggle";
-import AccountMenu from "../features/Ecommerce/pages/AccountMenu";
+import AccountMenu from "../features/Ecommerce/components/AccountMenu";
 import { useState } from "react";
 
 export default function Header() {
@@ -66,8 +66,8 @@ export default function Header() {
                 }
               `}
             >
-              <User size={28} color={isDark ? "#93C5FD" : "#6A092F"} />
-              <span className={isDark ? "text-amber-200" : "text-[#3A0519]"}>
+              <User size={25} color={isDark ? "#93C5FD" : "#6A092F"} />
+              <span className={isDark ? "text-amber-200 " : "text-[#3A0519]"}>
                 My Account
               </span>
             </button>

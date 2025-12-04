@@ -1,0 +1,170 @@
+import { Button, Card, CardHeader, CardTitle, CardContent, Heading, Text, Input, Badge } from "../../../components/ui";
+
+// Mock data for demonstration
+const mockUser = {
+  name: "John Doe",
+  email: "john@example.com",
+  profilePhoto: "/images/default-avatar.jpg", // Placeholder image
+};
+
+const mockAddresses = [
+  { id: 1, type: "Home", address: "123 Main St, City, State 12345", isDefault: true },
+  { id: 2, type: "Work", address: "456 Office Blvd, City, State 67890", isDefault: false },
+];
+
+const mockOrders = [
+  { id: 1, date: "2023-10-01", status: "Delivered", total: "₹500", items: ["Tulsi Mala", "Bhagavad Gita"] },
+  { id: 2, date: "2023-09-15", status: "Shipped", total: "₹300", items: ["Kurta Pajama"] },
+  { id: 3, date: "2023-08-20", status: "Processing", total: "₹150", items: ["Japa Bag"] },
+];
+
+const mockWishlist = [
+  { id: 1, name: "Tulsi Mala", price: "₹199", img: "/images/tulsi-mala.jpg", badge: "Bestseller" },
+  { id: 2, name: "Bhagavad Gita", price: "₹299", img: "/images/gita.jpg", badge: "Classic" },
+  { id: 3, name: "Kurta Pajama", price: "₹799", img: "/images/kurta.jpg", badge: "New" },
+  { id: 4, name: "Japa Bag", price: "₹149", img: "/images/japa-bag.jpg", badge: "Popular" },
+  { id: 5, name: "Meditation Cushion", price: "₹499", img: "/images/meditation-cushion.jpg", badge: "Trending" },
+  { id: 6, name: "Incense Sticks", price: "₹99", img: "/images/incense-sticks.jpg", badge: "Essential" },
+  { id: 7, name: "Yoga Mat", price: "₹699", img: "/images/yoga-mat.jpg", badge: "Top Rated" },
+  { id: 8, name: "Spiritual Journal", price: "₹249", img: "/images/spiritual-journal.jpg", badge: "New Arrival" },
+];
+
+export default function ProfilePage() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-10">
+      <Heading level={1} className="mb-8 text-center">
+        My Profile
+      </Heading>
+
+      {/* Profile Header with Photo Upload */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Profile Information</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
+            <div className="relative">
+              <img
+                src={mockUser.profilePhoto}
+                alt="Profile"
+                className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-amber-300"
+              />
+              <label className="absolute bottom-0 right-0 bg-amber-500 text-white rounded-full p-2 cursor-pointer hover:bg-amber-600 transition">
+                <input type="file" className="hidden" accept="image/*" />
+                📷
+              </label>
+            </div>
+            <div className="text-center md:text-left">
+              <Text size="xl" className="font-semibold mb-2">{mockUser.name}</Text>
+              <Text className="mb-4">{mockUser.email}</Text>
+              <Button variant="outline" size="sm">Edit Profile</Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Address Management */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Addresses</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {mockAddresses.map((addr) => (
+              <div key={addr.id} className="flex flex-col md:flex-row md:justify-between md:items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="mb-2 md:mb-0">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <Text className="font-semibold">{addr.type}</Text>
+                    {addr.isDefault && <Badge variant="golden">Default</Badge>}
+                  </div>
+                  <Text className="text-sm text-gray-600 dark:text-gray-300">{addr.address}</Text>
+                </div>
+                <div className="flex space-x-2">
+                  {!addr.isDefault && (
+                    <Button variant="outline" size="sm">
+                      Set as Default
+                    </Button>
+                  )}
+                  <Button variant="outline" size="sm">Edit</Button>
+                  <Button variant="outline" size="sm" className="text-red-500 hover:text-red-700">Delete</Button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Button variant="gradient" className="mt-4">Add New Address</Button>
+        </CardContent>
+      </Card>
+
+      {/* Order History */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Order History</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {mockOrders.map((order) => (
+              <div key={order.id} className="flex flex-col md:flex-row md:justify-between md:items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="mb-2 md:mb-0">
+                  <Text className="font-semibold">Order #{order.id}</Text>
+                  <Text className="text-sm text-gray-600 dark:text-gray-300">{order.date}</Text>
+                  <Text className="text-sm">{order.items.join(", ")}</Text>
+                </div>
+                <div className="flex flex-col md:items-end space-y-1">
+                  <Badge
+                    variant={
+                      order.status === "Delivered"
+                        ? "success"
+                        : order.status === "Shipped"
+                        ? "primary"
+                        : "warning"
+                    }
+                  >
+                    {order.status}
+                  </Badge>
+                  <Text className="font-semibold text-amber-500">{order.total}</Text>
+                  <Button variant="outline" size="sm">View Details</Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Wishlist */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Wishlist</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {mockWishlist.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white/80 dark:bg-[#0A1628]/80 rounded-2xl shadow-lg p-4 flex flex-col items-center hover:shadow-xl transition-shadow"
+              >
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-24 h-24 object-contain mb-3 rounded-lg"
+                />
+                <Badge variant="primary" size="sm" className="mb-2">
+                  {item.badge}
+                </Badge>
+                <Text className="font-semibold text-center mb-1">{item.name}</Text>
+                <Text className="text-amber-500 font-bold mb-3">{item.price}</Text>
+                <div className="flex space-x-2 w-full">
+                  <Button variant="gradient" size="sm" className="flex-1">
+                    Add to Cart
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    Remove
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
