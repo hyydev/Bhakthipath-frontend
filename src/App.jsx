@@ -12,6 +12,9 @@ import BackgroundWrapper from "./layout/BackgroundWrapper";
 import LandingPage from "./features/home/pages/LandingPage";
 import ExamplePage from "./features/home/pages/ExamplePage";
 import EcommerceHomePage from "./features/Ecommerce/pages/EcommerceHomePage";
+import ShoppingCart from "./features/EcommerceCart/pages/ShoppingCart";
+import CheckoutPage from "./features/EcommerceCart/pages/CheckoutPage";
+import OrderSuccessPage from "./features/EcommerceCart/pages/OrderSuccessPage";
 
 
 
@@ -35,6 +38,11 @@ function App() {
 
              <Route path="/ecommerce" element={<PageWrapper><EcommerceHomePage/></PageWrapper>} />
              <Route path="/profile" element={<PageWrapper><ProfilePage/></PageWrapper>} />
+             <Route path="/cart" element={<PageWrapper><ShoppingCart/></PageWrapper>} />
+             <Route path="/checkout" element={<PageWrapper><CheckoutPage/></PageWrapper>} />
+             <Route path="/order-success" element={<PageWrapper><OrderSuccessPage/></PageWrapper>} />
+             
+             
 
           </Route>
           
