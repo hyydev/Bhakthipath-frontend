@@ -2,8 +2,11 @@ import SignUpForm from "../components/SignUpForm";
 
 import SignUpImageCarousal from "../components/SignUpImageCarousal";
 import { Heading } from "../../../components/ui/";
+import { useNavigate } from "react-router-dom";
+
 
 export default function SignUpPage() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-6xl rounded-[40px] shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 bg-white/80 dark:bg-[#0A1628]/80 backdrop-blur-md animate-fade-in">
@@ -48,7 +51,9 @@ export default function SignUpPage() {
           <SignUpForm />
           <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400 animate-fade-in">
             Already have an account{" "}
-            <span className="text-blue-600 dark:text-blue-400 cursor-pointer">
+            <span className="text-blue-600 dark:text-blue-400 cursor-pointer"
+              onClick={() => navigate("/login")}>
+              
               Login
             </span>
           </p>

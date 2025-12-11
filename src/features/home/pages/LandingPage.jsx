@@ -96,6 +96,49 @@ export default function LandingPage() {
           <FeatureCard
             icon={
               <svg
+                className="w-6 h-6 text-green-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            }
+            title="Shopping Store"
+            description="Explore a wide range of spiritual products, from books to ritual items, all curated for your devotional needs."
+            badge="Available"
+            badgeColor="green"
+          />
+          <FeatureCard
+            icon={
+              <svg
+                className="w-6 h-6 text-green-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            }
+            title="Spiritual Gpt Tool"
+            description="Get personalized spiritual guidance and answers to your devotional questions using our AI-powered tool."
+            badge="Coming Soon"
+            badgeColor="purple"
+          />
+
+          <FeatureCard
+            icon={
+              <svg
                 className="w-6 h-6 text-primary-400"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -133,7 +176,7 @@ export default function LandingPage() {
             }
             title="Community"
             description="Join a vibrant community of devotees, participate in discussions, and share your spiritual experiences."
-            badge="Active"
+            badge="Coming Soon"
             badgeColor="purple"
           />
 
@@ -177,7 +220,8 @@ export default function LandingPage() {
             }
             title="Daily Practices"
             description="Set reminders for prayers, track your spiritual progress, and maintain consistency in your practice."
-            badge="Essential"
+            // badge="Essential"
+            badge="In Development"
             badgeColor="green"
           />
         </div>
