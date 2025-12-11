@@ -9,8 +9,10 @@ import {
   GradientText,
   Badge,
 } from "../../../components/ui";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
+  const navigate = useNavigate();
   return (
     <>
       {/* Theme Toggle - Fixed Position */}
@@ -58,7 +60,15 @@ export default function LandingPage() {
 
           {/* CTA Buttons */}
           <div className="flex gap-4 justify-center animate-slide-up">
-            <Button variant="gradient" size="lg">
+            <Button
+              variant="gradient"
+              size="lg"
+              onClick={() =>
+                document.getElementById("features")?.scrollIntoView({
+                  behavior: "smooth",
+                })
+              }
+            >
               Get Started
             </Button>
             <Button variant="outline" size="lg">
@@ -85,7 +95,7 @@ export default function LandingPage() {
       </Section>
 
       {/* Features Section */}
-      <Section>
+      <Section id="features">
         <SectionHeader
           subtitle="Our Features"
           title="Transform Your Spiritual Journey"
@@ -105,7 +115,7 @@ export default function LandingPage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"
                 />
               </svg>
             }
@@ -113,11 +123,13 @@ export default function LandingPage() {
             description="Explore a wide range of spiritual products, from books to ritual items, all curated for your devotional needs."
             badge="Available"
             badgeColor="green"
+            onClick={() => navigate("/ecommerce")}
+
           />
           <FeatureCard
             icon={
               <svg
-                className="w-6 h-6 text-green-400"
+                className="w-6 h-6 text-purple-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -126,7 +138,7 @@ export default function LandingPage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
             }

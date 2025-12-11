@@ -4,6 +4,7 @@ export const Section = ({
   className = '',
   containerSize = 'default',
   spacing = 'default',
+  ...props
 }) => {
   const containerSizes = {
     sm: 'max-w-4xl',
@@ -19,7 +20,7 @@ export const Section = ({
   };
 
   return (
-    <section className={`${spacings[spacing]} ${className}`}>
+    <section className={`${spacings[spacing]} ${className} `} {...props} >
       <div className={`${containerSizes[containerSize]} mx-auto px-6`}>
         {children}
       </div>
