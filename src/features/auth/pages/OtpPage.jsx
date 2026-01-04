@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { verifyOTP } from "../api";
+import { verifyOTP } from "../../../services/authApi";
 
 import OtpInput from "../components/OtpInput";
 import MotionButton from "../../../components/MotionButton";

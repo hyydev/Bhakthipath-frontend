@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuthStore } from "../store";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import SignUpImageCarousal from "../components/SignUpImageCarousal";
-import { loginUser } from "../api";
-import MotionButton from "../../../components/MotionButton";
-import AnimatedInput from "../../../components/AnimateInput";
+import {loginUser} from "../../../services/authApi";
 import { Heading, Button, Input } from "../../../components/ui/";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { setTokens, setUser, hydrate, isAuthenticated } = useAuthStore();
+
+  // Hydrate store from localStorage on mount
+  useEffect(() => {
+    hydrate();
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/"); // redirect if already logged in
+  }, [isAuthenticated]);
 
   const [formData, setFormData] = useState({
     email_or_mobile_number: "",
@@ -20,12 +29,22 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await loginUser(formData);
+      const res = await loginUser(formData);
+
+      const access = res.data.data.access_token;
+      const refresh = res.data.data.refresh_token;
+
+      setTokens(access, refresh);
+      setUser({
+        is_verified: res.data.data.is_verified,
+        is_active: res.data.data.is_active,
+      });
+
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (err) {
+      console.error(err.response?.data || err);
       toast.error("Invalid Credentials!");
     }
   };

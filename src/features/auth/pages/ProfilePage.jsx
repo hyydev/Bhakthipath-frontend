@@ -1,4 +1,6 @@
 import { Button, Card, CardHeader, CardTitle, CardContent, Heading, Text, Input, Badge } from "../../../components/ui";
+import { useAuthStore } from "../store";
+
 
 // Mock data for demonstration
 const mockUser = {
@@ -29,7 +31,11 @@ const mockWishlist = [
   { id: 8, name: "Spiritual Journal", price: "₹249", img: "/images/spiritual-journal.jpg", badge: "New Arrival" },
 ];
 
+
 export default function ProfilePage() {
+
+  const { isAuthenticated, user, accessToken } = useAuthStore();
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <Heading level={1} className="mb-8 text-center">
