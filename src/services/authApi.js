@@ -20,12 +20,6 @@ export const forgotPassword = (data) =>
 export const resetPassword = (data) =>
   axiosInstance.post("/auth/reset-password/", data);
 
-// // Get current user profile
-// export const getProfile = () =>
-//   axiosInstance.get("/user/profile/");
-
-
-
 // Get user profile by ID
 export const getUserProfile = (id) =>
   axiosInstance.get(`/user/userprofile/${id}/`);
@@ -55,5 +49,7 @@ export const getOrders = () =>
   axiosInstance.get("/orders/my/");
 
 // Logout (if backend supports)
-export const logoutUser = () =>
-  axiosInstance.post("/auth/logout/");
+export const logoutUser = (refreshToken) =>
+  axiosInstance.post("/auth/logout/",{
+    refresh_token: refreshToken,
+  });

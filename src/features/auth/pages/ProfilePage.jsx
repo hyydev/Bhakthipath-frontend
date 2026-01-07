@@ -1,19 +1,10 @@
+import { useEffect, useState } from "react";
 import { Button, Card, CardHeader, CardTitle, CardContent, Heading, Text, Input, Badge } from "../../../components/ui";
 import { useAuthStore } from "../store";
-
+import { useUserProfile } from "../hooks/useUserProfile";
+import { useUserAddresses } from "../hooks/useUserAddresses";
 
 // Mock data for demonstration
-const mockUser = {
-  name: "John Doe",
-  email: "john@example.com",
-  profilePhoto: "/images/default-avatar.jpg", // Placeholder image
-};
-
-const mockAddresses = [
-  { id: 1, type: "Home", address: "123 Main St, City, State 12345", isDefault: true },
-  { id: 2, type: "Work", address: "456 Office Blvd, City, State 67890", isDefault: false },
-];
-
 const mockOrders = [
   { id: 1, date: "2023-10-01", status: "Delivered", total: "₹500", items: ["Tulsi Mala", "Bhagavad Gita"] },
   { id: 2, date: "2023-09-15", status: "Shipped", total: "₹300", items: ["Kurta Pajama"] },
@@ -31,10 +22,88 @@ const mockWishlist = [
   { id: 8, name: "Spiritual Journal", price: "₹249", img: "/images/spiritual-journal.jpg", badge: "New Arrival" },
 ];
 
-
 export default function ProfilePage() {
+  const { user } = useAuthStore();
+  const userId = user?.id; 
 
-  const { isAuthenticated, user, accessToken } = useAuthStore();
+  // Custom hooks
+  const { profile, loading: profileLoading, fetchProfile } = useUserProfile(userId);
+  const {
+    addresses,
+    loading: addressesLoading,
+    fetchAddresses,
+    handleAddAddress,
+    handleUpdateAddress,
+    handleDeleteAddress,
+    handleSetDefault,
+  } = useUserAddresses();
+
+  // For add/edit address modal
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [editAddress, setEditAddress] = useState(null);
+  const [addressForm, setAddressForm] = useState({
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    state: "",
+    country: "",
+    postal_code: "",
+  });
+
+  useEffect(() => {
+    if (userId) fetchProfile();
+    fetchAddresses();
+    // eslint-disable-next-line
+  }, [userId]);
+
+  // Add new address
+  const onAddAddress = async (e) => {
+    e.preventDefault();
+    await handleAddAddress(addressForm);
+    setShowAddressForm(false);
+    setAddressForm({
+      address_line_1: "",
+      address_line_2: "",
+      city: "",
+      state: "",
+      country: "",
+      postal_code: "",
+    });
+  };
+
+  // Edit address
+  const onEditAddress = (addr) => {
+    setEditAddress(addr);
+    setAddressForm({ ...addr });
+    setShowAddressForm(true);
+  };
+
+  const onUpdateAddress = async (e) => {
+    e.preventDefault();
+    await handleUpdateAddress(editAddress.id, addressForm);
+    setShowAddressForm(false);
+    setEditAddress(null);
+    setAddressForm({
+      address_line_1: "",
+      address_line_2: "",
+      city: "",
+      state: "",
+      country: "",
+      postal_code: "",
+    });
+  };
+
+  // Delete address
+  const onDeleteAddress = async (id) => {
+    await handleDeleteAddress(id);
+  };
+
+  // Set default address
+  const onSetDefault = async (id) => {
+    await handleSetDefault(id);
+  };
+
+  if (profileLoading || addressesLoading) return <div className="text-center py-10">Loading...</div>;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
@@ -51,7 +120,7 @@ export default function ProfilePage() {
           <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
             <div className="relative">
               <img
-                src={mockUser.profilePhoto}
+                src={profile?.profile_picture || "/images/default-avatar.jpg"}
                 alt="Profile"
                 className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-amber-300"
               />
@@ -61,8 +130,8 @@ export default function ProfilePage() {
               </label>
             </div>
             <div className="text-center md:text-left">
-              <Text size="xl" className="font-semibold mb-2">{mockUser.name}</Text>
-              <Text className="mb-4">{mockUser.email}</Text>
+              <Text size="xl" className="font-semibold mb-2">{profile?.user?.full_name}</Text>
+              <Text className="mb-4">{profile?.user?.email}</Text>
               <Button variant="outline" size="sm">Edit Profile</Button>
             </div>
           </div>
@@ -76,30 +145,107 @@ export default function ProfilePage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {mockAddresses.map((addr) => (
+            {addresses.map((addr) => (
               <div key={addr.id} className="flex flex-col md:flex-row md:justify-between md:items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div className="mb-2 md:mb-0">
                   <div className="flex items-center space-x-2 mb-1">
-                    <Text className="font-semibold">{addr.type}</Text>
-                    {addr.isDefault && <Badge variant="golden">Default</Badge>}
+                    <Text className="font-semibold">{addr.address_line_1}</Text>
+                    {addr.is_default && <Badge variant="golden">Default</Badge>}
                   </div>
-                  <Text className="text-sm text-gray-600 dark:text-gray-300">{addr.address}</Text>
+                  <Text className="text-sm text-gray-600 dark:text-gray-300">
+                    {addr.address_line_2}, {addr.city}, {addr.state}, {addr.country}, {addr.postal_code}
+                  </Text>
                 </div>
                 <div className="flex space-x-2">
-                  {!addr.isDefault && (
-                    <Button variant="outline" size="sm">
+                  {!addr.is_default && (
+                    <Button variant="outline" size="sm" onClick={() => onSetDefault(addr.id)}>
                       Set as Default
                     </Button>
                   )}
-                  <Button variant="outline" size="sm">Edit</Button>
-                  <Button variant="outline" size="sm" className="text-red-500 hover:text-red-700">Delete</Button>
+                  <Button variant="outline" size="sm" onClick={() => onEditAddress(addr)}>
+                    Edit
+                  </Button>
+                  <Button variant="outline" size="sm" className="text-red-500 hover:text-red-700" onClick={() => onDeleteAddress(addr.id)}>
+                    Delete
+                  </Button>
                 </div>
               </div>
             ))}
           </div>
-          <Button variant="gradient" className="mt-4">Add New Address</Button>
+          <Button variant="gradient" className="mt-4" onClick={() => setShowAddressForm(true)}>
+            Add New Address
+          </Button>
         </CardContent>
       </Card>
+
+      {/* Address Add/Edit Form Modal */}
+      {showAddressForm && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <form
+            onSubmit={editAddress ? onUpdateAddress : onAddAddress}
+            className="bg-white dark:bg-[#0A1628] p-8 rounded-2xl shadow-lg w-full max-w-md space-y-4"
+          >
+            <Heading level={3} className="mb-2 text-center">
+              {editAddress ? "Edit Address" : "Add New Address"}
+            </Heading>
+            <Input
+              name="address_line_1"
+              placeholder="Address Line 1"
+              value={addressForm.address_line_1}
+              onChange={e => setAddressForm({ ...addressForm, address_line_1: e.target.value })}
+            />
+            <Input
+              name="address_line_2"
+              placeholder="Address Line 2"
+              value={addressForm.address_line_2}
+              onChange={e => setAddressForm({ ...addressForm, address_line_2: e.target.value })}
+            />
+            <Input
+              name="city"
+              placeholder="City"
+              value={addressForm.city}
+              onChange={e => setAddressForm({ ...addressForm, city: e.target.value })}
+            />
+            <Input
+              name="state"
+              placeholder="State"
+              value={addressForm.state}
+              onChange={e => setAddressForm({ ...addressForm, state: e.target.value })}
+            />
+            <Input
+              name="country"
+              placeholder="Country"
+              value={addressForm.country}
+              onChange={e => setAddressForm({ ...addressForm, country: e.target.value })}
+            />
+            <Input
+              name="postal_code"
+              placeholder="Postal Code"
+              value={addressForm.postal_code}
+              onChange={e => setAddressForm({ ...addressForm, postal_code: e.target.value })}
+            />
+            <div className="flex gap-4 mt-4">
+              <Button type="submit" variant="gradient" className="flex-1">
+                {editAddress ? "Update" : "Add"}
+              </Button>
+              <Button type="button" variant="outline" className="flex-1" onClick={() => {
+                setShowAddressForm(false);
+                setEditAddress(null);
+                setAddressForm({
+                  address_line_1: "",
+                  address_line_2: "",
+                  city: "",
+                  state: "",
+                  country: "",
+                  postal_code: "",
+                });
+              }}>
+                Cancel
+              </Button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* Order History */}
       <Card className="mb-8">
