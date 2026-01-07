@@ -2,7 +2,7 @@ import axiosInstance from "./axiosInstance";
 
 // Register new user
 export const registerUser = (data) =>
-  axiosInstance.post("/auth/register/", data);
+  axiosInstance.post("/user/register/", data);
 
 // Verify OTP
 export const verifyOTP = (data) =>
@@ -20,9 +20,35 @@ export const forgotPassword = (data) =>
 export const resetPassword = (data) =>
   axiosInstance.post("/auth/reset-password/", data);
 
-// Get current user profile
-export const getProfile = () =>
-  axiosInstance.get("/user/profile/");
+// // Get current user profile
+// export const getProfile = () =>
+//   axiosInstance.get("/user/profile/");
+
+
+
+// Get user profile by ID
+export const getUserProfile = (id) =>
+  axiosInstance.get(`/user/userprofile/${id}/`);
+
+// Get all addresses
+export const getUserAddresses = () =>
+  axiosInstance.get("/user/useraddresses/");
+
+// Add new address
+export const addUserAddress = (data) =>
+  axiosInstance.post("/user/useraddresses/", data);
+
+// Update address
+export const updateUserAddress = (addressId, data) =>
+  axiosInstance.put(`/user/useraddresses/${addressId}/`, data);
+
+// Delete address
+export const deleteUserAddress = (addressId) =>
+  axiosInstance.delete(`/user/useraddresses/${addressId}/`);
+
+// Set default address
+export const setDefaultAddress = (addressId) =>
+  axiosInstance.post(`/user/set-default-address/${addressId}/`);
 
 // Get user orders
 export const getOrders = () =>

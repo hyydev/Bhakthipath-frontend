@@ -1,7 +1,19 @@
 // src/features/auth/store.js
 import { create } from "zustand";
 
-export const useAuthStore = create((set) => ({
+// Helper: Remove tokens from localStorage
+const clearTokens = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+};
+
+// Helper: Save tokens to localStorage
+const saveTokens = (access, refresh) => {
+  localStorage.setItem("accessToken", access);
+  localStorage.setItem("refreshToken", refresh);
+};
+
+export const useAuthStore = create((set, get) => ({
   user: null,
   isAuthenticated: false,
   accessToken: null,
@@ -10,30 +22,37 @@ export const useAuthStore = create((set) => ({
   // Save user object & mark authenticated
   setUser: (user) => set({ user, isAuthenticated: true }),
 
-  // Save tokens
+  // Save tokens (only call after successful login)
   setTokens: (access, refresh) => {
     set({ accessToken: access, refreshToken: refresh });
-    localStorage.setItem("accessToken", access);
-    localStorage.setItem("refreshToken", refresh);
+    saveTokens(access, refresh);
   },
 
-  // Logout
+  // Logout user and clear everything
   logout: () => {
     set({ user: null, isAuthenticated: false, accessToken: null, refreshToken: null });
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    clearTokens();
   },
 
-  // Hydrate store from localStorage
+  // Hydrate store from localStorage (call on app load)
   hydrate: () => {
     const access = localStorage.getItem("accessToken");
     const refresh = localStorage.getItem("refreshToken");
+    // Optional: Add token expiry check here if needed
     if (access && refresh) {
       set({ accessToken: access, refreshToken: refresh, isAuthenticated: true });
+    } else {
+      set({ accessToken: null, refreshToken: null, isAuthenticated: false, user: null });
     }
+  },
+
+  // Clear tokens (use after OTP verify or signup to ensure clean state)
+  clearTokens: () => {
+    set({ accessToken: null, refreshToken: null, isAuthenticated: false });
+    clearTokens();
   },
 }));
 
-// helpers to use store outside React components (e.g., axios interceptors)
+// Helpers to use store outside React components (e.g., axios interceptors)
 export const getAuthStore = useAuthStore.getState;
 export const subscribeAuthStore = useAuthStore.subscribe;
