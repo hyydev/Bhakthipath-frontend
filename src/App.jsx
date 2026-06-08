@@ -16,11 +16,18 @@ import ShoppingCart from "./features/EcommerceCart/pages/ShoppingCart";
 import CheckoutPage from "./features/EcommerceCart/pages/CheckoutPage";
 import OrderSuccessPage from "./features/EcommerceCart/pages/OrderSuccessPage";
 
+import { useAuthStore } from "./features/auth/store";
+import { useEffect } from "react";
 
 
 
 
 function App() {
+  useEffect(() => {
+    useAuthStore.getState().hydrate();
+    // Console log se check karo
+    console.log("AccessToken after hydrate:", useAuthStore.getState().accessToken);
+  }, []);
   return (
     <ThemeProvider>
       <BackgroundWrapper>

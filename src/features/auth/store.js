@@ -1,5 +1,6 @@
 // src/features/auth/store.js
 import { create } from "zustand";
+import { getUserProfile } from "../../services/authApi";
 
 // Helper: Remove tokens from localStorage
 const clearTokens = () => {
@@ -38,11 +39,33 @@ export const useAuthStore = create((set, get) => ({
   hydrate: () => {
     const access = localStorage.getItem("accessToken");
     const refresh = localStorage.getItem("refreshToken");
-    // Optional: Add token expiry check here if needed
+    const userStr = localStorage.getItem("user");
+    const profileStr = localStorage.getItem("profile");
+    let userObj = null;
+    let profileObj = null;
+    try {
+      if (userStr && userStr !== "undefined") userObj = JSON.parse(userStr);
+      if (profileStr && profileStr !== "undefined") profileObj = JSON.parse(profileStr);
+    } catch (e) {
+      userObj = null;
+      profileObj = null;
+    }
     if (access && refresh) {
-      set({ accessToken: access, refreshToken: refresh, isAuthenticated: true });
+      set({
+        accessToken: access,
+        refreshToken: refresh,
+        isAuthenticated: true,
+        user: userObj,
+        profile: profileObj,
+      });
     } else {
-      set({ accessToken: null, refreshToken: null, isAuthenticated: false, user: null });
+      set({
+        accessToken: null,
+        refreshToken: null,
+        isAuthenticated: false,
+        user: null,
+        profile: null,
+      });
     }
   },
 

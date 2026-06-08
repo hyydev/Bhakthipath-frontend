@@ -23,11 +23,13 @@ const mockWishlist = [
 ];
 
 export default function ProfilePage() {
-  const { user } = useAuthStore();
-  const userId = user?.id; 
+  const { user, profile } = useAuthStore();
+  const userId = user?.id; // For API calls
+  // profile object se dob, gender, addresses, etc. use karo
+
 
   // Custom hooks
-  const { profile, loading: profileLoading, fetchProfile } = useUserProfile(userId);
+  const { loading: profileLoading, fetchProfile } = useUserProfile(userId);
   const {
     addresses,
     loading: addressesLoading,
@@ -51,6 +53,7 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
+    console.log("userId:", userId);
     if (userId) fetchProfile();
     fetchAddresses();
     // eslint-disable-next-line
@@ -129,12 +132,57 @@ export default function ProfilePage() {
                 📷
               </label>
             </div>
-            <div className="text-center md:text-left">
+
+
+      {/* Profile Details */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-4 w-full">
+
+        <div>
+          <Text className="text-sm text-gray-500">Full Name</Text>
+          <Text className="font-semibold">
+            {profile?.user?.full_name || "-"}
+          </Text>
+        </div>
+
+        <div>
+          <Text className="text-sm text-gray-500">Email</Text>
+          <Text className="font-semibold">
+            {profile?.user?.email || "-"}
+          </Text>
+        </div>
+
+        <div>
+          <Text className="text-sm text-gray-500">Mobile Number</Text>
+          <Text className="font-semibold">
+            {profile?.user?.mobile_number || "-"}
+          </Text>
+        </div>
+
+        <div>
+          <Text className="text-sm text-gray-500">Date of Birth</Text>
+          <Text className="font-semibold">
+            {profile?.date_of_birth
+              ? new Date(profile.date_of_birth).toLocaleDateString("en-IN")
+              : "-"}
+          </Text>
+        </div>
+
+        <div>
+          <Text className="text-sm text-gray-500">Gender</Text>
+          <Text className="font-semibold">
+            {profile?.gender || "-"}
+          </Text>
+        </div>
+
+      </div>
+    </div>
+              
+            {/* <div className="text-center md:text-left">
               <Text size="xl" className="font-semibold mb-2">{profile?.user?.full_name}</Text>
               <Text className="mb-4">{profile?.user?.email}</Text>
               <Button variant="outline" size="sm">Edit Profile</Button>
             </div>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
 
