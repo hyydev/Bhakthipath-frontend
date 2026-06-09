@@ -16,56 +16,99 @@ import ShoppingCart from "./features/EcommerceCart/pages/ShoppingCart";
 import CheckoutPage from "./features/EcommerceCart/pages/CheckoutPage";
 import OrderSuccessPage from "./features/EcommerceCart/pages/OrderSuccessPage";
 
-import { useAuthStore } from "./features/auth/store";
-import { useEffect } from "react";
+// import { useAuthStore } from "./features/auth/store";
+// import { useEffect } from "react";
 
-
-
+import Providers from "./app/Providers";
 
 function App() {
-  useEffect(() => {
-    useAuthStore.getState().hydrate();
-    // Console log se check karo
-    console.log("AccessToken after hydrate:", useAuthStore.getState().accessToken);
-  }, []);
   return (
-    <ThemeProvider>
-      <BackgroundWrapper>
-      <BrowserRouter>
-        <Routes>
+    <Providers>
+      <ThemeProvider>
+        <BackgroundWrapper>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/signup"
+                element={
+                  <PageWrapper>
+                    <SignUpPage />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/otp"
+                element={
+                  <PageWrapper>
+                    <OtpPage />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <PageWrapper>
+                    <LoginPage />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/"
+                element={
+                  <PageWrapper>
+                    <LandingPage />
+                  </PageWrapper>
+                }
+              />
+              <Route path="/example" element={<ExamplePage />} />
 
-         
-          <Route path="/signup" element={<PageWrapper><SignUpPage /></PageWrapper>} />
-          <Route path="/otp" element={<PageWrapper><OtpPage/></PageWrapper>} />
-          <Route path="/login" element={<PageWrapper><LoginPage/></PageWrapper>} />
-          <Route path="/" element={<PageWrapper><LandingPage/></PageWrapper>} />
-          <Route path="/example" element={<ExamplePage />} />
-          
-          <Route element={<MainLayout />}>
-
-             <Route path="/ecommerce" element={<PageWrapper><EcommerceHomePage/></PageWrapper>} />
-             <Route path="/profile" element={<PageWrapper><ProfilePage/></PageWrapper>} />
-             <Route path="/cart" element={<PageWrapper><ShoppingCart/></PageWrapper>} />
-             <Route path="/checkout" element={<PageWrapper><CheckoutPage/></PageWrapper>} />
-             <Route path="/order-success" element={<PageWrapper><OrderSuccessPage/></PageWrapper>} />
-             
-             
-
-          </Route>
-          
-          
-
-         
-
-        
-
-            
-      
-
-        </Routes>
-      </BrowserRouter>
-      </BackgroundWrapper>
-    </ThemeProvider>
+              <Route element={<MainLayout />}>
+                <Route
+                  path="/ecommerce"
+                  element={
+                    <PageWrapper>
+                      <EcommerceHomePage />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <PageWrapper>
+                      <ProfilePage />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <PageWrapper>
+                      <ShoppingCart />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <PageWrapper>
+                      <CheckoutPage />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/order-success"
+                  element={
+                    <PageWrapper>
+                      <OrderSuccessPage />
+                    </PageWrapper>
+                  }
+                />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </BackgroundWrapper>
+      </ThemeProvider>
+    </Providers>
   );
 }
 
