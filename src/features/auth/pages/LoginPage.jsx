@@ -1,32 +1,13 @@
-import { useEffect, useState } from "react";
-import { useAuthStore } from "../store";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { useLogin } from "../hooks/useLogin";
+import { useAuthStore } from "../auth.store";
+
+
 import SignUpImageCarousal from "../components/SignUpImageCarousal";
-import {loginUser} from "../../../services/authApi";
 import { Heading, Button, Input } from "../../../components/ui/";
 
-function parseJwt(token) {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return null;
-  }
-}
-
 export default function LoginPage() {
-  const navigate = useNavigate();
-  const { setTokens, setUser, hydrate, isAuthenticated } = useAuthStore();
-
-  // Hydrate store from localStorage on mount
-  useEffect(() => {
-    hydrate();
-  }, []);
-
-  useEffect(() => {
-    if (isAuthenticated) navigate("/"); // redirect if already logged in
-  }, [isAuthenticated]);
-
   const [formData, setFormData] = useState({
     email_or_mobile_number: "",
     password: "",
@@ -34,43 +15,6 @@ export default function LoginPage() {
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await loginUser(formData);
-   
-      const access = res.data.data.access_token;
-      const refresh = res.data.data.refresh_token;
-     
-      setTokens(access, refresh);
-
-      const payload = parseJwt(access);
-      const userId = payload?.user_id; // Django REST JWT me usually user_id hota hai
-
-
-      setUser({
-        is_verified: res.data.data.is_verified,
-        is_active: res.data.data.is_active,
-      });
-
-      // Profile API call karo
-    const profileRes = await getUserProfile(userId);
-    const user = profileRes.data.data
-
-    // Save user
-    setUser(user);
-    localStorage.setItem("user", JSON.stringify(user));
-
-      toast.success("Logged in successfully!");
-      navigate("/");
-    } catch (err) {
-      console.error(err.response?.data || err);
-      toast.error("Invalid Credentials!");
-    }
-  };
-
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -94,8 +38,7 @@ export default function LoginPage() {
               Welcome Back
             </span>
           </Heading>
-          <p className="mt-3 text-lg text-[#3A0519] dark:text-gray-300 animate-slide-up">
-          </p>
+          <p className="mt-3 text-lg text-[#3A0519] dark:text-gray-300 animate-slide-up"></p>
           <button className="w-full border border-[#3A0519] dark:border-[#93C5FD] py-2 rounded-xl mt-10 flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-[#1a2332] transition animate-fade-in">
             <img
               src="https://www.google.com/favicon.ico"
