@@ -1,6 +1,6 @@
-// src/services/axiosInstance.js
+
 import axios from "axios";
-import { getAuthStore } from "../features/auth/store";
+import { useAuthStore } from "../features/auth/auth.store";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL
 
@@ -18,7 +18,11 @@ const processQueue = (error, token = null) => {
 
 // Request interceptor — attach access token
 axiosInstance.interceptors.request.use((config) => {
-  const { accessToken } = getAuthStore();
+
+  const { accessToken } = useAuthStore.getState();
+  
+
+
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
@@ -30,7 +34,7 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalRequest = err.config;
-    const { refreshToken, setTokens, logout } = getAuthStore();
+    const { refreshToken, setTokens, logout } = useAuthStore.getState();
 
     if (
       err.response?.status === 401 &&
@@ -52,14 +56,14 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await axios.post(`${baseURL}/auth/token/refresh`, {
+        const response = await axios.post(`${baseURL}/auth/token/refresh/`, {
           refresh: refreshToken,
         });
 
         const newAccess = response.data?.access;
         if (!newAccess) throw new Error("Refresh token failed");
 
-        setTokens(newAccess, refreshToken);
+        setTokens({ accessToken: newAccess, refreshToken: refreshToken });
 
         processQueue(null, newAccess);
 
