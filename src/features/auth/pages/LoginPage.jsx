@@ -1,13 +1,17 @@
-import {  useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import { useAuthStore } from "../auth.store";
-
 
 import SignUpImageCarousal from "../components/SignUpImageCarousal";
 import { Heading, Button, Input } from "../../../components/ui/";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const { login, isPending } = useLogin();
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
   const [formData, setFormData] = useState({
     email_or_mobile_number: "",
     password: "",
@@ -15,6 +19,15 @@ export default function LoginPage() {
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login(formData);
+  };
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -76,10 +89,11 @@ export default function LoginPage() {
             />
             <Button
               type="submit"
+              disabled={isPending}
               className="w-full bg-[#3A0519] text-white py-3 rounded-xl text-sm font-medium 
                            hover:bg-[#6A092F] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Login
+              {isPending ? "Logging in..." : "Login"}
             </Button>
           </form>
           <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400 animate-fade-in">

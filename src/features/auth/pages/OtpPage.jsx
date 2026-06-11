@@ -1,31 +1,30 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { verifyOTP } from "../../../services/authApi";
-
+import { Navigate,useLocation } from "react-router-dom";
 import OtpInput from "../components/OtpInput";
-import MotionButton from "../../../components/MotionButton";
+import { useVerifyOtp } from "../hooks/useVerifyOtp";
 
 import { Button, Badge, Card, Text } from "../../../components/ui/";
 
 export default function OtpPage() {
   const [otp_code, setOtp] = useState("");
-  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const { verifyOtp, isPending } = useVerifyOtp();
+
+  const location = useLocation();
+  const email = location.state?.email;
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (otp_code.length !== 6) {
-      toast.error("Please enter 6-digit OTP");
-      return;
-    }
-    try {
-      await verifyOTP({ otp_code });
-      toast.success("OTP Verified Successfully!");
-      navigate("/login");
-    } catch (error) {
-      toast.error("Invalid OTP!");
-    }
+
+    verifyOtp({
+      otp_code,
+      email,
+    });
   };
+
+  if (!email) {
+    return <Navigate to="/signup" replace />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -64,10 +63,11 @@ export default function OtpPage() {
 
         <Button
           variant="gradient"
+          disabled={isPending}
           onClick={handleSubmit}
           className="w-full bg-gradient-to-r from-amber-400 via-purple-500 to-indigo-600 text-white py-3 rounded-xl mt-10 text-sm font-semibold shadow-lg hover:scale-[1.02] transition"
         >
-          Verify OTP
+          {isPending ? "Verifying..." : "Verify OTP"}
         </Button>
 
         <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">

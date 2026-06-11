@@ -1,40 +1,25 @@
 import { useState } from "react";
-import { registerUser } from "../../../services/authApi";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import toast from "react-hot-toast";
-// import AnimatedInput from "../../../components/AnimateInput";
-// import MotionButton from "../../../components/MotionButton"
 
 import { Button, Input } from "../../../components/ui";
+import { useRegister } from "../hooks/useRegister";
 
 export default function SignUpForm() {
-  const navigate = useNavigate();
+  const { register, isPending } = useRegister();
+
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
     mobile_number: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      await registerUser(formData);
-      toast.success("OTP sent! Verify to continue.");
-      navigate("/otp"); // OTP page route
-    } catch (err) {
-      console.error(err);
-      toast.error(err.response?.data?.message || "Registration failed!");
-    } finally {
-      setLoading(false);
-    }
+    register(formData);
   };
 
   return (
@@ -75,11 +60,11 @@ export default function SignUpForm() {
       <Button
         type="submit"
         name="submit"
-        disabled={loading}
+        disabled={isPending}
         className="w-full bg-[#3A0519] text-white py-3 rounded-xl text-sm font-medium 
              hover:bg-[#6A092F] transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? "Registering..." : "Create Account"}
+        {isPending ? "Registering..." : "Create Account"}
       </Button>
     </form>
   );
