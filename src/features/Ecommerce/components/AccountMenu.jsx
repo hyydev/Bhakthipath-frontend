@@ -1,22 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useAuthStore } from "../../auth/store";
-import { logoutUser } from "../../../services/authApi";
+
+
 
 export default function AccountMenu() {
-  const navigate = useNavigate();
-  const { logout, refreshToken } = useAuthStore();
 
-  const handleLogout = async () => {
-    try {
-      await logoutUser(refreshToken);
-    } catch (e) {
-      // ignore error, proceed to logout anyway
-    }
-    logout(); // Clear frontend auth state
-    navigate("/login");
-  };
 
+
+  
   return (
     <div
       className="

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, CardHeader, CardTitle, CardContent, Heading, Text, Input, Badge } from "../../../components/ui";
-import { useAuthStore } from "../store";
-import { useUserProfile } from "../hooks/useUserProfile";
-import { useUserAddresses } from "../hooks/useUserAddresses";
+
 
 // Mock data for demonstration
 const mockOrders = [
@@ -23,91 +21,7 @@ const mockWishlist = [
 ];
 
 export default function ProfilePage() {
-  const { user, profile } = useAuthStore();
-  const userId = user?.id; // For API calls
-  // profile object se dob, gender, addresses, etc. use karo
-
-
-  // Custom hooks
-  const { loading: profileLoading, fetchProfile } = useUserProfile(userId);
-  const {
-    addresses,
-    loading: addressesLoading,
-    fetchAddresses,
-    handleAddAddress,
-    handleUpdateAddress,
-    handleDeleteAddress,
-    handleSetDefault,
-  } = useUserAddresses();
-
-  // For add/edit address modal
-  const [showAddressForm, setShowAddressForm] = useState(false);
-  const [editAddress, setEditAddress] = useState(null);
-  const [addressForm, setAddressForm] = useState({
-    address_line_1: "",
-    address_line_2: "",
-    city: "",
-    state: "",
-    country: "",
-    postal_code: "",
-  });
-
-  useEffect(() => {
-    console.log("userId:", userId);
-    if (userId) fetchProfile();
-    fetchAddresses();
-    // eslint-disable-next-line
-  }, [userId]);
-
-  // Add new address
-  const onAddAddress = async (e) => {
-    e.preventDefault();
-    await handleAddAddress(addressForm);
-    setShowAddressForm(false);
-    setAddressForm({
-      address_line_1: "",
-      address_line_2: "",
-      city: "",
-      state: "",
-      country: "",
-      postal_code: "",
-    });
-  };
-
-  // Edit address
-  const onEditAddress = (addr) => {
-    setEditAddress(addr);
-    setAddressForm({ ...addr });
-    setShowAddressForm(true);
-  };
-
-  const onUpdateAddress = async (e) => {
-    e.preventDefault();
-    await handleUpdateAddress(editAddress.id, addressForm);
-    setShowAddressForm(false);
-    setEditAddress(null);
-    setAddressForm({
-      address_line_1: "",
-      address_line_2: "",
-      city: "",
-      state: "",
-      country: "",
-      postal_code: "",
-    });
-  };
-
-  // Delete address
-  const onDeleteAddress = async (id) => {
-    await handleDeleteAddress(id);
-  };
-
-  // Set default address
-  const onSetDefault = async (id) => {
-    await handleSetDefault(id);
-  };
-
-  if (profileLoading || addressesLoading) return <div className="text-center py-10">Loading...</div>;
-
+ 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <Heading level={1} className="mb-8 text-center">
