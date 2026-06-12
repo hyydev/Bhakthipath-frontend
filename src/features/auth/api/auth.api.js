@@ -11,7 +11,7 @@ export const loginUser = (data) => api.post("/auth/login/", data);
 export const refreshToken = (refreshToken) =>
   api.post("/auth/token/refresh/", { refresh: refreshToken });
 
-export const logoutUser = () => api.post("/auth/logout/");
+export const logoutUser = (data) => api.post("/auth/logout/",data);
 
 export const forgetPassword = (data) =>
   api.post("/auth/forget-password/", data);

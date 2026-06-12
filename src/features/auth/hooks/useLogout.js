@@ -9,22 +9,25 @@ export const useLogout = () => {
   const navigate = useNavigate();
 
   const clearlogout = useAuthStore((state) => state.logout);
+  const refreshToken = useAuthStore((state) => state.refreshToken);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: logoutUser,
+    mutationFn: () =>
+      logoutUser({
+        refresh_token: refreshToken,
+      }),
 
     onSuccess: () => {
-      clearlogout()
+      clearlogout();
       toast.success("Logged out successfully");
       navigate("/login");
     },
 
     onError: () => {
-      clearlogout()
+      clearlogout();
       toast.error("Logout failed");
       navigate("/login");
     },
   });
-
   return { logout: mutate, isPending };
 };

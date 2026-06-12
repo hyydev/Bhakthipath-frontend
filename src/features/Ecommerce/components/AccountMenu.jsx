@@ -8,6 +8,11 @@ export default function AccountMenu() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const { logout, isPending } = useLogout();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    logout();
+  };
+
   return (
     <div
       className="
@@ -47,12 +52,12 @@ export default function AccountMenu() {
 
             <button
               type="button"
-              onClick={() => logout()}
+              onClick={handleSubmit}
               disabled={isPending}
               className="px-4 py-3 text-sm text-red-600
                          hover:bg-red-50 dark:hover:bg-gray-800 transition flex items-center gap-2 text-left disabled:opacity-60"
             >
-              <LogOut size={16} /> {isPending ? "Logging out..." : "Logout"}
+                    {isPending ? "Logging out..." : "Logout"}
             </button>
           </>
         ) : (
