@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -14,8 +14,7 @@ import { motion } from "framer-motion";
 export default function OrderSuccessPage() {
   const navigate = useNavigate();
 
-  // Generate random order ID
-  const orderId = `ORD${Date.now().toString().slice(-8)}`;
+  const [orderId] = useState(() => `ORD${Date.now().toString().slice(-8)}`);
 
   useEffect(() => {
     // Confetti or celebration animation can be added here

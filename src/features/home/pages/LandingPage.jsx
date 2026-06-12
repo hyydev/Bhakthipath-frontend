@@ -10,13 +10,23 @@ import {
   Badge,
 } from "../../../components/ui";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../auth/auth.store";
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   return (
     <>
       {/* Theme Toggle - Fixed Position */}
-      <div className="fixed top-6 right-6 z-50">
+      <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => navigate(isAuthenticated ? "/ecommerce" : "/login")}
+          className="!px-3 !py-2"
+        >
+          {isAuthenticated ? "Continue" : "Login"}
+        </Button>
         <ThemeToggle />
       </div>
 

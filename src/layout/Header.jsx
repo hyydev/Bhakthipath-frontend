@@ -3,10 +3,12 @@ import { useTheme } from "../context/ThemeContext";
 import ThemeToggle from "../components/ThemeToggle";
 import AccountMenu from "../features/Ecommerce/components/AccountMenu";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false); // FIXED
 
@@ -24,12 +26,18 @@ export default function Header() {
       <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4">
         {/* LOGO */}
         <div className="text-2xl font-extrabold tracking-tight flex items-center gap-2 drop-shadow-sm">
-          <span className={isDark ? "text-[#93C5FD]" : "text-[#6A092F]"}>
-            Bhakthi
-          </span>
-          <span className={isDark ? "text-[#8B5CF6]" : "text-[#520724]"}>
-            Verse
-          </span>
+          <button
+            type="button"
+            onClick={() => navigate("/ecommerce")}
+            className="flex items-center gap-2"
+          >
+            <span className={isDark ? "text-[#93C5FD]" : "text-[#6A092F]"}>
+              Bhakthi
+            </span>
+            <span className={isDark ? "text-[#8B5CF6]" : "text-[#520724]"}>
+              Verse
+            </span>
+          </button>
         </div>
 
         {/* SEARCH */}
@@ -57,6 +65,8 @@ export default function Header() {
             onMouseLeave={() => setMenuOpen(false)}
           >
             <button
+              type="button"
+              onClick={() => navigate("/profile")}
               className={`
                 flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-300
                 ${
@@ -90,6 +100,8 @@ export default function Header() {
           {/* WISHLIST */}
           <div className="flex items-center gap-2">
             <button
+              type="button"
+              onClick={() => navigate("/profile")}
               className={`
                 p-2 rounded-xl transition-all duration-300
                 ${
@@ -106,6 +118,8 @@ export default function Header() {
 
           {/* CART */}
           <button
+            type="button"
+            onClick={() => navigate("/cart")}
             className={`
               p-2 rounded-xl transition-all duration-300
               ${
