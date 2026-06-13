@@ -10,14 +10,16 @@ export const useAuthStore = create(
   refreshToken: null,
   isAuthenticated: false,
   isVerified: false,
+  userId:null,
 
   // Login ke baad
-  setAuth: ({ accessToken, refreshToken , isVerified}) =>
+  setAuth: ({ accessToken, refreshToken , isVerified, userId}) =>
     set({
       accessToken,
       refreshToken,
       isAuthenticated: true,
-      isVerified: isVerified 
+      isVerified: isVerified ,
+      userId,
     }),
 
   // Refresh token API ke baad
@@ -36,6 +38,7 @@ export const useAuthStore = create(
           refreshToken: null,
           isAuthenticated: false,
           isVerified: false,
+          userId:null,
         }),
     }),
     {

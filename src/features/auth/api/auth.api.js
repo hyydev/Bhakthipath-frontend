@@ -20,3 +20,5 @@ export const resetPassword = (data) => api.post("/auth/reset-password/", data);
 
 export const verifyResetOTP = (data) =>
   api.post("/auth/verify-reset-otp/", data);
+
+
