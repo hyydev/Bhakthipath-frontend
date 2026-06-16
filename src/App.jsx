@@ -15,9 +15,11 @@ import LandingPage from "./features/home/pages/LandingPage";
 import ExamplePage from "./features/home/pages/ExamplePage";
 
 import EcommerceHomePage from "./features/Ecommerce/pages/EcommerceHomePage";
+import CategoryPage from "./features/Ecommerce/pages/CategoryPage";
 import ShoppingCart from "./features/EcommerceCart/pages/ShoppingCart";
 import CheckoutPage from "./features/EcommerceCart/pages/CheckoutPage";
 import OrderSuccessPage from "./features/EcommerceCart/pages/OrderSuccessPage";
+
 
 import Providers from "./app/Providers";
 
@@ -83,6 +85,16 @@ function App() {
                     </PageWrapper>
                   }
                 />
+
+                <Route
+                  path="/category/:slug"
+                  element={
+                    <PageWrapper>
+                      <CategoryPage />
+                    </PageWrapper>
+                  }
+                />
+
 
                 {/* Protected Routes */}
                 <Route element={<PrivateRoute />}>
