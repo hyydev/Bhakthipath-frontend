@@ -1,34 +1,14 @@
 import { Button, Badge, Heading, Text } from "../../../components/ui";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
+import { useProductCategories } from "../hooks/useProductCategories";
 import ProductCard from "../components/ProductCard";
-
-const categories = [
-  {
-    name: "Puja Items",
-    img: "/images/puja.jpg",
-    color: "from-yellow-400 to-orange-500",
-  },
-  {
-    name: "Books",
-    img: "/images/books.jpg",
-    color: "from-blue-400 to-indigo-500",
-  },
-  {
-    name: "Clothing",
-    img: "/images/clothing.jpg",
-    color: "from-pink-400 to-red-500",
-  },
-  {
-    name: "Accessories",
-    img: "/images/accessories.jpg",
-    color: "from-green-400 to-teal-500",
-  },
-];
 
 export default function EcommerceHomePage() {
   const navigate = useNavigate();
   const { products, isLoading, isError } = useProducts();
+  const { categories, isLoading: categoriesLoading } = useProductCategories();
+
   const handleAddToCart = (productId) => {
     console.log("Add to cart:", productId);
     // Cart feature mein wire karenge baad mein
@@ -70,37 +50,29 @@ export default function EcommerceHomePage() {
         <Heading level={2} className="mb-8 text-center">
           Shop by Category
         </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {categories.map((cat) => (
-            <div
-              key={cat.name}
-              onClick={() =>
-                navigate(
-                  `/category/${cat.name.toLowerCase().replace(/\s/g, "-")}`
-                )
-              }
-              className={`
-                cursor-pointer rounded-3xl shadow-lg overflow-hidden group transition-transform duration-300 hover:scale-105
-                bg-gradient-to-br ${cat.color}
-              `}
-            >
-              <img
-                src={cat.img}
-                alt={cat.name}
-                className="w-full h-40 object-cover group-hover:opacity-80 transition"
-              />
-              <div className="p-4 text-center">
-                <h3 className="text-xl font-bold text-white drop-shadow">
-                  {cat.name}
-                </h3>
+        {categoriesLoading ? (
+          <Text className="text-center">Loading categories...</Text>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            {categories?.map((cat) => (
+              <div
+                key={cat.id}
+                onClick={() => navigate(`/category/${cat.slug}`)}
+                className="cursor-pointer rounded-3xl shadow-lg overflow-hidden group transition-transform duration-300 hover:scale-105 bg-gradient-to-br from-yellow-400 to-orange-500 p-6"
+              >
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-white drop-shadow">
+                    {cat.name}
+                  </h3>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Featured Products */}
- 
+
       <section className="max-w-7xl mx-auto px-4 py-10">
         <Heading level={2} className="mb-8 text-center">
           Featured Products
