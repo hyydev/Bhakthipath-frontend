@@ -6,3 +6,9 @@ export function decodeJWT(token) {
     return null;
   }
 }
+
+
+export function getImageUrl(path) {
+  if (!path) return null
+  return `${import.meta.env.VITE_API_BASE_URL}${path}`
+}

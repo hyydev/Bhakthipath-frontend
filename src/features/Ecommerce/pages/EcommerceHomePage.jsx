@@ -1,5 +1,7 @@
 import { Button, Badge, Heading, Text } from "../../../components/ui";
 import { useNavigate } from "react-router-dom";
+import { useProducts } from "../hooks/useProducts";
+import ProductCard from "../components/ProductCard";
 
 const categories = [
   {
@@ -24,35 +26,13 @@ const categories = [
   },
 ];
 
-const products = [
-  {
-    name: "Tulsi Mala",
-    price: "₹199",
-    img: "/images/tulsi-mala.jpg",
-    badge: "Bestseller",
-  },
-  {
-    name: "Bhagavad Gita",
-    price: "₹299",
-    img: "/images/gita.jpg",
-    badge: "Classic",
-  },
-  {
-    name: "Kurta Pajama",
-    price: "₹799",
-    img: "/images/kurta.jpg",
-    badge: "New",
-  },
-  {
-    name: "Japa Bag",
-    price: "₹149",
-    img: "/images/japa-bag.jpg",
-    badge: "Popular",
-  },
-];
-
 export default function EcommerceHomePage() {
   const navigate = useNavigate();
+  const { products, isLoading, isError } = useProducts();
+  const handleAddToCart = (productId) => {
+    console.log("Add to cart:", productId);
+    // Cart feature mein wire karenge baad mein
+  };
 
   return (
     <>
@@ -120,39 +100,29 @@ export default function EcommerceHomePage() {
       </section>
 
       {/* Featured Products */}
+ 
       <section className="max-w-7xl mx-auto px-4 py-10">
         <Heading level={2} className="mb-8 text-center">
           Featured Products
         </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {products.map((prod) => (
-            <div
-              key={prod.name}
-              className="bg-white/80 dark:bg-[#0A1628]/80 rounded-2xl shadow-lg p-4 flex flex-col items-center animate-fade-in"
-            >
-              <img
-                src={prod.img}
-                alt={prod.name}
-                className="w-32 h-32 object-contain mb-4 rounded-xl"
+
+        {isLoading ? (
+          <Text className="text-center">Loading products...</Text>
+        ) : isError ? (
+          <Text className="text-center text-red-500">
+            Failed to load products.
+          </Text>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            {products?.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={handleAddToCart}
               />
-              <Badge variant="primary" size="sm" className="mb-2">
-                {prod.badge}
-              </Badge>
-              <h4 className="text-lg font-semibold mb-1 text-[#3A0519] dark:text-[#93C5FD]">
-                {prod.name}
-              </h4>
-              <Text
-                size="lg"
-                className="font-bold text-[#6A092F] dark:text-amber-300"
-              >
-                {prod.price}
-              </Text>
-              <Button variant="gradient" size="sm" className="mt-3 w-full">
-                Add to Cart
-              </Button>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
     </>
   );
