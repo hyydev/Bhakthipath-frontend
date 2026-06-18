@@ -9,6 +9,7 @@ export const useProducts = (params = {}) => {
   });
   return {
     products: data?.data?.data,
+    pagination: data?.data?.pagination,
     isLoading,
     isError,
     error,

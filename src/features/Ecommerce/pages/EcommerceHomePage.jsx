@@ -1,21 +1,45 @@
-import { Button, Badge, Heading, Text } from "../../../components/ui";
+import { useState } from "react";
+import {
+  Button,
+  Badge,
+  Heading,
+  Text,
+  Pager,
+  PagerItem,
+  Pagination,
+} from "../../../components/ui";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
 import { useProductCategories } from "../hooks/useProductCategories";
 import ProductCard from "../components/ProductCard";
 
+const PRODUCTS_PER_PAGE = 8;
+
 export default function EcommerceHomePage() {
   const navigate = useNavigate();
-  const { products, isLoading, isError } = useProducts();
+  const [page, setPage] = useState(1);
+  const { products, pagination, isLoading, isError } = useProducts({
+    page,
+    page_size: PRODUCTS_PER_PAGE,
+  });
   const { categories, isLoading: categoriesLoading } = useProductCategories();
 
   const handleAddToCart = (productId) => {
     console.log("Add to cart:", productId);
-    // Cart feature mein wire karenge baad mein
+  };
+
+  const handlePageChange = (nextPage) => {
+    setPage(nextPage);
+    const section = document.getElementById("featured-products");
+    window.scrollTo({
+      top: Math.max((section?.offsetTop ?? 0) - 80, 0),
+      behavior: "smooth",
+    });
   };
 
   return (
     <>
+      {/* Hero Section */}
       <section className="relative w-full flex items-center justify-center py-16 md:py-24">
         <div className="text-center max-w-3xl mx-auto">
           <Badge variant="golden" size="md" className="mb-6 animate-fade-in">
@@ -45,55 +69,78 @@ export default function EcommerceHomePage() {
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="max-w-7xl mx-auto px-4 py-10">
+      {/* Categories Pager Section */}
+      <section className="max-w-7xl mx-auto px-4 py-10 overflow-hidden">
         <Heading level={2} className="mb-8 text-center">
           Shop by Category
         </Heading>
         {categoriesLoading ? (
           <Text className="text-center">Loading categories...</Text>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <Pager>
             {categories?.map((cat) => (
-              <div
-                key={cat.id}
-                onClick={() => navigate(`/category/${cat.slug}`)}
-                className="cursor-pointer rounded-3xl shadow-lg overflow-hidden group transition-transform duration-300 hover:scale-105 bg-gradient-to-br from-yellow-400 to-orange-500 p-6"
-              >
-                <div className="text-center">
-                  <h3 className="text-xl font-bold text-white drop-shadow">
-                    {cat.name}
-                  </h3>
+              <PagerItem key={cat.id}>
+                <div
+                  onClick={() => navigate(`/category/${cat.slug}`)}
+                  className="
+                    cursor-pointer rounded-3xl shadow-lg overflow-hidden group 
+                    transition-transform duration-300 hover:scale-105 
+                    bg-gradient-to-br from-yellow-400 to-orange-500 p-6 h-full
+                  "
+                >
+                  <div className="text-center flex h-full items-center justify-center min-h-[100px]">
+                    <h3 className="text-xl font-bold text-white drop-shadow">
+                      {cat.name}
+                    </h3>
+                  </div>
                 </div>
-              </div>
+              </PagerItem>
             ))}
-          </div>
+          </Pager>
         )}
       </section>
 
       {/* Featured Products */}
-
-      <section className="max-w-7xl mx-auto px-4 py-10">
+      <section id="featured-products" className="max-w-7xl mx-auto px-4 py-10">
         <Heading level={2} className="mb-8 text-center">
           Featured Products
         </Heading>
 
         {isLoading ? (
-          <Text className="text-center">Loading products...</Text>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            {Array.from({ length: PRODUCTS_PER_PAGE }).map((_, i) => (
+              <div
+                key={i}
+                className="bg-white/40 dark:bg-[#0A1628]/40 rounded-2xl h-64 animate-pulse"
+              />
+            ))}
+          </div>
         ) : isError ? (
           <Text className="text-center text-red-500">
             Failed to load products.
           </Text>
+        ) : products?.length === 0 ? (
+          <Text className="text-center">No products available yet.</Text>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            {products?.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onAddToCart={handleAddToCart}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+              {products?.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onAddToCart={handleAddToCart}
+                />
+              ))}
+            </div>
+
+            <Pagination
+              currentPage={pagination?.current_page ?? page}
+              totalPages={pagination?.total_pages ?? 1}
+              totalCount={pagination?.count ?? products?.length ?? 0}
+              pageSize={pagination?.page_size ?? PRODUCTS_PER_PAGE}
+              onPageChange={handlePageChange}
+            />
+          </>
         )}
       </section>
     </>

@@ -5,3 +5,5 @@ export { Section, SectionHeader } from './Section';
 export { Badge } from './Badge';
 export { Heading, Text, GradientText, Input } from './Typography';
 export { PaymentOptions } from './PaymentOptions';
+export { Pager, PagerItem } from './Pager';
+export { Pagination } from './Pagination';
