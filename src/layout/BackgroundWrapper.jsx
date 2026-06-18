@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { useSmoothScroll } from '../app/SmoothScrollProvider';
 
 export default function BackgroundWrapper({ children }) {
   const { theme } = useTheme();
+  const { lenis } = useSmoothScroll();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
   const blob1Ref = useRef(null);
@@ -22,15 +24,18 @@ export default function BackgroundWrapper({ children }) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Scroll tracking for parallax
+  // Scroll tracking for parallax (synced with Lenis)
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+    if (lenis) {
+      const onScroll = ({ scroll }) => setScrollY(scroll);
+      lenis.on('scroll', onScroll);
+      return () => lenis.off('scroll', onScroll);
+    }
 
+    const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lenis]);
 
   // Apply mouse tracking to blobs
   useEffect(() => {

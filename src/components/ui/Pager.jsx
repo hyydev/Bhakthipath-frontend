@@ -116,6 +116,7 @@ export function Pager({
 
       <div
         ref={scrollRef}
+        data-lenis-prevent
         className={`
           flex overflow-x-auto md:grid md:grid-cols-4 gap-6 pb-4
           snap-x snap-mandatory scroll-smooth no-scrollbar

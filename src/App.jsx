@@ -22,14 +22,18 @@ import OrderSuccessPage from "./features/EcommerceCart/pages/OrderSuccessPage";
 
 
 import Providers from "./app/Providers";
+import { SmoothScrollProvider } from "./app/SmoothScrollProvider";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <Providers>
       <ThemeProvider>
-        <BackgroundWrapper>
-          <BrowserRouter>
-            <Routes>
+        <SmoothScrollProvider>
+          <BackgroundWrapper>
+            <BrowserRouter>
+              <ScrollToTop />
+              <Routes>
 
               {/* Public Routes */}
               <Route
@@ -140,6 +144,7 @@ function App() {
             </Routes>
           </BrowserRouter>
         </BackgroundWrapper>
+        </SmoothScrollProvider>
       </ThemeProvider>
     </Providers>
   );

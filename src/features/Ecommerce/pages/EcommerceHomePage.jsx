@@ -8,15 +8,19 @@ import {
   PagerItem,
   Pagination,
 } from "../../../components/ui";
+import RevealOnScroll from "../../../components/RevealOnScroll";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
 import { useProductCategories } from "../hooks/useProductCategories";
+import { useSmoothScroll } from "../../../app/SmoothScrollProvider";
 import ProductCard from "../components/ProductCard";
 
 const PRODUCTS_PER_PAGE = 8;
+const HEADER_OFFSET = -80;
 
 export default function EcommerceHomePage() {
   const navigate = useNavigate();
+  const { scrollTo } = useSmoothScroll();
   const [page, setPage] = useState(1);
   const { products, pagination, isLoading, isError } = useProducts({
     page,
@@ -30,18 +34,14 @@ export default function EcommerceHomePage() {
 
   const handlePageChange = (nextPage) => {
     setPage(nextPage);
-    const section = document.getElementById("featured-products");
-    window.scrollTo({
-      top: Math.max((section?.offsetTop ?? 0) - 80, 0),
-      behavior: "smooth",
-    });
+    scrollTo("#featured-products", { offset: HEADER_OFFSET });
   };
 
   return (
     <>
       {/* Hero Section */}
       <section className="relative w-full flex items-center justify-center py-16 md:py-24">
-        <div className="text-center max-w-3xl mx-auto">
+        <RevealOnScroll className="text-center max-w-3xl mx-auto">
           <Badge variant="golden" size="md" className="mb-6 animate-fade-in">
             🛍️✨ Welcome to BhakthiVerse Store
           </Badge>
@@ -63,48 +63,60 @@ export default function EcommerceHomePage() {
             Explore authentic spiritual products, sacred books, devotional
             clothing, and more—delivered with love and blessings.
           </Text>
-          <Button variant="gradient" size="lg" className="animate-fade-in">
+          <Button
+            variant="gradient"
+            size="lg"
+            className="animate-fade-in"
+            onClick={() => scrollTo("#featured-products", { offset: HEADER_OFFSET })}
+          >
             Shop Now
           </Button>
-        </div>
+        </RevealOnScroll>
       </section>
 
       {/* Categories Pager Section */}
       <section className="max-w-7xl mx-auto px-4 py-10 overflow-hidden">
-        <Heading level={2} className="mb-8 text-center">
-          Shop by Category
-        </Heading>
+        <RevealOnScroll>
+          <Heading level={2} className="mb-8 text-center">
+            Shop by Category
+          </Heading>
+        </RevealOnScroll>
+
         {categoriesLoading ? (
           <Text className="text-center">Loading categories...</Text>
         ) : (
-          <Pager>
-            {categories?.map((cat) => (
-              <PagerItem key={cat.id}>
-                <div
-                  onClick={() => navigate(`/category/${cat.slug}`)}
-                  className="
-                    cursor-pointer rounded-3xl shadow-lg overflow-hidden group 
-                    transition-transform duration-300 hover:scale-105 
-                    bg-gradient-to-br from-yellow-400 to-orange-500 p-6 h-full
-                  "
-                >
-                  <div className="text-center flex h-full items-center justify-center min-h-[100px]">
-                    <h3 className="text-xl font-bold text-white drop-shadow">
-                      {cat.name}
-                    </h3>
+          <RevealOnScroll delay={0.1}>
+            <Pager>
+              {categories?.map((cat) => (
+                <PagerItem key={cat.id}>
+                  <div
+                    onClick={() => navigate(`/category/${cat.slug}`)}
+                    className="
+                      cursor-pointer rounded-3xl shadow-lg overflow-hidden group 
+                      transition-transform duration-300 hover:scale-105 
+                      bg-gradient-to-br from-yellow-400 to-orange-500 p-6 h-full
+                    "
+                  >
+                    <div className="text-center flex h-full items-center justify-center min-h-[100px]">
+                      <h3 className="text-xl font-bold text-white drop-shadow">
+                        {cat.name}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-              </PagerItem>
-            ))}
-          </Pager>
+                </PagerItem>
+              ))}
+            </Pager>
+          </RevealOnScroll>
         )}
       </section>
 
       {/* Featured Products */}
-      <section id="featured-products" className="max-w-7xl mx-auto px-4 py-10">
-        <Heading level={2} className="mb-8 text-center">
-          Featured Products
-        </Heading>
+      <section id="featured-products" className="max-w-7xl mx-auto px-4 py-10 scroll-mt-24">
+        <RevealOnScroll>
+          <Heading level={2} className="mb-8 text-center">
+            Featured Products
+          </Heading>
+        </RevealOnScroll>
 
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
@@ -124,12 +136,13 @@ export default function EcommerceHomePage() {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-              {products?.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onAddToCart={handleAddToCart}
-                />
+              {products?.map((product, index) => (
+                <RevealOnScroll key={product.id} delay={index * 0.05}>
+                  <ProductCard
+                    product={product}
+                    onAddToCart={handleAddToCart}
+                  />
+                </RevealOnScroll>
               ))}
             </div>
 
