@@ -1,87 +1,73 @@
-import { useMutation,useQueryClient,useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { 
-  getUserAddresses, 
-  addUserAddress, 
-  updateUserAddress, 
-  deleteUserAddress, 
-  setDefaultAddress 
-} from '../api/user.api'
+import {
+  getUserAddresses,
+  addUserAddress,
+  updateUserAddress,
+  deleteUserAddress,
+  setDefaultAddress,
+} from "../api/user.api";
 
+export const useAddresses = () => {
+  const queryClient = useQueryClient();
 
-export const useAddresses = ()=>{
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["addresses"],
+    queryFn: getUserAddresses,
+    staleTime: 2 * 60 * 1000,
+  });
 
-    const queryClient  = useQueryClient();
+  const addMutation = useMutation({
+    mutationFn: addUserAddress,
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['addresses'],
-        queryFn: getUserAddresses,
-        staleTime: 2 * 60 * 1000,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addresses"] });
+      toast.success("Address added");
+    },
 
+    onError: () => toast.error("Failed to add address"),
+  });
 
-    })
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }) => updateUserAddress(id, data),
 
-    const addMutation  = useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addresses"] });
+      toast.success("Address updated");
+    },
 
-        mutationFn:addUserAddress,
+    onError: () => toast.error("Failed to update address"),
+  });
 
-        onSuccess: ()=>{
-            queryClient.invalidateQueries({ queryKey: ['addresses'] })
-            toast.success('Address added')
-        },
+  const deleteMutation = useMutation({
+    mutationFn: ({ id }) => deleteUserAddress(id),
 
-        onError: () => toast.error('Failed to add address')
-        
-    })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addresses"] });
+      toast.success("Address deleted");
+    },
 
+    onError: () => toast.error("Failed to delete address"),
+  });
 
-    const updateMutation  = useMutation({
-        mutationFn:({id,data})=>updateUserAddress(id,data),
+  const setDefaultMutation = useMutation({
+    mutationFn: ({ id }) => setDefaultAddress(id),
 
-        onSuccess: ()=>{
-            queryClient.invalidateQueries({ queryKey: ['addresses'] })
-            toast.success('Address updated')
-        },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addresses"] });
+      toast.success("Address set to default");
+    },
 
-        onError: () => toast.error('Failed to update address')
-        
-    })
+    onError: () => toast.error("Failed to set it default address"),
+  });
 
-    const deleteMutation  = useMutation({
-        mutationFn:({id})=>deleteUserAddress(id),
-
-        onSuccess: ()=>{
-            queryClient.invalidateQueries({ queryKey: ['addresses'] })
-            toast.success('Address deleted')
-        },
-
-        onError: () => toast.error('Failed to delete address')
-        
-    })
-
-    const setDefaultMutation  = useMutation({
-        mutationFn:({id})=>setDefaultAddress(id),
-
-        onSuccess: ()=>{
-            queryClient.invalidateQueries({ queryKey: ['addresses'] })
-            toast.success('Address set to default')
-        },
-
-        onError: () => toast.error('Failed to set it default address')
-        
-    })
-
-    return {
+  return {
     addresses: data?.data?.data,
     isLoading,
     isError,
     addAddress: addMutation.mutate,
-  updateAddress: updateMutation.mutate,
-  deleteAddress: deleteMutation.mutate,
-  setDefaultAddress: setDefaultMutation.mutate,
-    
-  }
-    
-    
-
-}
+    updateAddress: updateMutation.mutate,
+    deleteAddress: deleteMutation.mutate,
+    setDefaultAddress: setDefaultMutation.mutate,
+  };
+};
