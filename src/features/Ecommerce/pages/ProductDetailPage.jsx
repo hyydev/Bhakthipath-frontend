@@ -165,6 +165,7 @@ export default function ProductDetailPage() {
                     className="w-10 h-10 p-0 inline-flex items-center justify-center"
                   >
                     <Minus size={16} />
+                    -
                   </Button>
                   <div className="w-14 h-10 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center">
                     <Text className="font-semibold text-white">{quantity}</Text>
@@ -176,6 +177,7 @@ export default function ProductDetailPage() {
                     className="w-10 h-10 p-0 inline-flex items-center justify-center"
                   >
                     <Plus size={16} />
+                    +
                   </Button>
                 </div>
 

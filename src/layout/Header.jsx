@@ -4,11 +4,13 @@ import ThemeToggle from "../components/ThemeToggle";
 import AccountMenu from "../features/Ecommerce/components/AccountMenu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCartStore } from "../features/EcommerceCart/cart.store";
 
 export default function Header() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const navigate = useNavigate();
+  const itemCount = useCartStore((s) => s.itemsCount);
 
   const [menuOpen, setMenuOpen] = useState(false); // FIXED
 
@@ -78,7 +80,11 @@ export default function Header() {
               aria-label="My Account"
             >
               <User size={24} color={isDark ? "#93C5FD" : "#6A092F"} />
-              <span className={`hidden lg:inline ${isDark ? "text-amber-200 " : "text-[#3A0519]"}`}>
+              <span
+                className={`hidden lg:inline ${
+                  isDark ? "text-amber-200 " : "text-[#3A0519]"
+                }`}
+              >
                 My Account
               </span>
             </button>
@@ -121,17 +127,15 @@ export default function Header() {
           <button
             type="button"
             onClick={() => navigate("/cart")}
-            className={`
-              p-2 rounded-xl transition-all duration-300
-              ${
-                isDark
-                  ? "hover:shadow-[0_0_18px_rgba(255,190,140,0.35)] hover:bg-white/[0.07]"
-                  : "hover:shadow-[0_0_18px_rgba(255,170,120,0.45)] hover:bg-[rgba(255,248,245,0.8)]"
-              }
-            `}
+            className="relative p-2 rounded-xl transition-all duration-300 ..."
             aria-label="Shopping Cart"
           >
             <ShoppingCart size={24} color={isDark ? "#93C5FD" : "#6A092F"} />
+            {itemCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">
+                {itemCount > 99 ? "99+" : itemCount}
+              </span>
+            )}
           </button>
 
           {/* THEME TOGGLE */}
