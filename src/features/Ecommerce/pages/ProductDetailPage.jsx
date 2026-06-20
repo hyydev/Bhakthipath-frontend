@@ -12,12 +12,15 @@ import {
 import RevealOnScroll from "../../../components/RevealOnScroll";
 import { getImageUrl } from "../../../lib/utils";
 import { useProductDetail } from "../hooks/useProductDetail";
+import { useCart } from "../../EcommerceCart/hooks/useCart";
+
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const { product, isLoading, isError } = useProductDetail(id);
+  const {addCart}= useCart()
 
   const images = useMemo(() => product?.images || [], [product]);
   const primaryImage =
@@ -59,9 +62,7 @@ export default function ProductDetailPage() {
         <Heading level={3} className="mb-4">
           Product not found
         </Heading>
-        <Text className="mb-8">
-          We could not load this product right now.
-        </Text>
+        <Text className="mb-8">We could not load this product right now.</Text>
         <Button variant="outline" onClick={() => navigate("/ecommerce")}>
           Back to Store
         </Button>
@@ -181,7 +182,7 @@ export default function ProductDetailPage() {
                 <Button
                   variant="gradient"
                   disabled={!inStock}
-                  onClick={() => console.log("Add to cart:", id, quantity)}
+                 onClick={() => addCart({ items: [{ product_id: Number(id), quantity }] })}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2"
                 >
                   <ShoppingCart size={18} />

@@ -23,13 +23,13 @@ export default function Header() {
         }
       `}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 py-3 px-3 sm:px-4 lg:py-4">
         {/* LOGO */}
-        <div className="text-2xl font-extrabold tracking-tight flex items-center gap-2 drop-shadow-sm">
+        <div className="text-lg sm:text-2xl font-extrabold tracking-tight flex items-center gap-2 drop-shadow-sm shrink-0">
           <button
             type="button"
             onClick={() => navigate("/ecommerce")}
-            className="flex items-center gap-2"
+            className="flex items-center gap-1 sm:gap-2"
           >
             <span className={isDark ? "text-[#93C5FD]" : "text-[#6A092F]"}>
               Bhakthi
@@ -41,7 +41,7 @@ export default function Header() {
         </div>
 
         {/* SEARCH */}
-        <div className="flex-1 mx-6 max-w-lg">
+        <div className="hidden md:block flex-1 mx-2 lg:mx-6 max-w-lg">
           <input
             type="text"
             placeholder="Search for products, books, more…"
@@ -57,7 +57,7 @@ export default function Header() {
         </div>
 
         {/* ICONS */}
-        <div className="flex items-center gap-8 text-lg font-medium">
+        <div className="flex items-center justify-end gap-1.5 sm:gap-2 lg:gap-5 text-lg font-medium shrink-0">
           {/* USER ACCOUNT DROPDOWN FIX */}
           <div
             className="relative"
@@ -68,16 +68,17 @@ export default function Header() {
               type="button"
               onClick={() => navigate("/profile")}
               className={`
-                flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-300
+                flex items-center gap-2 p-2 lg:px-3 lg:py-2 rounded-xl transition-all duration-300
                 ${
                   isDark
                     ? "hover:shadow-[0_0_18px_rgba(255,190,140,0.35)] hover:bg-white/[0.07]"
                     : "hover:shadow-[0_0_18px_rgba(255,170,120,0.45)] hover:bg-[rgba(255,248,245,0.8)]"
                 }
               `}
+              aria-label="My Account"
             >
-              <User size={25} color={isDark ? "#93C5FD" : "#6A092F"} />
-              <span className={isDark ? "text-amber-200 " : "text-[#3A0519]"}>
+              <User size={24} color={isDark ? "#93C5FD" : "#6A092F"} />
+              <span className={`hidden lg:inline ${isDark ? "text-amber-200 " : "text-[#3A0519]"}`}>
                 My Account
               </span>
             </button>
@@ -98,7 +99,7 @@ export default function Header() {
           </div>
 
           {/* WISHLIST */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <button
               type="button"
               onClick={() => navigate("/profile")}
@@ -110,10 +111,10 @@ export default function Header() {
                     : "hover:shadow-[0_0_18px_rgba(255,170,120,0.45)] hover:bg-[rgba(255,248,245,0.8)]"
                 }
               `}
+              aria-label="Wishlist"
             >
-              <Heart size={28} color={isDark ? "#93C5FD" : "#6A092F"} />
+              <Heart size={24} color={isDark ? "#93C5FD" : "#6A092F"} />
             </button>
-            
           </div>
 
           {/* CART */}
@@ -128,12 +129,13 @@ export default function Header() {
                   : "hover:shadow-[0_0_18px_rgba(255,170,120,0.45)] hover:bg-[rgba(255,248,245,0.8)]"
               }
             `}
+            aria-label="Shopping Cart"
           >
-            <ShoppingCart size={28} color={isDark ? "#93C5FD" : "#6A092F"} />
+            <ShoppingCart size={24} color={isDark ? "#93C5FD" : "#6A092F"} />
           </button>
 
           {/* THEME TOGGLE */}
-          <div className="fixed top-6 right-6 z-50">
+          <div className="shrink-0">
             <ThemeToggle />
           </div>
         </div>

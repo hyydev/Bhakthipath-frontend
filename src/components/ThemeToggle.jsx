@@ -1,14 +1,14 @@
 import { useTheme } from '../context/ThemeContext';
 import { Sun, Moon } from 'lucide-react';
 
-export default function ThemeToggle({ className = '' }) {
+export default function ThemeToggle({ className = '', iconClassName = '' }) {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
       className={`
-        relative w-14 h-14 rounded-xl
+        relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl
         flex items-center justify-center
         transition-all duration-300
         hover:scale-110 active:scale-95
@@ -20,11 +20,11 @@ export default function ThemeToggle({ className = '' }) {
       `}
       aria-label="Toggle theme"
     >
-      <div className="relative w-6 h-6">
+      <div className={`relative w-5 h-5 sm:w-6 sm:h-6 ${iconClassName}`}>
         {/* Sun Icon - visible in dark mode */}
         <Sun 
           className={`
-            absolute inset-0 w-6 h-6 transition-all duration-300
+            absolute inset-0 w-full h-full transition-all duration-300
             ${theme === 'dark' 
               ? 'opacity-100 rotate-0 scale-100' 
               : 'opacity-0 rotate-90 scale-0'
@@ -35,7 +35,7 @@ export default function ThemeToggle({ className = '' }) {
         {/* Moon Icon - visible in light mode */}
         <Moon 
           className={`
-            absolute inset-0 w-6 h-6 transition-all duration-300
+            absolute inset-0 w-full h-full transition-all duration-300
             ${theme === 'light' 
               ? 'opacity-100 rotate-0 scale-100' 
               : 'opacity-0 -rotate-90 scale-0'

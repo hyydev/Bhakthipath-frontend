@@ -12,8 +12,10 @@ import RevealOnScroll from "../../../components/RevealOnScroll";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
 import { useProductCategories } from "../hooks/useProductCategories";
+import { useCart } from "../../EcommerceCart/hooks/useCart";
 import { useSmoothScroll } from "../../../app/SmoothScrollProvider";
 import ProductCard from "../components/ProductCard";
+
 
 const PRODUCTS_PER_PAGE = 8;
 const HEADER_OFFSET = -80;
@@ -27,9 +29,10 @@ export default function EcommerceHomePage() {
     page_size: PRODUCTS_PER_PAGE,
   });
   const { categories, isLoading: categoriesLoading } = useProductCategories();
+  const {addCart} = useCart()
 
   const handleAddToCart = (productId) => {
-    console.log("Add to cart:", productId);
+    addCart({ items: [{ product_id: productId, quantity: 1 }] })
   };
 
   const handlePageChange = (nextPage) => {
