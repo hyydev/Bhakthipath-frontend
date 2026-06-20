@@ -18,8 +18,8 @@ import EcommerceHomePage from "./features/Ecommerce/pages/EcommerceHomePage";
 import CategoryPage from "./features/Ecommerce/pages/CategoryPage";
 import ProductDetailPage from "./features/Ecommerce/pages/ProductDetailPage";
 import ShoppingCart from "./features/EcommerceCart/pages/ShoppingCart";
-import CheckoutPage from "./features/EcommerceCart/pages/CheckoutPage";
-import OrderSuccessPage from "./features/EcommerceCart/pages/OrderSuccessPage";
+import CheckoutPage from "./features/EcommerceCheckout/pages/CheckoutPage";
+import OrderSuccessPage from "./features/EcommerceCheckout/pages/OrderSuccessPage";
 
 
 import Providers from "./app/Providers";
