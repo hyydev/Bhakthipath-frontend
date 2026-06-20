@@ -10,7 +10,7 @@ export default function Header() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const navigate = useNavigate();
-  const itemCount = useCartStore((s) => s.itemsCount);
+  const itemCount = useCartStore((s) => s.itemCount);
 
   const [menuOpen, setMenuOpen] = useState(false); // FIXED
 

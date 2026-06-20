@@ -12,22 +12,22 @@ export const useCartStore = create((set) => ({
 
 
   setCart: (cartData) => {
-    const itemsCount = cartData.items.reduce(
+    const itemCount = (cartData.items || []).reduce(
       (sum, item) => sum + item.quantity,
       0
     );
 
     set({
       cartId: cartData.id,
-      items: cartData.items,
+      items: cartData.items || [],
       total_price: cartData.total_price,
-      itemsCount: itemsCount,
+      itemCount,
     });
   },
 
 
 
-  clearCart: () => {
+  clearCartStore: () => {
     set({
       cartId: null,
       items: [],

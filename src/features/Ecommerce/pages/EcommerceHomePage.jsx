@@ -29,7 +29,7 @@ export default function EcommerceHomePage() {
     page_size: PRODUCTS_PER_PAGE,
   });
   const { categories, isLoading: categoriesLoading } = useProductCategories();
-  const {addCart} = useCart()
+  const { addCart, isInCart } = useCart()
 
   const handleAddToCart = (productId) => {
     addCart({ items: [{ product_id: productId, quantity: 1 }] })
@@ -144,6 +144,8 @@ export default function EcommerceHomePage() {
                   <ProductCard
                     product={product}
                     onAddToCart={handleAddToCart}
+                    onGoToCart={() => navigate("/cart")}
+                    isInCart={isInCart(product.id)}
                   />
                 </RevealOnScroll>
               ))}

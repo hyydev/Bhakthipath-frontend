@@ -2,9 +2,19 @@ import { Badge, Text, Button } from "../../../components/ui"
 import { getImageUrl } from "../../../lib/utils"
 import { Link } from "react-router-dom"
 
-export default function ProductCard({ product, onAddToCart }) {
+export default function ProductCard({ product, onAddToCart, onGoToCart, isInCart = false }) {
   const primaryImage = product.images?.find((img) => img.is_primary)
   const inStock = product.price_info.in_stock
+  const buttonLabel = !inStock ? "Unavailable" : isInCart ? "Go to Cart" : "Add to Cart"
+
+  const handleCartClick = () => {
+    if (isInCart) {
+      onGoToCart?.()
+      return
+    }
+
+    onAddToCart(product.id)
+  }
 
   return (
     <div className="bg-white/80 dark:bg-[#0A1628]/80 rounded-2xl shadow-lg p-4 flex flex-col items-center animate-fade-in">
@@ -34,9 +44,9 @@ export default function ProductCard({ product, onAddToCart }) {
         size="sm"
         className="mt-3 w-full"
         disabled={!inStock}
-        onClick={() => onAddToCart(product.id)}
+        onClick={handleCartClick}
       >
-        {inStock ? "Add to Cart" : "Unavailable"}
+        {buttonLabel}
       </Button>
     </div>
   )

@@ -20,7 +20,7 @@ export default function ProductDetailPage() {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const { product, isLoading, isError } = useProductDetail(id);
-  const {addCart}= useCart()
+  const { addCart, isInCart } = useCart()
 
   const images = useMemo(() => product?.images || [], [product]);
   const primaryImage =
@@ -36,6 +36,7 @@ export default function ProductDetailPage() {
     "Product details will be available soon.";
   const price = product?.price_info?.price;
   const inStock = Boolean(product?.price_info?.in_stock);
+  const productInCart = isInCart(id);
 
   const handleQuantityChange = (nextQuantity) => {
     setQuantity(Math.max(1, nextQuantity));
@@ -184,11 +185,22 @@ export default function ProductDetailPage() {
                 <Button
                   variant="gradient"
                   disabled={!inStock}
-                 onClick={() => addCart({ items: [{ product_id: Number(id), quantity }] })}
+                  onClick={() => {
+                    if (productInCart) {
+                      navigate("/cart");
+                      return;
+                    }
+
+                    addCart({ items: [{ product_id: Number(id), quantity }] });
+                  }}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2"
                 >
                   <ShoppingCart size={18} />
-                  {inStock ? "Add to Cart" : "Unavailable"}
+                  {!inStock
+                    ? "Unavailable"
+                    : productInCart
+                      ? "Go to Cart"
+                      : "Add to Cart"}
                 </Button>
               </div>
             </CardContent>

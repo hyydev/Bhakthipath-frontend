@@ -5,6 +5,7 @@ import RevealOnScroll from "../../../components/RevealOnScroll";
 import { useSmoothScroll } from "../../../app/SmoothScrollProvider";
 import { useProductCategories } from "../hooks/useProductCategories";
 import { useProductsByCategory } from "../hooks/useProductsByCategory";
+import { useCart } from "../../EcommerceCart/hooks/useCart";
 import ProductCard from "../components/ProductCard";
 
 const PRODUCTS_PER_PAGE = 12;
@@ -24,9 +25,10 @@ export default function CategoryPage() {
     page,
     PRODUCTS_PER_PAGE
   );
+  const { addCart, isInCart } = useCart();
 
   const handleAddToCart = (productId) => {
-    console.log("Add to cart:", productId);
+    addCart({ items: [{ product_id: productId, quantity: 1 }] });
   };
 
   const handlePageChange = (nextPage) => {
@@ -77,6 +79,8 @@ export default function CategoryPage() {
                   <ProductCard
                     product={product}
                     onAddToCart={handleAddToCart}
+                    onGoToCart={() => navigate("/cart")}
+                    isInCart={isInCart(product.id)}
                   />
                 </RevealOnScroll>
               ))}
