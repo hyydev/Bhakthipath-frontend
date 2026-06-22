@@ -12,68 +12,71 @@ import {
   PaymentOptions,
 } from "../../../components/ui";
 import { MapPin, Phone, User, Package, Mail, CreditCard } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Mock order data (in real app, this would come from cart state/context)
-const mockOrderItems = [
-  {
-    id: 1,
-    name: "2 Round Long Beads Line Kanthi Mala Original Tulsi",
-    price: 299,
-    quantity: 2,
-  },
-  {
-    id: 2,
-    name: "4 Pc Original Gopi Chandan Sticks Light Yellow Pooja Tika Tilak",
-    price: 149,
-    quantity: 1,
-  },
-];
-
-// Mock user address (in real app, this would come from user profile/context)
-const defaultAddress = {
-  fullName: "Rajesh Kumar",
-  email: "rajesh.kumar@example.com",
-  phone: "+91 98765 43210",
-  addressLine1: "123, Shanti Nagar",
-  addressLine2: "Near Ram Mandir, MG Road",
-  city: "Mumbai",
-  state: "Maharashtra",
-  pincode: "400001",
-};
+import { useProfile } from "../../auth/hooks/useProfile"
+import { useAuthStore } from "../../auth/auth.store"
+import { useCheckout } from "../hooks/useCheckout";
+import { useCart } from "../../EcommerceCart/hooks/useCart";
+import { useAddresses } from "../../auth/hooks/useAddresses";
+import { useEffect } from "react";
 
 export default function CheckoutPage() {
+
+
+  const { cart } = useCart();
+  const { addresses } = useAddresses();
+  const { placeOrder, initiatePayment, orderId, isPlacingOrder } =
+    useCheckout();
+  const userId = useAuthStore(s => s.userId)
+  const {profile} = useProfile(userId)
+
+
+
+  const defaultAddress =
+    addresses?.find((addr) => addr.is_default) || addresses?.[0];
+
+  
+
   const navigate = useNavigate();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
-  const subtotal = mockOrderItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  useEffect(() => {
+    if (orderId && selectedPaymentMethod) {
+      initiatePayment({
+        order_id: orderId,
+        payment_method: selectedPaymentMethod,
+      });
+    }
+  }, [orderId,selectedPaymentMethod]);
+  console.log(selectedPaymentMethod)
+
+  const subtotal = parseFloat(cart?.total_price || "0");
   const delivery = subtotal > 500 ? 0 : 50;
   const discount = subtotal > 1000 ? subtotal * 0.1 : 0;
-  const total = subtotal + delivery - discount;
+ const total = parseFloat((subtotal + delivery - discount).toFixed(2));
 
   const handlePlaceOrder = () => {
     if (!selectedPaymentMethod) {
-      alert('Please select a payment method');
+      toast.error("Please select a payment method");
       return;
     }
-
-    // In real app, this would call an API
-    console.log('Order placed:', { 
-      address: defaultAddress, 
-      selectedPaymentMethod, 
-      items: mockOrderItems,
-      total 
+    if (!defaultAddress) {
+      toast.error("Please add a delivery address");
+      return;
+    }
+    placeOrder({
+      cart_id: cart?.id,
+      shipping_address_id: defaultAddress?.id,
     });
-    
-    // Navigate to order success page
-    navigate('/order-success');
   };
 
   return (
     <div className="w-full px-4 py-4">
-      <Section containerSize="full" className="relative w-full flex py-6 md:py-4">
+      <Section
+        containerSize="full"
+        className="relative w-full flex py-6 md:py-4"
+      >
         <div className="w-full h-full grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 items-start">
           {/* Left Side - Order Details */}
           <div className="space-y-6">
@@ -87,7 +90,9 @@ export default function CheckoutPage() {
                     </div>
                     <CardTitle>Delivery Address</CardTitle>
                   </div>
-                  <Badge variant="primary" size="sm">Default</Badge>
+                  <Badge variant="primary" size="sm">
+                    Default
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent className="pt-6">
@@ -96,8 +101,10 @@ export default function CheckoutPage() {
                   <div className="flex items-start gap-3">
                     <User className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <Text className="text-xs text-gray-400 mb-1">Full Name</Text>
-                      <Text className="font-semibold text-white">{defaultAddress.fullName}</Text>
+                      <Text className="text-xs text-gray-400 mb-1">
+                        Full Name
+                      </Text>
+                      <Text className="font-semibold text-white">{profile?.user?.full_name || "-"}</Text>
                     </div>
                   </div>
 
@@ -106,7 +113,7 @@ export default function CheckoutPage() {
                     <Mail className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
                       <Text className="text-xs text-gray-400 mb-1">Email</Text>
-                      <Text className="font-semibold text-white">{defaultAddress.email}</Text>
+                      <Text className="font-semibold text-white">{profile?.user?.email || "-"}</Text>
                     </div>
                   </div>
 
@@ -114,8 +121,10 @@ export default function CheckoutPage() {
                   <div className="flex items-start gap-3">
                     <Phone className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <Text className="text-xs text-gray-400 mb-1">Phone Number</Text>
-                      <Text className="font-semibold text-white">{defaultAddress.phone}</Text>
+                      <Text className="text-xs text-gray-400 mb-1">
+                        Phone Number
+                      </Text>
+                      <Text className="font-semibold text-white">{profile?.user?.mobile_number || "-"}</Text>
                     </div>
                   </div>
 
@@ -123,15 +132,18 @@ export default function CheckoutPage() {
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <Text className="text-xs text-gray-400 mb-1">Delivery Address</Text>
+                      <Text className="text-xs text-gray-400 mb-1">
+                        Delivery Address
+                      </Text>
                       <Text className="font-semibold text-white">
-                        {defaultAddress.addressLine1}
+                        {defaultAddress?.address_line_1}
                       </Text>
                       <Text className="text-sm text-gray-300 mt-1">
-                        {defaultAddress.addressLine2}
+                      {defaultAddress?.address_line_2}
                       </Text>
                       <Text className="text-sm text-gray-300 mt-1">
-                        {defaultAddress.city}, {defaultAddress.state} - {defaultAddress.pincode}
+                        {defaultAddress?.city}, {defaultAddress?.state} -{" "}
+                        {defaultAddress?.postal_code}
                       </Text>
                     </div>
                   </div>
@@ -166,7 +178,10 @@ export default function CheckoutPage() {
           </div>
 
           {/* Right Side - Order Summary */}
-          <Card variant="glass" className="w-full p-8 md:p-12 lg:sticky lg:top-6">
+          <Card
+            variant="glass"
+            className="w-full p-8 md:p-12 lg:sticky lg:top-6"
+          >
             <CardHeader className="border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary-500/20 border border-primary-500/30 flex items-center justify-center">
@@ -178,21 +193,21 @@ export default function CheckoutPage() {
             <CardContent className="pt-6 space-y-6">
               {/* Order Items */}
               <div className="space-y-3">
-                {mockOrderItems.map((item) => (
+                {cart?.items?.map((item) => (
                   <div
                     key={item.id}
                     className="flex items-start justify-between gap-4 p-3 rounded-lg bg-white/5 border border-white/10"
                   >
                     <div className="flex-1 min-w-0">
                       <Text className="text-sm font-medium text-white line-clamp-2">
-                        {item.name}
+                        {item.product_name}
                       </Text>
                       <Text className="text-xs text-gray-400 mt-1">
                         Qty: {item.quantity}
                       </Text>
                     </div>
                     <Text className="text-sm font-semibold text-primary-400">
-                      ₹{item.price * item.quantity}
+                      ₹{parseFloat(item.product_price) * item.quantity}
                     </Text>
                   </div>
                 ))}
@@ -233,7 +248,9 @@ export default function CheckoutPage() {
               {/* Total */}
               <div className="flex justify-between items-center">
                 <Text className="text-lg font-semibold">Total</Text>
-                <Text className="text-xl font-bold text-primary-400">₹{total}</Text>
+                <Text className="text-xl font-bold text-primary-400">
+                  ₹{total}
+                </Text>
               </div>
 
               {/* Action Buttons */}
@@ -242,15 +259,17 @@ export default function CheckoutPage() {
                   variant="primary"
                   className="w-full"
                   onClick={handlePlaceOrder}
-                  disabled={!selectedPaymentMethod}
+                  disabled={!selectedPaymentMethod || isPlacingOrder}
                 >
-                  Place Order - ₹{total}
+                  {isPlacingOrder
+                    ? "Placing Order..."
+                    : `Place Order - ₹${total.toFixed(2)}`}
                 </Button>
 
                 <Button
                   variant="outline"
                   className="w-full"
-                  onClick={() => navigate('/cart')}
+                  onClick={() => navigate("/cart")}
                 >
                   Back to Cart
                 </Button>

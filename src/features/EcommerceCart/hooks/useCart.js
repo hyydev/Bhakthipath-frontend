@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { useEffect } from "react";
 import { useCartStore } from "../cart.store";
+import { useAuthStore } from "../../auth/auth.store";
 
 import {
   fetchCart,
@@ -12,15 +13,18 @@ import {
 } from "../api/cart.api";
 
 export const useCart = () => {
+  const userId = useAuthStore(s => s.userId)
   const queryClient = useQueryClient();
   const setCart = useCartStore((s) => s.setCart);
   const clearCartStore = useCartStore((s) => s.clearCartStore);
   const storeItems = useCartStore((s) => s.items);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["cart"],
+ 
+    queryKey: ["cart",userId],
     queryFn: fetchCart,
     staleTime: 0,
+    enabled: !! userId
   });
 
   useEffect(() => {

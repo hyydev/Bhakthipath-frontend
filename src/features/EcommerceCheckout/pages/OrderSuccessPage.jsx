@@ -10,11 +10,15 @@ import {
 } from "../../../components/ui";
 import { CheckCircle, Package, Home } from "lucide-react";
 import { motion } from "framer-motion";
+import { useCheckout } from "../hooks/useCheckout";
 
 export default function OrderSuccessPage() {
   const navigate = useNavigate();
+  const {orderId} =useCheckout()
+  console.log(orderId)
+  const formattedOrderId = `ORD${String(orderId).padStart(6, "0")}`;
 
-  const [orderId] = useState(() => `ORD${Date.now().toString().slice(-8)}`);
+  // const [orderId] = useState(() => `ORD${Date.now().toString().slice(-8)}`);
 
   useEffect(() => {
     // Confetti or celebration animation can be added here
@@ -73,7 +77,7 @@ export default function OrderSuccessPage() {
                   <Text className="text-sm text-gray-400">Order ID</Text>
                 </div>
                 <Text className="text-2xl font-bold text-white font-mono">
-                  {orderId}
+                  {formattedOrderId}
                 </Text>
                 <Text className="text-sm text-gray-400">
                   You will receive an order confirmation email with details of your order.
