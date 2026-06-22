@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation  } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -14,11 +14,21 @@ import { useCheckout } from "../hooks/useCheckout";
 
 export default function OrderSuccessPage() {
   const navigate = useNavigate();
-  const {orderId} =useCheckout()
-  console.log(orderId)
-  const formattedOrderId = `ORD${String(orderId).padStart(6, "0")}`;
+  
+// sahi — location.state se lo
 
-  // const [orderId] = useState(() => `ORD${Date.now().toString().slice(-8)}`);
+const location = useLocation()
+const orderData = location.state?.order
+if (!orderData) {
+  navigate("/ecommerce")
+  return null
+}
+const orderId = orderData?.order_id
+const formattedOrderId = orderId 
+  ? `ORD${String(orderId).padStart(6, "0")}` 
+  : "---"
+
+
 
   useEffect(() => {
     // Confetti or celebration animation can be added here
