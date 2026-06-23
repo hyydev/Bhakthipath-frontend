@@ -220,15 +220,6 @@ export default function ShoppingCart() {
                   </Text>
                 </div>
               )}
-
-              {/* Payment Options */}
-              <div className="mt-6">
-                <PaymentOptions
-                  onMethodSelect={(method) =>
-                    console.log("Selected payment method:", method)
-                  }
-                />
-              </div>
             </CardContent>
 
             <div className="mt-6">

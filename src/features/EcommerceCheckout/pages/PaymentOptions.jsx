@@ -13,36 +13,42 @@ import { Text } from '../../../components/ui/Typography';
 
 // Payment method data
 const paymentMethods = [
+  // {
+  //   id: 'card',
+  //   name: 'Credit/Debit Card',
+  //   description: 'Visa, Mastercard, Rupay',
+  //   icon: CreditCard,
+  // },
+  // {
+  //   id: 'upi',
+  //   name: 'UPI',
+  //   description: 'Google Pay, PhonePe, Paytm',
+  //   icon: Smartphone,
+  // },
+  // {
+  //   id: 'netbanking',
+  //   name: 'Net Banking',
+  //   description: 'All major banks',
+  //   icon: Building2,
+  // },
+  // {
+  //   id: 'wallet',
+  //   name: 'Digital Wallets',
+  //   description: 'Paytm, PhonePe, Amazon Pay',
+  //   icon: Wallet,
+  // },
   {
-    id: 'card',
-    name: 'Credit/Debit Card',
-    description: 'Visa, Mastercard, Rupay',
-    icon: CreditCard,
-  },
-  {
-    id: 'upi',
-    name: 'UPI',
-    description: 'Google Pay, PhonePe, Paytm',
-    icon: Smartphone,
-  },
-  {
-    id: 'netbanking',
-    name: 'Net Banking',
-    description: 'All major banks',
-    icon: Building2,
-  },
-  {
-    id: 'wallet',
-    name: 'Digital Wallets',
-    description: 'Paytm, PhonePe, Amazon Pay',
-    icon: Wallet,
-  },
-  {
-    id: 'cod',
+    id: 'COD',
     name: 'Cash on Delivery',
     description: 'Pay when you receive',
     icon: Banknote,
   },
+  {
+    id:'RAZORPAY',
+    name:'Razorpay',
+    description:'Secure online payment gateway',
+    icon:CreditCard,
+  }
 ];
 
 // Individual Payment Method Item Component
