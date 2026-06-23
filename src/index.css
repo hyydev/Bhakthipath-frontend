@@ -6,16 +6,19 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --header-offset: 8rem;
+  }
+
   html {
     scroll-behavior: auto;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: var(--header-offset);
   }
 
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    overscroll-behavior-y: none;
   }
 
   @media (prefers-reduced-motion: reduce) {

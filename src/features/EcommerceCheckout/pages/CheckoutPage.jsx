@@ -180,7 +180,8 @@ export default function CheckoutPage() {
           {/* Right Side - Order Summary */}
           <Card
             variant="glass"
-            className="w-full p-8 md:p-12 lg:sticky lg:top-6"
+            className="w-full p-8 md:p-12 lg:sticky lg:top-32"
+
           >
             <CardHeader className="border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">

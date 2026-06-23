@@ -11,7 +11,8 @@ import "lenis/dist/lenis.css";
 
 const SmoothScrollContext = createContext(null);
 
-const DEFAULT_OFFSET = -80;
+const DEFAULT_OFFSET = -128;
+
 
 export function SmoothScrollProvider({ children }) {
   const lenisRef = useRef(null);

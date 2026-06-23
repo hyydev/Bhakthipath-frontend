@@ -6,7 +6,11 @@ export default function BackgroundWrapper({ children }) {
   const { theme } = useTheme();
   const { lenis } = useSmoothScroll();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [scrollY, setScrollY] = useState(0);
+
+  const scrollYRef = useRef(0);
+  const rafRef = useRef(null);
+  const isRafScheduledRef = useRef(false);
+
   const blob1Ref = useRef(null);
   const blob2Ref = useRef(null);
   const blob3Ref = useRef(null);
@@ -24,20 +28,57 @@ export default function BackgroundWrapper({ children }) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Scroll tracking for parallax (synced with Lenis)
+  // Scroll tracking for parallax (performance-safe: no React state updates per tick)
   useEffect(() => {
+    const update = () => {
+      rafRef.current = null;
+      isRafScheduledRef.current = false;
+
+      const y = scrollYRef.current;
+
+      // Far layer
+      if (blob1Ref.current) blob1Ref.current.parentElement.style.transform = `translateY(${y * 0.1}px)`;
+      // Middle layer
+      if (blob3Ref.current) blob3Ref.current.parentElement.style.transform = `translateY(${y * 0.3}px)`;
+      // Near layer
+      if (blob4Ref.current) blob4Ref.current.parentElement.style.transform = `translateY(${y * 0.5}px)`;
+    };
+
+    const schedule = () => {
+      if (isRafScheduledRef.current) return;
+      isRafScheduledRef.current = true;
+      rafRef.current = window.requestAnimationFrame(update);
+    };
+
+    const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+    if (isSmallScreen) return;
+
     if (lenis) {
-      const onScroll = ({ scroll }) => setScrollY(scroll);
+      const onScroll = ({ scroll }) => {
+        scrollYRef.current = scroll;
+        schedule();
+      };
       lenis.on('scroll', onScroll);
-      return () => lenis.off('scroll', onScroll);
+      return () => {
+        lenis.off('scroll', onScroll);
+        if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+      };
     }
 
-    const handleScroll = () => setScrollY(window.scrollY);
+    const handleScroll = () => {
+      scrollYRef.current = window.scrollY;
+      schedule();
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+    };
   }, [lenis]);
 
-  // Apply mouse tracking to blobs
+
+  // Apply mouse tracking to blobs (kept as-is; small and smooth)
   useEffect(() => {
     const applyTransform = (ref, multiplier) => {
       if (ref.current) {
@@ -52,6 +93,7 @@ export default function BackgroundWrapper({ children }) {
     applyTransform(blob3Ref, 0.4);
     applyTransform(blob4Ref, 0.6);
   }, [mousePosition]);
+
 
   // Theme-specific styles
   const isDark = theme === 'dark';
@@ -105,10 +147,11 @@ export default function BackgroundWrapper({ children }) {
       <div 
         className="absolute inset-0 pointer-events-none transition-opacity duration-500"
         style={{
-          transform: `translateY(${scrollY * 0.1}px)`,
+          transform: `translateY(0px)`,
           transition: 'transform 0.1s ease-out'
         }}
       >
+
         <div
           ref={blob1Ref}
           className="absolute top-[-15%] left-[-10%] w-[600px] h-[600px] rounded-full blur-[120px] animate-float-slow"
@@ -134,10 +177,11 @@ export default function BackgroundWrapper({ children }) {
       <div 
         className="absolute inset-0 pointer-events-none transition-opacity duration-500"
         style={{
-          transform: `translateY(${scrollY * 0.3}px)`,
+          transform: `translateY(0px)`,
           transition: 'transform 0.1s ease-out'
         }}
       >
+
         <div
           ref={blob3Ref}
           className="absolute bottom-[10%] left-[5%] w-[550px] h-[550px] rounded-full blur-[140px] animate-float-fast"
@@ -153,10 +197,11 @@ export default function BackgroundWrapper({ children }) {
       <div 
         className="absolute inset-0 pointer-events-none transition-opacity duration-500"
         style={{
-          transform: `translateY(${scrollY * 0.5}px)`,
+          transform: `translateY(0px)`,
           transition: 'transform 0.1s ease-out'
         }}
       >
+
         <div
           ref={blob4Ref}
           className="absolute bottom-[-10%] right-[-5%] w-[650px] h-[650px] rounded-full blur-[150px] animate-float-slow-reverse"

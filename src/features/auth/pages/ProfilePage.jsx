@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import {
   Button,
   Card,
@@ -184,6 +185,19 @@ export default function ProfilePage() {
   const onSetDefault = (id) => {
     setDefaultAddress({ id });
   };
+
+  // Lock body scroll while modal is open
+  useEffect(() => {
+    if (!showAddressForm) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [showAddressForm]);
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
@@ -378,12 +392,21 @@ export default function ProfilePage() {
 
       {/* Address Add/Edit Form Modal */}
       {showAddressForm && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <form
-            onSubmit={editAddress ? onUpdateAddress : onAddAddress}
-            className="bg-white dark:bg-[#0A1628] p-8 rounded-2xl shadow-lg w-full max-w-md space-y-4"
-          >
-            <Heading level={3} className="mb-2 text-center">
+        <div className="fixed inset-0 z-50">
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/40" onClick={() => {
+            setShowAddressForm(false);
+            setEditAddress(null);
+          }} />
+
+          {/* Modal */}
+          <div className="relative min-h-full flex items-center justify-center p-4 overflow-y-auto">
+            <form
+              onSubmit={editAddress ? onUpdateAddress : onAddAddress}
+              className="bg-white dark:bg-[#0A1628] p-8 rounded-2xl shadow-lg w-full max-w-md space-y-4 max-h-[90vh] overflow-y-auto"
+            >
+              <Heading level={3} className="mb-2 text-center">
+
               {editAddress ? "Edit Address" : "Add New Address"}
             </Heading>
             <Input
@@ -464,9 +487,12 @@ export default function ProfilePage() {
                 Cancel
               </Button>
             </div>
-          </form>
+            </form>
+          </div>
         </div>
       )}
+
+
 
       {/* Order History */}
       <Card className="mb-8">
