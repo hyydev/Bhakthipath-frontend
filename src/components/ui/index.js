@@ -4,6 +4,6 @@ export { Button, IconButton } from './Button';
 export { Section, SectionHeader } from './Section';
 export { Badge } from './Badge';
 export { Heading, Text, GradientText, Input } from './Typography';
-export { PaymentOptions } from './PaymentOptions';
+export { PaymentOptions } from '../../features/EcommerceCheckout/pages/PaymentOptions';
 export { Pager, PagerItem } from './Pager';
 export { Pagination } from './Pagination';

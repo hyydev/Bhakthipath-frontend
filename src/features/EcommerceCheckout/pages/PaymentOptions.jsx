@@ -8,8 +8,8 @@ import {
   Wallet, 
   Banknote 
 } from 'lucide-react';
-import { Card, CardContent } from './Card';
-import { Text } from './Typography';
+import { Card, CardContent } from '../../../components/ui/Card';
+import { Text } from '../../../components/ui/Typography';
 
 // Payment method data
 const paymentMethods = [

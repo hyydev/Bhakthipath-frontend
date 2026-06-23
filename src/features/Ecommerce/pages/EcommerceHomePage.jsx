@@ -15,24 +15,33 @@ import { useProductCategories } from "../hooks/useProductCategories";
 import { useCart } from "../../EcommerceCart/hooks/useCart";
 import { useSmoothScroll } from "../../../app/SmoothScrollProvider";
 import ProductCard from "../components/ProductCard";
-
+import { useSearchParams } from "react-router-dom";
+import { useDebounce } from "../../../lib/utils";
 
 const PRODUCTS_PER_PAGE = 8;
 const HEADER_OFFSET = -80;
 
 export default function EcommerceHomePage() {
+  // search
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+  const debouncedSearch = useDebounce(searchQuery, 300);
+
+
   const navigate = useNavigate();
   const { scrollTo } = useSmoothScroll();
   const [page, setPage] = useState(1);
   const { products, pagination, isLoading, isError } = useProducts({
     page,
     page_size: PRODUCTS_PER_PAGE,
+    search:debouncedSearch || undefined,
+    
   });
   const { categories, isLoading: categoriesLoading } = useProductCategories();
-  const { addCart, isInCart } = useCart()
+  const { addCart, isInCart } = useCart();
 
   const handleAddToCart = (productId) => {
-    addCart({ items: [{ product_id: productId, quantity: 1 }] })
+    addCart({ items: [{ product_id: productId, quantity: 1 }] });
   };
 
   const handlePageChange = (nextPage) => {
@@ -70,7 +79,9 @@ export default function EcommerceHomePage() {
             variant="gradient"
             size="lg"
             className="animate-fade-in"
-            onClick={() => scrollTo("#featured-products", { offset: HEADER_OFFSET })}
+            onClick={() =>
+              scrollTo("#featured-products", { offset: HEADER_OFFSET })
+            }
           >
             Shop Now
           </Button>
@@ -114,7 +125,10 @@ export default function EcommerceHomePage() {
       </section>
 
       {/* Featured Products */}
-      <section id="featured-products" className="max-w-7xl mx-auto px-4 py-10 scroll-mt-24">
+      <section
+        id="featured-products"
+        className="max-w-7xl mx-auto px-4 py-10 scroll-mt-24"
+      >
         <RevealOnScroll>
           <Heading level={2} className="mb-8 text-center">
             Featured Products

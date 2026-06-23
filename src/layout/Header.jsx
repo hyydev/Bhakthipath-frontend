@@ -3,8 +3,10 @@ import { useTheme } from "../context/ThemeContext";
 import ThemeToggle from "../components/ThemeToggle";
 import AccountMenu from "../features/Ecommerce/components/AccountMenu";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { useCartStore } from "../features/EcommerceCart/cart.store";
+
+import { useDebounce } from "../lib/utils";
 
 export default function Header() {
   const { theme } = useTheme();
@@ -13,6 +15,20 @@ export default function Header() {
   const itemCount = useCartStore((s) => s.itemCount);
 
   const [menuOpen, setMenuOpen] = useState(false); // FIXED
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    if (value.trim()) {
+      navigate(`/ecommerce?search=${encodeURIComponent(value.trim())}`);
+    } else if (location.pathname === "/ecommerce") {
+      navigate("/ecommerce");
+    }
+  };
 
   return (
     <header
@@ -46,6 +62,8 @@ export default function Header() {
         <div className="hidden md:block flex-1 mx-2 lg:mx-6 max-w-lg">
           <input
             type="text"
+            value={searchQuery}
+            onChange={handleSearch}
             placeholder="Search for products, books, more…"
             className={`
               w-full border px-4 py-2 rounded-xl outline-none shadow-sm transition-all duration-300
