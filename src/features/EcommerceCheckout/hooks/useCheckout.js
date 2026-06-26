@@ -21,15 +21,60 @@ export const useCheckout = () => {
   })
 
   const paymentMutation = useMutation({
-    
     mutationFn: ({ order_id, payment_method }) =>
       initiatePayment(order_id, payment_method.toUpperCase()),
+
     onSuccess: (res) => {
+      const data = res?.data;
+      const method = data?.payment?.method;
+
       // COD
-      navigate("/order-success", { state: { order: res?.data } })
-      // Razorpay → baad mein
+      if (method === "COD") {
+        navigate("/order-success", { state: { order: data } });
+        return;
+      }
+
+      // RAZORPAY
+      if (method === "RAZORPAY") {
+        try {
+          const options = {
+            key: data?.payment?.razorpay_key,
+            amount: data?.payment?.amount,
+            currency: data?.payment?.currency || "INR",
+            name: "BhakthiVerse",
+            description: "Order Payment",
+            order_id: data?.payment?.razorpay_order_id,
+            handler: function (response) {
+              // response contains razorpay_payment_id, razorpay_order_id, razorpay_signature
+              navigate("/order-success", { state: { order: data } });
+              toast.success("Payment successful!");
+            },
+            modal: {
+              ondismiss: function () {
+                toast.error("Payment cancelled");
+              },
+            },
+          };
+
+          if (!window?.Razorpay) {
+            toast.error("Razorpay SDK not loaded. Please try again.");
+            return;
+          }
+
+          const rzp = new window.Razorpay(options);
+          rzp.open();
+        } catch (e) {
+          toast.error("Failed to initiate Razorpay");
+        }
+
+        return;
+      }
+
+      // Fallback
+      toast.error("Unknown payment method");
     },
-    onError: () => toast.error("Payment failed")
+
+    onError: () => toast.error("Payment failed"),
   })
 
   return {
