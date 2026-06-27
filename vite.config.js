@@ -9,4 +9,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  server: {
+    allowedHosts: [
+      'code-polish-51.cluster-12.preview.emergentcf.cloud'
+    ]
+  }
 });
