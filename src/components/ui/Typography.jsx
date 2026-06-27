@@ -1,26 +1,26 @@
-// Typography Components
+// Typography Components - Sacred Light + Premium Dark
 
-export const Heading = ({ 
-  level = 1, 
-  children, 
+export const Heading = ({
+  level = 1,
+  children,
   className = '',
   gradient = false,
-  ...props 
+  ...props
 }) => {
   const Tag = `h${level}`;
-  
+
   const styles = {
-    1: 'text-display-lg font-display',
-    2: 'text-display-md font-display',
-    3: 'text-display-sm font-display',
-    4: 'text-heading-xl',
-    5: 'text-heading-lg',
-    6: 'text-heading-md',
+    1: 'text-display-lg md:text-display-xl font-display',
+    2: 'text-display-md md:text-display-lg font-display',
+    3: 'text-display-sm md:text-display-md font-display',
+    4: 'text-heading-xl md:text-heading-xl font-display',
+    5: 'text-heading-lg font-display',
+    6: 'text-heading-md font-display',
   };
 
-  const gradientStyle = gradient 
-    ? 'bg-gradient-to-r from-primary-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent'
-    : 'text-white dark:text-white light:text-dark-900';
+  const gradientStyle = gradient
+    ? 'text-saffron-gradient dark:bg-gradient-to-r dark:from-primary-400 dark:via-purple-400 dark:to-cyan-400 dark:bg-clip-text dark:text-transparent'
+    : 'text-ink-900 dark:text-white';
 
   return (
     <Tag className={`${styles[level]} ${gradientStyle} ${className}`} {...props}>
@@ -29,12 +29,12 @@ export const Heading = ({
   );
 };
 
-export const Text = ({ 
-  children, 
+export const Text = ({
+  children,
   size = 'base',
-  color = 'gray',
+  color = 'auto',
   className = '',
-  ...props 
+  ...props
 }) => {
   const sizes = {
     xs: 'text-xs',
@@ -45,51 +45,59 @@ export const Text = ({
   };
 
   const colors = {
-    white: 'text-white dark:text-white light:text-dark-900',
-    gray: 'text-gray-400 dark:text-gray-400 light:text-gray-600',
-    primary: 'text-primary-400',
-    purple: 'text-purple-400',
-    cyan: 'text-cyan-400',
+    auto: 'text-ink-700 dark:text-gray-300',
+    ink: 'text-ink-900 dark:text-white',
+    muted: 'text-ink-500 dark:text-gray-400',
+    primary: 'text-saffron-700 dark:text-primary-400',
+    purple: 'text-fuchsia-700 dark:text-purple-400',
+    cyan: 'text-teal-700 dark:text-cyan-400',
+    // back-compat
+    white: 'text-ink-900 dark:text-white',
+    gray: 'text-ink-500 dark:text-gray-400',
   };
 
   return (
-    <p className={`${sizes[size]} ${colors[color]} ${className}`} {...props}>
+    <p className={`${sizes[size]} ${colors[color] || colors.auto} ${className}`} {...props}>
       {children}
     </p>
   );
 };
 
 export const GradientText = ({ children, className = '' }) => (
-  <span className={`bg-gradient-to-r from-primary-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent font-bold ${className}`}>
+  <span
+    className={`text-saffron-gradient dark:bg-gradient-to-r dark:from-primary-400 dark:via-purple-400 dark:to-cyan-400 dark:bg-clip-text dark:text-transparent font-bold ${className}`}
+  >
     {children}
   </span>
 );
 
-export const Input = ({
-  className = '',
-  ...props
-}) => (
+export const Input = ({ className = '', ...props }) => (
   <input
     className={`
       w-full
-      bg-[#e6f0fa]
-      dark:bg-[#16233a]
-      border-0
-      border-b-2
-      border-gray-300
-      dark:border-primary-200
-      focus:border-primary-400
-      dark:focus:border-primary-400
-      text-md
-      text-white
+      bg-white/80
+      dark:bg-white/[0.05]
+      border
+      border-ink-200
+      dark:border-white/10
+      rounded-xl
+      text-ink-900
       dark:text-white
+      placeholder:text-ink-400
+      dark:placeholder:text-gray-500
       font-body
-      py-2
-      px-0
-      placeholder-grey-400
-      dark:placeholder-amber-500
+      px-4
+      py-3
+      shadow-sm
       focus:outline-none
-      transition
+      focus:ring-2
+      focus:ring-saffron-400/40
+      dark:focus:ring-primary-500/40
+      focus:border-saffron-400
+      dark:focus:border-primary-400
+      hover:border-ink-300
+      dark:hover:border-white/20
+      transition-all
       duration-200
       ${className}
     `}

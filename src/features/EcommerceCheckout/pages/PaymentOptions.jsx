@@ -1,104 +1,67 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ChevronUp, 
-  CreditCard, 
-  Smartphone, 
-  Building2, 
-  Wallet, 
-  Banknote 
-} from 'lucide-react';
-import { Card, CardContent } from '../../../components/ui/Card';
+import { ChevronDown, CreditCard, Banknote } from 'lucide-react';
 import { Text } from '../../../components/ui/Typography';
+import { useTheme } from '../../../context/ThemeContext';
 
-// Payment method data
 const paymentMethods = [
-  // {
-  //   id: 'card',
-  //   name: 'Credit/Debit Card',
-  //   description: 'Visa, Mastercard, Rupay',
-  //   icon: CreditCard,
-  // },
-  // {
-  //   id: 'upi',
-  //   name: 'UPI',
-  //   description: 'Google Pay, PhonePe, Paytm',
-  //   icon: Smartphone,
-  // },
-  // {
-  //   id: 'netbanking',
-  //   name: 'Net Banking',
-  //   description: 'All major banks',
-  //   icon: Building2,
-  // },
-  // {
-  //   id: 'wallet',
-  //   name: 'Digital Wallets',
-  //   description: 'Paytm, PhonePe, Amazon Pay',
-  //   icon: Wallet,
-  // },
-  {
-    id: 'COD',
-    name: 'Cash on Delivery',
-    description: 'Pay when you receive',
-    icon: Banknote,
-  },
-  {
-    id:'RAZORPAY',
-    name:'Razorpay',
-    description:'Secure online payment gateway',
-    icon:CreditCard,
-  }
+  { id: 'COD', name: 'Cash on Delivery', description: 'Pay when you receive', icon: Banknote },
+  { id: 'RAZORPAY', name: 'Razorpay', description: 'Secure online payment gateway', icon: CreditCard },
 ];
 
-// Individual Payment Method Item Component
-const PaymentMethodItem = ({ icon: Icon, name, description, isSelected, onClick }) => {
+const PaymentMethodItem = ({ icon: Icon, name, description, isSelected, onClick, isDark }) => {
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       onClick={onClick}
+      data-testid={`payment-method-${name.replace(/\s+/g, '-').toLowerCase()}`}
       className={`
         flex items-center gap-4 p-4 rounded-xl cursor-pointer
         transition-all duration-300
-        ${isSelected 
-          ? 'bg-primary-500/20 border-2 border-primary-500/50' 
-          : 'bg-white/5 dark:bg-white/5 light:bg-dark-900/5 border border-white/10 dark:border-white/10 light:border-dark-900/10 hover:bg-white/10 dark:hover:bg-white/10 light:hover:bg-dark-900/10 hover:border-white/20 dark:hover:border-white/20 light:hover:border-dark-900/20'
+        ${isSelected
+          ? (isDark
+              ? 'bg-primary-500/15 border-2 border-primary-500/50 shadow-[0_0_20px_rgba(59,130,246,0.18)]'
+              : 'bg-saffron-50 border-2 border-saffron-400 shadow-sacred')
+          : (isDark
+              ? 'bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+              : 'bg-white border border-ink-200 hover:bg-saffron-50/60 hover:border-saffron-300')
         }
       `}
     >
-      {/* Icon */}
       <div className={`
-        flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center
-        ${isSelected 
-          ? 'bg-primary-500/30 border border-primary-500/50' 
-          : 'bg-white/10 dark:bg-white/10 light:bg-dark-900/10 border border-white/20 dark:border-white/20 light:border-dark-900/20'
+        flex-shrink-0 w-11 h-11 rounded-lg flex items-center justify-center transition-all
+        ${isSelected
+          ? (isDark ? 'bg-primary-500/30 border border-primary-500/50' : 'bg-saffron-200 border border-saffron-400/70')
+          : (isDark ? 'bg-white/[0.06] border border-white/10' : 'bg-ivory-100 border border-ink-200')
         }
       `}>
-        <Icon 
-          className={`w-6 h-6 ${isSelected ? 'text-primary-300' : 'text-white dark:text-white light:text-dark-900'}`}
+        <Icon
+          className={`w-5 h-5 ${
+            isSelected
+              ? (isDark ? 'text-primary-300' : 'text-saffron-700')
+              : (isDark ? 'text-gray-200' : 'text-ink-700')
+          }`}
         />
       </div>
 
-      {/* Text */}
       <div className="flex-1 min-w-0">
-        <Text className={`font-semibold ${isSelected ? 'text-primary-300' : 'text-white dark:text-white light:text-dark-900'}`}>
+        <Text color="ink" className={`font-semibold ${isSelected ? (isDark ? "!text-primary-300" : "!text-saffron-800") : ""}`}>
           {name}
         </Text>
-        <Text className="text-sm text-gray-400 dark:text-gray-400 light:text-gray-600">
-          {description}
-        </Text>
+        <Text size="sm" color="muted">{description}</Text>
       </div>
 
-      {/* Selected indicator */}
       {isSelected && (
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-500 flex items-center justify-center"
+          className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center
+            ${isDark ? 'bg-primary-500' : 'bg-saffron-600'}
+          `}
         >
           <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg>
         </motion.div>
       )}
@@ -106,49 +69,37 @@ const PaymentMethodItem = ({ icon: Icon, name, description, isSelected, onClick 
   );
 };
 
-// Main Payment Options Component
-export const PaymentOptions = ({ 
-  selectedMethod, 
-  onMethodSelect, 
-  className = '' 
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const PaymentOptions = ({ selectedMethod, onMethodSelect, className = '' }) => {
+  const [isOpen, setIsOpen] = useState(true);
   const [selected, setSelected] = useState(selectedMethod || null);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const handleMethodClick = (methodId) => {
     setSelected(methodId);
-    if (onMethodSelect) {
-      onMethodSelect(methodId);
-    }
+    onMethodSelect?.(methodId);
   };
 
   return (
     <div className={`w-full ${className}`}>
-      {/* Header - Clickable trigger */}
-      <div
+      <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="
-          flex items-center justify-between p-4 rounded-xl cursor-pointer
-          bg-white/5 dark:bg-white/5 light:bg-dark-900/5 
-          border border-white/10 dark:border-white/10 light:border-dark-900/10
-          hover:bg-white/10 dark:hover:bg-white/10 light:hover:bg-dark-900/10
-          hover:border-white/20 dark:hover:border-white/20 light:hover:border-dark-900/20
-          transition-all duration-300
-        "
+        data-testid="payment-options-toggle"
+        className={`
+          w-full flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all duration-300
+          ${isDark
+            ? 'bg-white/[0.04] border border-white/10 hover:bg-white/[0.08]'
+            : 'bg-white border border-ink-200 hover:bg-saffron-50/40 shadow-sm'
+          }
+        `}
       >
-        <Text className="font-semibold text-white dark:text-white light:text-dark-900">
-          Payment Options
-        </Text>
-        
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <ChevronUp className="w-5 h-5 text-white dark:text-white light:text-dark-900" />
+        <Text color="ink" className="font-semibold">Choose Payment Method</Text>
+        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
+          <ChevronDown size={18} className={isDark ? "text-white" : "text-ink-700"} />
         </motion.div>
-      </div>
+      </button>
 
-      {/* Dropdown Content */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -167,6 +118,7 @@ export const PaymentOptions = ({
                   description={method.description}
                   isSelected={selected === method.id}
                   onClick={() => handleMethodClick(method.id)}
+                  isDark={isDark}
                 />
               ))}
             </div>

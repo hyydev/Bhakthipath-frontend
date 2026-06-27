@@ -83,16 +83,9 @@ export function Pager({
             aria-label="Previous slide"
             disabled={!canScrollLeft}
             onClick={() => scrollByDirection("prev")}
-            className="
-              absolute left-0 top-1/2 -translate-y-1/2 z-10
-              md:hidden
-              bg-white/90 dark:bg-[#0A1628]/90
-              border-amber-400/30 shadow-lg
-              disabled:opacity-30 disabled:cursor-not-allowed
-              hover:border-amber-400/60
-            "
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 md:hidden disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            <ChevronLeft className="w-5 h-5 text-amber-600 dark:text-amber-300" />
+            <ChevronLeft className="w-5 h-5" />
           </IconButton>
 
           <IconButton
@@ -100,16 +93,9 @@ export function Pager({
             aria-label="Next slide"
             disabled={!canScrollRight}
             onClick={() => scrollByDirection("next")}
-            className="
-              absolute right-0 top-1/2 -translate-y-1/2 z-10
-              md:hidden
-              bg-white/90 dark:bg-[#0A1628]/90
-              border-amber-400/30 shadow-lg
-              disabled:opacity-30 disabled:cursor-not-allowed
-              hover:border-amber-400/60
-            "
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 md:hidden disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            <ChevronRight className="w-5 h-5 text-amber-600 dark:text-amber-300" />
+            <ChevronRight className="w-5 h-5" />
           </IconButton>
         </>
       )}
@@ -140,8 +126,8 @@ export function Pager({
                 h-2 rounded-full transition-all duration-300
                 ${
                   activeIndex === index
-                    ? "w-6 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600"
-                    : "w-2 bg-white/30 dark:bg-white/20 hover:bg-white/50"
+                    ? "w-6 bg-gradient-to-r from-saffron-500 to-saffron-700 dark:from-primary-400 dark:to-purple-500"
+                    : "w-2 bg-ink-200 hover:bg-ink-300 dark:bg-white/20 dark:hover:bg-white/40"
                 }
               `}
             />

@@ -1,23 +1,36 @@
 import { forwardRef } from 'react';
 
-// Base Card Component - Preparation Street Style
-export const Card = forwardRef(({ 
-  children, 
-  className = '', 
+// Base Card Component - Sacred Light + Premium Dark
+export const Card = forwardRef(({
+  children,
+  className = '',
   variant = 'default',
   hover = true,
   glow = false,
-  ...props 
+  ...props
 }, ref) => {
   const variants = {
-    default: 'bg-white/5 dark:bg-white/5 light:bg-dark-900/5 backdrop-blur-sm border border-white/10 dark:border-white/10 light:border-dark-900/10',
-    solid: 'bg-dark-800/80 dark:bg-dark-800/80 light:bg-white/80 backdrop-blur-md border border-white/5 dark:border-white/5 light:border-dark-900/10',
-    glass: 'bg-white/[0.02] dark:bg-white/[0.02] light:bg-white/60 backdrop-blur-xl border border-white/[0.08] dark:border-white/[0.08] light:border-dark-900/10',
-    gradient: 'bg-gradient-to-br from-primary-500/10 to-purple-500/10 border border-primary-500/20',
+    default:
+      'bg-white/80 backdrop-blur-md border border-ink-100 shadow-sacred ' +
+      'dark:bg-white/5 dark:backdrop-blur-sm dark:border-white/10 dark:shadow-card',
+    solid:
+      'bg-ivory-50 border border-ink-100 shadow-sacred ' +
+      'dark:bg-dark-800/80 dark:border-white/5',
+    glass:
+      'bg-white/72 backdrop-blur-2xl border border-saffron-200/50 shadow-sacred-md ' +
+      'dark:bg-white/[0.03] dark:backdrop-blur-xl dark:border-white/[0.08] dark:shadow-card',
+    gradient:
+      'bg-gradient-to-br from-saffron-50/90 via-ivory-100/80 to-gold-50/70 backdrop-blur-md border border-saffron-200/60 shadow-sacred ' +
+      'dark:from-primary-500/10 dark:via-purple-500/5 dark:to-cyan-500/5 dark:border-primary-500/20',
+    elevated:
+      'bg-white border border-ink-100 shadow-sacred-lg ' +
+      'dark:bg-dark-800/90 dark:border-white/10 dark:shadow-glow-md',
   };
 
-  const hoverEffect = hover ? 'hover:shadow-card-hover hover:border-white/20 dark:hover:border-white/20 light:hover:border-dark-900/30 hover:-translate-y-1 transition-all duration-300' : '';
-  const glowEffect = glow ? 'shadow-glow-md' : '';
+  const hoverEffect = hover
+    ? 'hover:shadow-sacred-lg hover:border-saffron-300/60 hover:-translate-y-0.5 dark:hover:shadow-card-hover dark:hover:border-white/20 transition-all duration-300'
+    : 'transition-colors duration-300';
+  const glowEffect = glow ? 'shadow-sacred-glow dark:shadow-glow-md' : '';
 
   return (
     <div
@@ -26,7 +39,7 @@ export const Card = forwardRef(({
         ${variants[variant]}
         ${hoverEffect}
         ${glowEffect}
-        rounded-card-lg p-6 shadow-card
+        rounded-card-lg p-6
         ${className}
       `}
       {...props}
@@ -38,77 +51,72 @@ export const Card = forwardRef(({
 
 Card.displayName = 'Card';
 
-// Card Header
 export const CardHeader = ({ children, className = '' }) => (
-  <div className={`mb-4 ${className}`}>
-    {children}
-  </div>
+  <div className={`mb-4 ${className}`}>{children}</div>
 );
 
-// Card Title
 export const CardTitle = ({ children, className = '' }) => (
-  <h3 className={`text-heading-md font-display text-white dark:text-white light:text-dark-900 ${className}`}>
+  <h3 className={`text-heading-md font-display text-ink-900 dark:text-white ${className}`}>
     {children}
   </h3>
 );
 
-// Card Description
 export const CardDescription = ({ children, className = '' }) => (
-  <p className={`text-sm text-gray-400 dark:text-gray-400 light:text-gray-600 mt-2 ${className}`}>
+  <p className={`text-sm text-ink-500 dark:text-gray-400 mt-2 ${className}`}>
     {children}
   </p>
 );
 
-// Card Content
 export const CardContent = ({ children, className = '' }) => (
-  <div className={`${className}`}>
-    {children}
-  </div>
+  <div className={`${className}`}>{children}</div>
 );
 
-// Card Footer
 export const CardFooter = ({ children, className = '' }) => (
-  <div className={`mt-6 pt-4 border-t border-white/10 dark:border-white/10 light:border-dark-900/10 ${className}`}>
+  <div className={`mt-6 pt-4 border-t border-ink-100 dark:border-white/10 ${className}`}>
     {children}
   </div>
 );
 
-// Feature Card - Like Preparation Street's feature cards
-export const FeatureCard = ({ 
-  icon, 
-  title, 
-  description, 
+// Feature Card
+export const FeatureCard = ({
+  icon,
+  title,
+  description,
   badge,
   badgeColor = 'primary',
   className = '',
-  ...props 
+  ...props
 }) => {
   const badgeColors = {
-    primary: 'bg-primary-500/20 text-primary-300 border-primary-500/30',
-    purple: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-    cyan: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
-    green: 'bg-green-500/20 text-green-300 border-green-500/30',
+    primary:
+      'bg-saffron-100 text-saffron-700 border-saffron-200 dark:bg-primary-500/20 dark:text-primary-300 dark:border-primary-500/30',
+    purple:
+      'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200 dark:bg-purple-500/20 dark:text-purple-300 dark:border-purple-500/30',
+    cyan:
+      'bg-teal-100 text-teal-700 border-teal-200 dark:bg-cyan-500/20 dark:text-cyan-300 dark:border-cyan-500/30',
+    green:
+      'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-green-500/20 dark:text-green-300 dark:border-green-500/30',
   };
 
   return (
-    <Card variant="glass" hover glow className={className} {...props}>
+    <Card variant="glass" hover glow={false} className={className} {...props}>
       <div className="flex items-start gap-4">
-        {/* Icon */}
-        <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500/20 to-purple-500/20 flex items-center justify-center border border-primary-500/30">
+        <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center
+          bg-gradient-to-br from-saffron-100 to-gold-200 border border-saffron-300/60
+          dark:from-primary-500/20 dark:to-purple-500/20 dark:border-primary-500/30">
           {icon}
         </div>
 
-        {/* Content */}
         <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <h3 className="text-lg font-semibold text-white dark:text-white light:text-dark-900">{title}</h3>
+          <div className="flex items-center gap-3 mb-2 flex-wrap">
+            <h3 className="text-lg font-display font-semibold text-ink-900 dark:text-white">{title}</h3>
             {badge && (
               <span className={`px-2.5 py-0.5 text-xs font-medium rounded-full border ${badgeColors[badgeColor]}`}>
                 {badge}
               </span>
             )}
           </div>
-          <p className="text-sm text-gray-400 dark:text-gray-400 light:text-gray-600 leading-relaxed">{description}</p>
+          <p className="text-sm text-ink-600 dark:text-gray-400 leading-relaxed">{description}</p>
         </div>
       </div>
     </Card>

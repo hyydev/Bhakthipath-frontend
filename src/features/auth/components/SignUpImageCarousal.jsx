@@ -35,14 +35,14 @@ export default function SignUpImageCarousal() {
       ))}
 
       {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/40 to-black/85 pointer-events-none"></div>
 
       {/* TEXT */}
-      <div className="absolute bottom-16 left-10 text-white z-20">
-        {/* <p className="text-lg font-medium mb-2">Largest Space Community</p> */}
-        {/* <h2 className="text-3xl font-bold leading-snug max-w-sm">
-          Go anywhere you want in a Galaxy full of wonders!
-        </h2> */}
+      <div className="absolute bottom-20 left-10 right-10 text-white z-20">
+        <p className="text-[11px] uppercase tracking-[0.18em] mb-2 text-amber-200/90 font-semibold">A Sacred Journey</p>
+        <h2 className="font-display text-2xl md:text-3xl font-bold leading-tight max-w-sm">
+          Step into a world of devotion, blessings & spiritual living.
+        </h2>
       </div>
 
       {/* Pagination Dots */}

@@ -1,23 +1,38 @@
 import { forwardRef } from 'react';
 
-// Button Component - Preparation Street Style
-export const Button = forwardRef(({ 
-  children, 
+// Button Component - Sacred Light + Premium Dark
+export const Button = forwardRef(({
+  children,
   variant = 'primary',
   size = 'md',
   className = '',
   disabled = false,
-  ...props 
+  ...props
 }, ref) => {
   const variants = {
-    primary: 'bg-primary-600 hover:bg-primary-500 text-white shadow-glow-sm hover:shadow-glow-md border border-primary-500/50',
-    secondary: 'bg-white/10 dark:bg-white/10 light:bg-dark-900/10 hover:bg-white/20 dark:hover:bg-white/20 light:hover:bg-dark-900/20 text-white dark:text-white light:text-dark-900 border border-white/20 dark:border-white/20 light:border-dark-900/20 hover:border-white/30 dark:hover:border-white/30 light:hover:border-dark-900/30',
-    outline: 'bg-transparent hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-dark-900/5 text-white dark:text-white light:text-dark-900 border-2 border-white/30 dark:border-white/30 light:border-dark-900/30 hover:border-white/50 dark:hover:border-white/50 light:hover:border-dark-900/50',
-    ghost: 'bg-transparent hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-dark-900/5 text-white dark:text-white light:text-dark-900',
-    gradient: 'bg-gradient-to-r from-primary-600 to-purple-600 hover:from-primary-500 hover:to-purple-500 text-white shadow-glow-md',
+    primary:
+      // Light: saffron gradient. Dark: blue.
+      'bg-gradient-to-b from-saffron-500 to-saffron-700 hover:from-saffron-400 hover:to-saffron-600 text-white shadow-sacred hover:shadow-sacred-md border border-saffron-700/40 ' +
+      'dark:from-primary-500 dark:to-primary-700 dark:hover:from-primary-400 dark:hover:to-primary-600 dark:text-white dark:shadow-glow-sm dark:hover:shadow-glow-md dark:border-primary-500/50',
+    secondary:
+      'bg-white/70 hover:bg-white text-ink-800 border border-ink-200 hover:border-saffron-300 shadow-sm hover:shadow-sacred ' +
+      'dark:bg-white/10 dark:hover:bg-white/20 dark:text-white dark:border-white/20 dark:hover:border-white/30',
+    outline:
+      'bg-transparent hover:bg-saffron-50 text-ink-800 border-2 border-ink-300 hover:border-saffron-500 hover:text-saffron-700 ' +
+      'dark:hover:bg-white/5 dark:text-white dark:border-white/30 dark:hover:border-white/50 dark:hover:text-white',
+    ghost:
+      'bg-transparent hover:bg-ivory-200/60 text-ink-700 ' +
+      'dark:hover:bg-white/5 dark:text-white',
+    gradient:
+      // Light: deep saffron→gold shimmer. Dark: blue→purple
+      'bg-gradient-to-r from-saffron-600 via-gold-500 to-saffron-700 hover:from-saffron-500 hover:via-gold-400 hover:to-saffron-600 text-white shadow-sacred-md hover:shadow-sacred-lg border border-saffron-600/30 ' +
+      'dark:from-primary-600 dark:via-purple-600 dark:to-primary-700 dark:hover:from-primary-500 dark:hover:via-purple-500 dark:hover:to-primary-600 dark:border-primary-500/30 dark:shadow-glow-md',
+    danger:
+      'bg-red-600 hover:bg-red-500 text-white border border-red-700/40 shadow-sm hover:shadow-md',
   };
 
   const sizes = {
+    xs: 'px-3 py-1.5 text-xs rounded-lg',
     sm: 'px-4 py-2 text-sm rounded-lg',
     md: 'px-6 py-3 text-base rounded-xl',
     lg: 'px-8 py-4 text-lg rounded-xl',
@@ -34,7 +49,8 @@ export const Button = forwardRef(({
         ${sizes[size]}
         ${disabledStyles}
         font-semibold transition-all duration-300
-        hover:scale-105 active:scale-95
+        hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]
+        inline-flex items-center justify-center gap-2
         ${className}
       `}
       {...props}
@@ -47,11 +63,11 @@ export const Button = forwardRef(({
 Button.displayName = 'Button';
 
 // Icon Button
-export const IconButton = forwardRef(({ 
-  children, 
+export const IconButton = forwardRef(({
+  children,
   size = 'md',
   className = '',
-  ...props 
+  ...props
 }, ref) => {
   const sizes = {
     sm: 'w-8 h-8',
@@ -64,13 +80,11 @@ export const IconButton = forwardRef(({
       ref={ref}
       className={`
         ${sizes[size]}
-        rounded-xl bg-white/5 dark:bg-white/5 light:bg-dark-900/5 
-        hover:bg-white/10 dark:hover:bg-white/10 light:hover:bg-dark-900/10
-        border border-white/10 dark:border-white/10 light:border-dark-900/10 
-        hover:border-white/20 dark:hover:border-white/20 light:hover:border-dark-900/20
+        rounded-xl bg-white/70 hover:bg-white border border-ink-200 hover:border-saffron-400 text-ink-700 hover:text-saffron-700 shadow-sm hover:shadow-sacred
+        dark:bg-white/5 dark:hover:bg-white/10 dark:border-white/10 dark:hover:border-white/20 dark:text-white dark:hover:text-white
         flex items-center justify-center
         transition-all duration-300
-        hover:scale-110 active:scale-95
+        hover:scale-105 active:scale-95
         ${className}
       `}
       {...props}

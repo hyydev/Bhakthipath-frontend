@@ -23,11 +23,12 @@ export default function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 animate-fade-in">
       <Input
         type="text"
         name="full_name"
         placeholder="Full Name"
+        data-testid="signup-fullname-input"
         value={formData.full_name}
         onChange={handleChange}
       />
@@ -36,6 +37,7 @@ export default function SignUpForm() {
         type="email"
         name="email"
         placeholder="Email"
+        data-testid="signup-email-input"
         value={formData.email}
         onChange={handleChange}
       />
@@ -44,6 +46,7 @@ export default function SignUpForm() {
         type="text"
         name="mobile_number"
         placeholder="Mobile Number"
+        data-testid="signup-mobile-input"
         value={formData.mobile_number}
         onChange={handleChange}
       />
@@ -52,17 +55,19 @@ export default function SignUpForm() {
         type="password"
         name="password"
         placeholder="Password"
+        data-testid="signup-password-input"
         value={formData.password}
         onChange={handleChange}
-        // className="w-full border border-[#3A0519] px-4 py-3 rounded-xl text-sm focus:ring-2 focus:ring-[#6A092F] outline-none placeholder:text-[#3A0519]"
       />
 
       <Button
         type="submit"
         name="submit"
+        variant="gradient"
+        size="md"
         disabled={isPending}
-        className="w-full bg-[#3A0519] text-white py-3 rounded-xl text-sm font-medium 
-             hover:bg-[#6A092F] transition disabled:opacity-50 disabled:cursor-not-allowed"
+        data-testid="signup-submit-button"
+        className="w-full"
       >
         {isPending ? "Registering..." : "Create Account"}
       </Button>
