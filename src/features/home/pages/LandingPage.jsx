@@ -13,6 +13,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../auth/auth.store";
 import { useSmoothScroll } from "../../../app/SmoothScrollProvider";
+import {
+  ShoppingBag,
+  Sparkles,
+  BookOpen,
+  Users,
+  Music,
+  Clock,
+} from "lucide-react";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -21,13 +29,14 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* Theme Toggle - Fixed Position */}
-      <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
+      {/* Floating top-right controls */}
+      <div className="fixed top-5 right-5 sm:top-6 sm:right-6 z-50 flex items-center gap-2 sm:gap-3">
         <Button
           variant="outline"
           size="sm"
           onClick={() => navigate(isAuthenticated ? "/ecommerce" : "/login")}
-          className="!px-3 !py-2"
+          data-testid="landing-login-button"
+          className="!px-4 !py-2 backdrop-blur-md"
         >
           {isAuthenticated ? "Continue" : "Login"}
         </Button>
@@ -38,48 +47,38 @@ export default function LandingPage() {
       <Section spacing="lg" className="min-h-screen flex items-center">
         <div className="text-center">
           <Badge variant="golden" size="lg" className="mb-6 animate-fade-in">
-            ✨ Welcome to BhakthiVerse
+            <Sparkles size={14} className="mr-1.5" />
+            Welcome to BhakthiVerse
           </Badge>
 
           <Heading level={1} className="mb-6 animate-slide-up">
             Your Ultimate{" "}
-            <span
-              className="
-            bg-gradient-to-r 
-            from-blue-600 
-            to-indigo-600 
-            dark:from-amber-300 
-            dark:via-amber-400 
-            dark:to-amber-600 
-            bg-clip-text 
-            text-transparent
-            font-body
-          "
-            >
-              Spiritual Journey
-            </span>
+            <GradientText>Spiritual Journey</GradientText>
           </Heading>
 
           <Text
             size="xl"
-            className="max-w-3xl mx-auto mb-8 leading-relaxed animate-slide-up"
+            className="max-w-3xl mx-auto mb-10 leading-relaxed animate-slide-up text-ink-700 dark:text-gray-300"
           >
             Experience divine wisdom, connect with devotees, and deepen your
             spiritual practice with our comprehensive platform trusted by
             thousands of seekers.
           </Text>
 
-          <div className="flex gap-4 justify-center animate-slide-up">
+          <div className="flex flex-wrap gap-4 justify-center animate-slide-up">
             <Button
               variant="gradient"
               size="lg"
+              data-testid="landing-get-started"
               onClick={() => scrollTo("#features", { offset: -32 })}
             >
               Get Started
+              <Sparkles size={18} />
             </Button>
             <Button
               variant="outline"
               size="lg"
+              data-testid="landing-learn-more"
               onClick={() => scrollTo("#features", { offset: -32 })}
             >
               Learn More
@@ -87,19 +86,21 @@ export default function LandingPage() {
           </div>
 
           <RevealOnScroll delay={0.2}>
-            <div className="mt-16 flex gap-8 justify-center">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1">10K+</div>
-                <div className="text-sm text-gray-400">Active Devotees</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1">500+</div>
-                <div className="text-sm text-gray-400">Daily Prayers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1">100%</div>
-                <div className="text-sm text-gray-400">Satisfaction</div>
-              </div>
+            <div className="mt-20 flex flex-wrap gap-10 sm:gap-16 justify-center">
+              {[
+                { v: "10K+", l: "Active Devotees" },
+                { v: "500+", l: "Daily Prayers" },
+                { v: "100%", l: "Satisfaction" },
+              ].map((s, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl sm:text-4xl font-display font-bold text-ink-900 dark:text-white mb-1">
+                    {s.v}
+                  </div>
+                  <div className="text-sm text-ink-500 dark:text-gray-400 uppercase tracking-wider">
+                    {s.l}
+                  </div>
+                </div>
+              ))}
             </div>
           </RevealOnScroll>
         </div>
@@ -118,69 +119,51 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             {
-              icon: (
-                <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3" />
-                </svg>
-              ),
+              icon: <ShoppingBag className="w-6 h-6 text-saffron-700 dark:text-green-400" strokeWidth={2} />,
               title: "Shopping Store",
-              description: "Explore a wide range of spiritual products, from books to ritual items, all curated for your devotional needs.",
+              description:
+                "Explore a wide range of spiritual products, from books to ritual items, all curated for your devotional needs.",
               badge: "Available",
               badgeColor: "green",
               onClick: () => navigate("/ecommerce"),
             },
             {
-              icon: (
-                <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              ),
-              title: "Spiritual Gpt Tool",
-              description: "Get personalized spiritual guidance and answers to your devotional questions using our AI-powered tool.",
+              icon: <Sparkles className="w-6 h-6 text-fuchsia-700 dark:text-purple-400" strokeWidth={2} />,
+              title: "Spiritual GPT Tool",
+              description:
+                "Get personalized spiritual guidance and answers to your devotional questions using our AI-powered tool.",
               badge: "Coming Soon",
               badgeColor: "purple",
             },
             {
-              icon: (
-                <svg className="w-6 h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              ),
+              icon: <BookOpen className="w-6 h-6 text-saffron-700 dark:text-primary-400" strokeWidth={2} />,
               title: "Sacred Texts",
-              description: "Access ancient scriptures, bhajans, and spiritual literature in multiple languages with audio support.",
+              description:
+                "Access ancient scriptures, bhajans, and spiritual literature in multiple languages with audio support.",
               badge: "Popular",
               badgeColor: "primary",
             },
             {
-              icon: (
-                <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              ),
+              icon: <Users className="w-6 h-6 text-fuchsia-700 dark:text-purple-400" strokeWidth={2} />,
               title: "Community",
-              description: "Join a vibrant community of devotees, participate in discussions, and share your spiritual experiences.",
+              description:
+                "Join a vibrant community of devotees, participate in discussions, and share your spiritual experiences.",
               badge: "Coming Soon",
               badgeColor: "purple",
             },
             {
-              icon: (
-                <svg className="w-6 h-6 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                </svg>
-              ),
+              icon: <Music className="w-6 h-6 text-teal-700 dark:text-cyan-400" strokeWidth={2} />,
               title: "Devotional Music",
-              description: "Listen to thousands of bhajans, kirtans, and mantras from renowned artists and spiritual masters.",
+              description:
+                "Listen to thousands of bhajans, kirtans, and mantras from renowned artists and spiritual masters.",
               badge: "New",
               badgeColor: "cyan",
             },
             {
-              icon: (
-                <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              ),
+              icon: <Clock className="w-6 h-6 text-emerald-700 dark:text-green-400" strokeWidth={2} />,
               title: "Daily Practices",
-              description: "Set reminders for prayers, track your spiritual progress, and maintain consistency in your practice.",
+              description:
+                "Set reminders for prayers, track your spiritual progress, and maintain consistency in your practice.",
               badge: "In Development",
               badgeColor: "green",
             },
@@ -193,6 +176,7 @@ export default function LandingPage() {
                 badge={feature.badge}
                 badgeColor={feature.badgeColor}
                 onClick={feature.onClick}
+                data-testid={`feature-card-${index}`}
               />
             </RevealOnScroll>
           ))}
@@ -206,16 +190,18 @@ export default function LandingPage() {
             <Heading level={2} className="mb-6">
               Ready to Begin Your <GradientText>Spiritual Journey?</GradientText>
             </Heading>
-            <Text size="lg" className="mb-8">
+            <Text size="lg" className="mb-10">
               Join thousands of devotees who have transformed their lives through
               dedicated practice and divine guidance.
             </Text>
             <Button
               variant="gradient"
               size="lg"
+              data-testid="landing-cta-button"
               onClick={() => scrollTo("#features", { offset: -32 })}
             >
               Start Your Journey Today
+              <Sparkles size={18} />
             </Button>
           </div>
         </RevealOnScroll>

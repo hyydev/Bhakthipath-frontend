@@ -9,7 +9,7 @@ export default function MainLayout() {
       <Header />
       <Navbar />
 
-      <main className="min-h-screen pt-20">
+      <main className="min-h-screen">
         <Outlet />
       </main>
 

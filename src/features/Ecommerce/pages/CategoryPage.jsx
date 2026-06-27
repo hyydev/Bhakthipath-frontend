@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Heading, Text, Button, Pagination } from "../../../components/ui";
+import { Heading, Text, Button, Pagination, Badge } from "../../../components/ui";
 import RevealOnScroll from "../../../components/RevealOnScroll";
 import { useSmoothScroll } from "../../../app/SmoothScrollProvider";
 import { useProductCategories } from "../hooks/useProductCategories";
 import { useProductsByCategory } from "../hooks/useProductsByCategory";
 import { useCart } from "../../EcommerceCart/hooks/useCart";
 import ProductCard from "../components/ProductCard";
+import { ArrowLeft, Sparkles } from "lucide-react";
+import { useTheme } from "../../../context/ThemeContext";
 
 const PRODUCTS_PER_PAGE = 12;
 const HEADER_OFFSET = -80;
@@ -15,15 +17,15 @@ export default function CategoryPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { scrollTo } = useSmoothScroll();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [page, setPage] = useState(1);
 
   const { categories } = useProductCategories();
   const category = categories?.find((cat) => cat.slug === slug);
 
   const { products, pagination, isLoading, isError } = useProductsByCategory(
-    category?.id,
-    page,
-    PRODUCTS_PER_PAGE
+    category?.id, page, PRODUCTS_PER_PAGE
   );
   const { addCart, isInCart } = useCart();
 
@@ -43,37 +45,48 @@ export default function CategoryPage() {
           variant="outline"
           size="sm"
           onClick={() => navigate("/ecommerce")}
-          className="mb-6"
+          className="mb-8"
+          data-testid="category-back-button"
         >
-          ← Back
+          <ArrowLeft size={14} /> Back to Store
         </Button>
 
-        <Heading level={2} className="mb-8 text-center">
-          {category?.name || "Category"}
-        </Heading>
+        <div className="text-center mb-12">
+          <Badge variant="golden" size="md" className="mb-4">
+            <Sparkles size={12} className="mr-1.5" /> Curated Collection
+          </Badge>
+          <Heading level={2} data-testid="category-page-title">
+            <span className={isDark
+              ? "bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent"
+              : "text-saffron-gradient"
+            }>
+              {category?.name || "Category"}
+            </span>
+          </Heading>
+          {category?.description && (
+            <Text className="mt-3 max-w-2xl mx-auto" color="muted">{category.description}</Text>
+          )}
+        </div>
       </RevealOnScroll>
 
       <section id="category-products" className="scroll-mt-24">
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {Array.from({ length: PRODUCTS_PER_PAGE }).map((_, i) => (
               <div
                 key={i}
-                className="bg-white/40 dark:bg-[#0A1628]/40 rounded-2xl h-64 animate-pulse"
+                className={`rounded-2xl h-72 animate-pulse border
+                  ${isDark ? "bg-white/[0.04] border-white/10" : "bg-white/70 border-ink-100"}`}
               />
             ))}
           </div>
         ) : isError ? (
-          <Text className="text-center text-red-500">
-            Failed to load products.
-          </Text>
+          <Text className="text-center text-red-500">Failed to load products.</Text>
         ) : products?.length === 0 ? (
-          <Text className="text-center">
-            No products found in this category.
-          </Text>
+          <Text className="text-center" color="muted">No products found in this category.</Text>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
               {products?.map((product, index) => (
                 <RevealOnScroll key={product.id} delay={index * 0.05}>
                   <ProductCard

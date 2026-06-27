@@ -3,41 +3,41 @@ import { Sun, Moon } from 'lucide-react';
 
 export default function ThemeToggle({ className = '', iconClassName = '' }) {
   const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
     <button
+      type="button"
       onClick={toggleTheme}
+      data-testid="theme-toggle"
+      aria-label="Toggle theme"
       className={`
-        relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl
+        relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden
         flex items-center justify-center
         transition-all duration-300
-        hover:scale-110 active:scale-95
-        ${theme === 'dark' 
-          ? 'bg-white/10 hover:bg-white/20 border border-white/20 text-yellow-300' 
-          : 'bg-dark-900/10 hover:bg-dark-900/20 border border-dark-900/20 text-dark-900'
+        hover:scale-105 active:scale-95
+        ${isDark
+          ? 'bg-gradient-to-br from-primary-500/20 to-purple-500/20 hover:from-primary-500/30 hover:to-purple-500/30 border border-primary-400/30 text-amber-200 shadow-[0_0_18px_rgba(59,130,246,0.18)]'
+          : 'bg-gradient-to-br from-ivory-50 to-saffron-100 hover:from-saffron-50 hover:to-gold-100 border border-saffron-300/60 text-ink-800 shadow-sacred'
         }
         ${className}
       `}
-      aria-label="Toggle theme"
     >
-      <div className={`relative w-5 h-5 sm:w-6 sm:h-6 ${iconClassName}`}>
-        {/* Sun Icon - visible in dark mode */}
-        <Sun 
+      <div className={`relative w-5 h-5 ${iconClassName}`}>
+        <Sun
           className={`
-            absolute inset-0 w-full h-full transition-all duration-300
-            ${theme === 'dark' 
-              ? 'opacity-100 rotate-0 scale-100' 
+            absolute inset-0 w-full h-full transition-all duration-500
+            ${isDark
+              ? 'opacity-100 rotate-0 scale-100'
               : 'opacity-0 rotate-90 scale-0'
             }
           `}
         />
-        
-        {/* Moon Icon - visible in light mode */}
-        <Moon 
+        <Moon
           className={`
-            absolute inset-0 w-full h-full transition-all duration-300
-            ${theme === 'light' 
-              ? 'opacity-100 rotate-0 scale-100' 
+            absolute inset-0 w-full h-full transition-all duration-500
+            ${!isDark
+              ? 'opacity-100 rotate-0 scale-100'
               : 'opacity-0 -rotate-90 scale-0'
             }
           `}

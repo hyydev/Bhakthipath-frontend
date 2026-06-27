@@ -1,25 +1,24 @@
 import { useState } from "react";
-import { Navigate,useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import OtpInput from "../components/OtpInput";
 import { useVerifyOtp } from "../hooks/useVerifyOtp";
+import { useTheme } from "../../../context/ThemeContext";
 
-import { Button, Badge, Card, Text } from "../../../components/ui/";
+import { Button, Badge, Card, Text, Heading } from "../../../components/ui/";
+import ThemeToggle from "../../../components/ThemeToggle";
+import { Sparkles } from "lucide-react";
 
 export default function OtpPage() {
   const [otp_code, setOtp] = useState("");
-
   const { verifyOtp, isPending } = useVerifyOtp();
-
   const location = useLocation();
   const email = location.state?.email;
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    verifyOtp({
-      otp_code,
-      email,
-    });
+    verifyOtp({ otp_code, email });
   };
 
   if (!email) {
@@ -28,54 +27,56 @@ export default function OtpPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      {/* OUTER GLASS CARD */}
-      <Card
-        variant="glass"
-        className="w-full max-w-md p-8 rounded-2xl shadow-lg"
-      >
-        {/* Golden Badge */}
+      <div className="fixed top-5 right-5 z-50">
+        <ThemeToggle />
+      </div>
+
+      <Card variant="glass" hover={false} className="w-full max-w-md p-8 md:p-10">
         <div className="flex justify-center mb-6">
-          <Badge variant="golden" size="lg" className="mb-6 animate-fade-in">
-            ✨ OTP Verification
+          <Badge variant="golden" size="md" className="animate-fade-in">
+            <Sparkles size={12} className="mr-1.5" />
+            OTP Verification
           </Badge>
         </div>
 
-        <h1
-          className="text-4xl  font-extrabold text-center mb-2  bg-gradient-to-r 
-            from-blue-600 
-            to-indigo-600 
-            dark:from-amber-300 
-            dark:via-amber-400 
-            dark:to-amber-600 
-            bg-clip-text 
-            text-transparent
-            font-body"
-        >
-          Verify OTP
-        </h1>
+        <Heading level={3} className="text-center mb-2">
+          <span className={isDark
+            ? "bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent"
+            : "text-saffron-gradient"
+          }>
+            Verify OTP
+          </span>
+        </Heading>
 
-        <Text className="mt-2 text-lg text-center mb-6">
-          We have sent a 6-digit OTP to your email/mobile.
+        <Text className="text-center mb-2 text-ink-600 dark:text-gray-300">
+          We've sent a 6-digit OTP to
+        </Text>
+        <Text className="text-center mb-6 font-semibold text-ink-900 dark:text-white">
+          {email}
         </Text>
 
-        {/* OTP INPUT BOXES */}
         <OtpInput value={otp_code} setValue={setOtp} />
 
         <Button
           variant="gradient"
-          disabled={isPending}
+          size="md"
+          disabled={isPending || otp_code.length !== 6}
           onClick={handleSubmit}
-          className="w-full bg-gradient-to-r from-amber-400 via-purple-500 to-indigo-600 text-white py-3 rounded-xl mt-10 text-sm font-semibold shadow-lg hover:scale-[1.02] transition"
+          data-testid="otp-verify-button"
+          className="w-full mt-10"
         >
           {isPending ? "Verifying..." : "Verify OTP"}
         </Button>
 
-        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
-          Didn’t receive OTP?{" "}
-          <span className="text-amber-600 dark:text-amber-300 cursor-pointer font-medium hover:underline">
+        <Text className="mt-6 text-center text-sm">
+          Didn't receive OTP?{" "}
+          <span
+            data-testid="otp-resend-link"
+            className={`cursor-pointer font-semibold hover:underline ${isDark ? "text-amber-300" : "text-saffron-700"}`}
+          >
             Resend
           </span>
-        </p>
+        </Text>
       </Card>
     </div>
   );
