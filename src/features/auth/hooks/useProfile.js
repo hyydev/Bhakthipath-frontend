@@ -11,13 +11,13 @@ export const useProfile = (userId) => {
   
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["profile", userId],
-    queryFn: () => getUserProfile(userId),
+    queryFn: () => getUserProfile(),
     enabled: !!userId,
     staleTime: 2 * 60 * 1000,
   });
 
   const updateProfile = useMutation({
-    mutationFn: ({ userId, data }) => updateUserProfile(userId, data),
+    mutationFn: ({  data }) => updateUserProfile(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", userId] });
       toast.success("Profile updated");

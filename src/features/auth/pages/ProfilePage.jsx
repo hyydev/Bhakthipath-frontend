@@ -55,7 +55,7 @@ export default function ProfilePage() {
   };
   const onSaveProfile = (e) => {
     e.preventDefault();
-    updateProfile({ userId, data: profileForm });
+    updateProfile({  data: profileForm });
     setIsEditingProfile(false);
   };
 

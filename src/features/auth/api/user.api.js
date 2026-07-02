@@ -2,9 +2,9 @@ import api from "../../../services/axios";
 
 // API calls related to User Profile and User address
 
-export const getUserProfile = (user_id) => api.get(`/user/userprofile/${user_id}/`)
+export const getUserProfile = () => api.get(`/user/userprofile/`)
 
-export const updateUserProfile = (user_id,data) => api.patch(`/user/userprofile/${user_id}/`,data)
+export const updateUserProfile = (data) => api.patch(`/user/userprofile/`,data)
 
 export const getUserAddresses = () => api.get(`/user/useraddresses/`)
 
