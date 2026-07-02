@@ -5,20 +5,23 @@ import { useNavigate } from "react-router-dom";
 import { placeOrder, initiatePayment } from "../api/checkout.api";
 import { useState } from "react";
 export const useCheckout = () => {
-  const navigate = useNavigate()
-  const [orderId, setOrderId] = useState(null)
+  const navigate = useNavigate();
+  const [orderId, setOrderId] = useState(null);
 
   const placeOrderMutation = useMutation({
     mutationFn: ({ cart_id, shipping_address_id }) =>
       placeOrder(cart_id, shipping_address_id),
-    onSuccess: (res) => {
-      const order_id = res?.data?.order?.id
-      setOrderId(order_id)
-      toast.success("Order created!")
-      // ab payment initiate hogi — CheckoutPage handle karega
+    onSuccess: (res, variables) => {
+      const order_id = res?.data?.order?.id;
+      setOrderId(order_id);
+      toast.success("Order created!");
+      paymentMutation.mutate({
+        order_id,
+        payment_method: variables.payment_method,
+      });
     },
-    onError: () => toast.error("Failed to place order")
-  })
+    onError: () => toast.error("Failed to place order"),
+  });
 
   const paymentMutation = useMutation({
     mutationFn: ({ order_id, payment_method }) =>
@@ -75,7 +78,7 @@ export const useCheckout = () => {
     },
 
     onError: () => toast.error("Payment failed"),
-  })
+  });
 
   return {
     placeOrder: placeOrderMutation.mutate,
@@ -83,5 +86,5 @@ export const useCheckout = () => {
     orderId,
     isPlacingOrder: placeOrderMutation.isPending,
     isPaymentPending: paymentMutation.isPending,
-  }
-}
+  };
+};

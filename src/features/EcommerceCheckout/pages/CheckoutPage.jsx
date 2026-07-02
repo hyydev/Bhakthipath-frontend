@@ -46,12 +46,12 @@ export default function CheckoutPage() {
     };
   }, []);
 
-  useEffect(() => {
-    if (orderId && selectedPaymentMethod) {
-      initiatePayment({ order_id: orderId, payment_method: selectedPaymentMethod });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderId, selectedPaymentMethod]);
+  // useEffect(() => {
+  //   if (orderId && selectedPaymentMethod) {
+  //     initiatePayment({ order_id: orderId, payment_method: selectedPaymentMethod });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [orderId, selectedPaymentMethod]);
 
   const subtotal = parseFloat(cart?.total_price || "0");
   const delivery = subtotal > 500 ? 0 : 50;
@@ -67,7 +67,7 @@ export default function CheckoutPage() {
       toast.error("Please add a delivery address");
       return;
     }
-    placeOrder({ cart_id: cart?.id, shipping_address_id: defaultAddress?.id });
+    placeOrder({ cart_id: cart?.id, shipping_address_id: defaultAddress?.id, payment_method: selectedPaymentMethod  });
   };
 
   const iconBoxClass = isDark
