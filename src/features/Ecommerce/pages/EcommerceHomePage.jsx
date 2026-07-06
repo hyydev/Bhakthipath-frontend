@@ -32,12 +32,15 @@ export default function EcommerceHomePage() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [page, setPage] = useState(1);
+  // fetching products and categories using custom hooks
   const { products, pagination, isLoading, isError } = useProducts({
     page,
     page_size: PRODUCTS_PER_PAGE,
     search: debouncedSearch || undefined,
   });
   const { categories, isLoading: categoriesLoading } = useProductCategories();
+  
+  // cart management using custom hook
   const { addCart, isInCart } = useCart();
 
   const handleAddToCart = (productId) => {
