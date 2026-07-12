@@ -1,15 +1,12 @@
 import { create } from "zustand";
 
 export const useCartStore = create((set) => ({
-
   //State
 
   cartId: null,
   items: [],
   total_price: "0.00",
   itemCount: 0,
-  
-
 
   setCart: (cartData) => {
     const itemCount = (cartData.items || []).reduce(
@@ -24,8 +21,6 @@ export const useCartStore = create((set) => ({
       itemCount,
     });
   },
-
-
 
   clearCartStore: () => {
     set({
