@@ -1,16 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { placeOrder, initiatePayment, verifyPayment } from "../api/checkout.api";
+import {
+  placeOrder,
+  initiatePayment,
+  verifyPayment,
+  cancelOrder,
+} from "../api/checkout.api";
 import { useState } from "react";
-
 
 export const useCheckout = () => {
   const navigate = useNavigate();
   const [orderId, setOrderId] = useState(null);
 
   const placeOrderMutation = useMutation({
-
     mutationFn: ({ cart_id, shipping_address_id }) =>
       placeOrder(cart_id, shipping_address_id),
 
@@ -25,7 +28,6 @@ export const useCheckout = () => {
     },
 
     onError: () => toast.error("Failed to place order"),
-    
   });
 
   const paymentMutation = useMutation({
@@ -46,7 +48,6 @@ export const useCheckout = () => {
       if (method === "RAZORPAY") {
         try {
           const options = {
-
             key: data?.payment?.razorpay_key,
             amount: data?.payment?.amount,
             currency: data?.payment?.currency || "INR",
@@ -55,30 +56,44 @@ export const useCheckout = () => {
             order_id: data?.payment?.razorpay_order_id,
 
             handler: async function (response) {
-               try {
-                    const verifyRes = await verifyPayment({
-                      order_id: data?.order_id,
-                      razorpay_payment_id: response.razorpay_payment_id,
-                      razorpay_order_id: response.razorpay_order_id,
-                      razorpay_signature: response.razorpay_signature,
-                    });
+              try {
+                const verifyRes = await verifyPayment({
+                  order_id: data?.order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature,
+                });
                 if (verifyRes.status === 200) {
-                        navigate("/order-success", {
-                          state: { order: verifyRes.data }  // ← verified data se navigate
-                        });
-                        toast.success("Payment verified & successful!");
-                      }
-                    } catch (err) {
-                      toast.error(
-                        "Payment verification failed. Please contact support with your order ID."
-                      );
-                      // Order backend pe FAILED mark ho jaayega webhook se
-                    }
-                  },
-            
+                  navigate("/order-success", {
+                    state: { order: verifyRes.data }, // ← verified data se navigate
+                  });
+                  toast.success("Payment verified & successful!");
+                }
+              } catch (err) {
+                toast.error(
+                  "Payment verification failed. Please contact support with your order ID."
+                );
+                // Order backend pe FAILED mark ho jaayega webhook se
+              }
+            },
+
             modal: {
-              ondismiss: function () {
-                toast.error("Payment cancelled");
+              ondismiss: async function () {
+                // Order cancel karo — inventory restore hogi
+                try {
+                  await cancelOrder(data?.order_id);
+                  toast.error(
+                    "Payment cancelled. Your order has been cancelled " +
+                      "and items are back in stock."
+                  );
+                } catch (cancelErr) {
+                  // Cancel API fail hua
+                  toast.error(
+                    `Payment cancelled. ` +
+                      `Please contact support with Order ID: ${data?.order_id} ` +
+                      `to resolve your order.`
+                  );
+                }
               },
             },
           };

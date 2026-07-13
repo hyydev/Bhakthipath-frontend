@@ -9,4 +9,7 @@ export const initiatePayment = (order_id, payment_method) =>
 export const verifyPayment = (data) =>
   api.post("/payments/verify/", data);
 
+export const cancelOrder = (order_id) =>
+  api.post(`/order/cancel-order/${order_id}/`);
+
 
