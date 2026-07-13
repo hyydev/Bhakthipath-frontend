@@ -1,16 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
-import { placeOrder, initiatePayment } from "../api/checkout.api";
+import { placeOrder, initiatePayment, verifyPayment } from "../api/checkout.api";
 import { useState } from "react";
+
+
 export const useCheckout = () => {
   const navigate = useNavigate();
   const [orderId, setOrderId] = useState(null);
 
   const placeOrderMutation = useMutation({
+
     mutationFn: ({ cart_id, shipping_address_id }) =>
       placeOrder(cart_id, shipping_address_id),
+
     onSuccess: (res, variables) => {
       const order_id = res?.data?.order?.id;
       setOrderId(order_id);
@@ -20,7 +23,9 @@ export const useCheckout = () => {
         payment_method: variables.payment_method,
       });
     },
+
     onError: () => toast.error("Failed to place order"),
+    
   });
 
   const paymentMutation = useMutation({
@@ -41,17 +46,36 @@ export const useCheckout = () => {
       if (method === "RAZORPAY") {
         try {
           const options = {
+
             key: data?.payment?.razorpay_key,
             amount: data?.payment?.amount,
             currency: data?.payment?.currency || "INR",
             name: "BhakthiVerse",
             description: "Order Payment",
             order_id: data?.payment?.razorpay_order_id,
-            handler: function (response) {
-              // response contains razorpay_payment_id, razorpay_order_id, razorpay_signature
-              navigate("/order-success", { state: { order: data } });
-              toast.success("Payment successful!");
-            },
+
+            handler: async function (response) {
+               try {
+                    const verifyRes = await verifyPayment({
+                      order_id: data?.order_id,
+                      razorpay_payment_id: response.razorpay_payment_id,
+                      razorpay_order_id: response.razorpay_order_id,
+                      razorpay_signature: response.razorpay_signature,
+                    });
+                if (verifyRes.status === 200) {
+                        navigate("/order-success", {
+                          state: { order: verifyRes.data }  // ← verified data se navigate
+                        });
+                        toast.success("Payment verified & successful!");
+                      }
+                    } catch (err) {
+                      toast.error(
+                        "Payment verification failed. Please contact support with your order ID."
+                      );
+                      // Order backend pe FAILED mark ho jaayega webhook se
+                    }
+                  },
+            
             modal: {
               ondismiss: function () {
                 toast.error("Payment cancelled");
