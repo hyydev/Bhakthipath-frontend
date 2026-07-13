@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation,useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,10 +8,18 @@ import {
   cancelOrder,
 } from "../api/checkout.api";
 import { useState } from "react";
+import { useCartStore } from "../../EcommerceCart/cart.store";
 
 export const useCheckout = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();                                // ← add
+  const clearCartStore = useCartStore((s) => s.clearCartStore);    
   const [orderId, setOrderId] = useState(null);
+
+  const clearCartOnSuccess = () => {
+    clearCartStore();                                                  // Zustand clear
+    queryClient.removeQueries({ queryKey: ["cart"] });                 // TanStack cache remove
+  };
 
   const placeOrderMutation = useMutation({
     mutationFn: ({ cart_id, shipping_address_id }) =>
@@ -40,6 +48,7 @@ export const useCheckout = () => {
 
       // COD
       if (method === "COD") {
+        clearCartOnSuccess();  
         navigate("/order-success", { state: { order: data } });
         return;
       }
@@ -64,6 +73,7 @@ export const useCheckout = () => {
                   razorpay_signature: response.razorpay_signature,
                 });
                 if (verifyRes.status === 200) {
+                  clearCartOnSuccess();  
                   navigate("/order-success", {
                     state: { order: verifyRes.data }, // ← verified data se navigate
                   });

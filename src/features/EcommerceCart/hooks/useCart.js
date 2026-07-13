@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useCartStore } from "../cart.store";
 import { useAuthStore } from "../../auth/auth.store";
 
@@ -13,18 +13,17 @@ import {
 } from "../api/cart.api";
 
 export const useCart = () => {
-  const userId = useAuthStore(s => s.userId)
+  const userId = useAuthStore((s) => s.userId);
   const queryClient = useQueryClient();
   const setCart = useCartStore((s) => s.setCart);
   const clearCartStore = useCartStore((s) => s.clearCartStore);
   const storeItems = useCartStore((s) => s.items);
 
   const { data, isLoading, isError } = useQuery({
- 
-    queryKey: ["cart",userId],
+    queryKey: ["cart", userId],
     queryFn: fetchCart,
     staleTime: 0,
-    enabled: !! userId
+    enabled: !!userId,
   });
 
   useEffect(() => {
@@ -71,14 +70,19 @@ export const useCart = () => {
     onError: () => toast.error("cart  is not clear"),
   });
   const cart = data?.data?.cart;
-  const cartItemsById = new Map();
-  [...(cart?.items || []), ...(storeItems || [])].forEach((item) => {
-    cartItemsById.set(Number(item.product_id), item);
-  });
-  const cartItems = Array.from(cartItemsById.values());
-  const isInCart = (productId) =>
-    cartItems.some((item) => Number(item.product_id) === Number(productId));
+  const cartItems = useMemo(() => {
+    const cartItemsById = new Map();
+    [...(cart?.items || []), ...(storeItems || [])].forEach((item) => {
+      cartItemsById.set(Number(item.product_id), item);
+    });
+    return Array.from(cartItemsById.values());
+  }, [cart?.items, storeItems]); // ← sirf yeh change hone pe recompute
 
+  const isInCart = useMemo(
+    () => (productId) =>
+      cartItems.some((item) => Number(item.product_id) === Number(productId)),
+    [cartItems] // ← cartItems change hone pe hi naya function
+  );
   return {
     cart,
     cartItems,

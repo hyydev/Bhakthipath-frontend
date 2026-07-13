@@ -121,6 +121,8 @@ export default function ProductDetailPage() {
               {selectedImage?.image ? (
                 <img
                   src={getImageUrl(selectedImage.image)}
+                  loading="lazy"
+                  decoding="async"
                   alt={title}
                   className="w-full h-full object-contain p-6 transition-transform duration-500 hover:scale-105"
                 />

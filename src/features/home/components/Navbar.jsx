@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useProductCategories } from "../../Ecommerce/hooks/useProductCategories";
 import { Sparkles, BookOpen, Shirt, Gem, Package, Layers } from "lucide-react";
 import { useState } from "react";
+import { memo } from "react";
 
 // Static decorative icons for category labels (mapped by keyword)
 const iconFor = (name = "") => {
@@ -22,7 +23,7 @@ const fallbackLinks = [
   { name: "More", slug: "more" },
 ];
 
-export default function Navbar() {
+const Navbar = memo(function Navbar()  {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const navigate = useNavigate();
@@ -120,4 +121,8 @@ export default function Navbar() {
       </div>
     </nav>
   );
-}
+})
+
+export default Navbar;
+
+

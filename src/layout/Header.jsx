@@ -5,8 +5,9 @@ import AccountMenu from "../features/Ecommerce/components/AccountMenu";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCartStore } from "../features/EcommerceCart/cart.store";
+import { memo } from "react";
 
-export default function Header() {
+const Header = memo(function Header() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const navigate = useNavigate();
@@ -230,4 +231,5 @@ export default function Header() {
       )}
     </header>
   );
-}
+})
+export default Header;
