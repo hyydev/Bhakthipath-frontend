@@ -9,6 +9,7 @@ import { lazy, Suspense } from "react";
 import { SmoothScrollProvider } from "./app/SmoothScrollProvider";
 import { ThemeProvider } from "./context/ThemeContext";
 import { PrivateRoute } from "./components/PrivateRoute";
+import * as Sentry from '@sentry/react'
 
 // Auth pages — user sirf ek baar dekhta hai
 const SignUpPage = lazy(() => import("./features/auth/pages/SignUpPage"));
@@ -50,6 +51,24 @@ const PageSkeleton = () => (
 
 function App() {
   return (
+    <Sentry.ErrorBoundary
+      fallback={({ error, resetError }) => (
+        <div className="min-h-screen flex items-center justify-center p-4">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
+            <p className="text-gray-600 mb-6">Our team has been notified.</p>
+            <button
+              onClick={resetError}
+              className="px-6 py-2 bg-orange-500 text-white rounded-lg"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
+    >
+
+    
     <Providers>
       <ThemeProvider>
         <SmoothScrollProvider>
@@ -173,6 +192,7 @@ function App() {
         </SmoothScrollProvider>
       </ThemeProvider>
     </Providers>
+    </Sentry.ErrorBoundary>
   );
 }
 
