@@ -11,6 +11,7 @@ export const useAuthStore = create(
   isAuthenticated: false,
   isVerified: false,
   userId:null,
+  _hasHydrated: false,    
 
   // Login ke baad
   setAuth: ({ accessToken, refreshToken , isVerified, userId}) =>
@@ -40,9 +41,14 @@ export const useAuthStore = create(
           isVerified: false,
           userId:null,
         }),
+        setHasHydrated: (val) => set({ _hasHydrated: val }),
     }),
     {
       name: "auth-storage",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);             
+      },
+        
     }
   )
   );
