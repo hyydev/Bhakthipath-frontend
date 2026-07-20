@@ -1,0 +1,40 @@
+# ─── Dependencies ───
+# Sabse important — node_modules bahut badi hoti hai
+# Container mein npm ci se fresh install hoga
+node_modules/
+
+# ─── Build Output ───
+# Builder stage mein fresh build hoga
+dist/
+build/
+
+# ─── Environment Files ───
+.env
+.env.*
+!.env.example
+
+# ─── Git ───
+.git/
+.gitignore
+
+# ─── IDE ───
+.vscode/
+.idea/
+*.swp
+
+# ─── Logs ───
+*.log
+npm-debug.log*
+
+# ─── OS ───
+.DS_Store
+Thumbs.db
+
+# ─── Docker itself ───
+Dockerfile
+.dockerignore
+
+
+# ─── Testing ───
+coverage/
+.nyc_output/
